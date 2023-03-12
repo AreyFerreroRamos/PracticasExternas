@@ -4,7 +4,7 @@
 # Date: March 11, 2023. Version: 1.
 # Description:.
 #	Paramethers:
-#		- File with the data that is need to process.
+#		- Compressed file with the data that is need to be processed.
 #	Output:
 #		-
 
@@ -12,24 +12,23 @@ if [ $# -eq 1 ]
 then
 	if [ $(echo $1 | cut -f2 -d'.') = 'spring' ]
 	then
-		name_dir=$(echo $1 | cut -f1 -d'.')
-		if [ ! -d $name_dir ]
+		dir_name=$(echo $1 | cut -f1 -d'.')
+		if [ ! -d $dir_name ]
 		then
-			mkdir $name_dir
-			tar -xvf $1 -C $name_dir
+			mkdir $dir_name
+			tar -xf $1 -C $dir_name
 		fi
 		IFS=$'\n'
-		echo $name_dir
-		for file in $(ls -l $name_dir | tail -n +2 | tr -s ' ' | cut -f9 -d' ')
+		for file_name in $(ls -l $dir_name | tail -n +2 | tr -s ' ' | cut -f9 -d' ')
 		do
-			echo $file
-			#file --mime-type $file		# La comanda no funciona encara.
+			echo $file_name
+			#file --mime-type $file_name		# La comanda no funciona encara.
 		done
+		exit 0
 	else
-		echo -e "Error: The file that contains the data must be created with the spring compressor." >&2
+		echo -e "Error: The input must be a compressed file with the extension '.spring' (spring compressor)." >&2
 		exit 1
 	fi
-	exit 0
 else
 	echo -e "Error: The number of parameters is incorrect. A compressed file is need to be given as parameter." >&2
 	exit 2
