@@ -21,8 +21,7 @@ then
 		IFS=$'\n'
 		for file_name in $(ls -l $dir_name | tail -n +2 | tr -s ' ' | cut -f9 -d' ')
 		do
-			echo $file_name
-			#file --mime-type $file_name		# La comanda no funciona encara.
+			file --mime-type $dir_name/$file_name
 		done
 		exit 0
 	else
