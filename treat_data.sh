@@ -20,12 +20,14 @@ then
 	exit 2
 fi
 
+DIR="$(dirname "$(realpath "$0")")"
+
 dir_name=$(echo $1 | cut -f1 -d'.')
 mkdir $dir_name
 tar -xf $1 -C $dir_name
 IFS=$'\n'
-for file_name in $(ls -l $dir_name | tail -n +2 | tr -s ' ' | cut -f9 -d' ')
+for file_name in $DIR/$dir_name/*
 do
-	file --mime-type $dir_name/$file_name >> data.txt
+	file --mime-type $file_name >> data.txt
 done
 exit 0
