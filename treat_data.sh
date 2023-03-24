@@ -31,4 +31,5 @@ for file_name in "$DIR"/"$dir_name"/*
 do
 	file --mime-type "$file_name" >> data.txt
 done
+
 exit 0
