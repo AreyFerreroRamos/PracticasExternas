@@ -12,7 +12,7 @@ import os
 
 if len(sys.argv) == 1:
     if os.path.isfile(sys.argv[1]):
-        file = open(sys.argv[1], 'r')
+        print("Tratar fichero.")
     else:
         print("Error: The input must be a file corresponding to a species of vertebrate.")
 else:
