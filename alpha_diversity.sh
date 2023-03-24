@@ -27,9 +27,9 @@ do
 	for line in $(cat $file_name | tail -n +2)
 	do
 		abundance=$(echo $line | cut -f2 -d$'\t')
-		let alpha_diversity=$alpha_diversity+$abundance*$abundance
+		let alpha_diversity=$alpha_diversity+$abundance*$(bc -l <<< "scale=0; l($abundance)")
 	done
-	let alpha_diversity=-$alpha_diversity
+	let alpha_diversity=-alpha_diversity
 	echo $alpha_diversity
 done
 
