@@ -23,11 +23,14 @@ fi
 IFS=$'\n'
 for file_name in "$1"/*
 do
+	alpha_diversity=0
 	for line in $(cat $file_name | tail -n +2)
 	do
 		abundance=$(echo $line | cut -f2 -d$'\t')
-		echo $abundance
+		let alpha_diversity=$alpha_diversity+$abundance*$abundance
 	done
+	let alpha_diversity=-$alpha_diversity
+	echo $alpha_diversity
 done
 
 exit 0
