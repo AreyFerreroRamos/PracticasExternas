@@ -2,11 +2,12 @@
 
 # Author: Arey Ferrero Ramos.
 # Date: March 23, 2023. Version: 1.
-# Description:
+# Description: This script calculates the alpha diversity of every individual of a vertebrate species used in the study. 
 #	Paramethers:
-#		-
+#		-A folder that contains a set of files each corresponds to an individual of the vertebrate species. Each file contains a list with the number of species per genus in that individual of the 
+#		 vertebrate species.
 #	Output:
-#		-
+#		-The alpha diversity of each indivual of the vertebrate species.
 
 if [ $# -ne 1 ]
 then
@@ -14,7 +15,7 @@ then
 	exit 1
 fi
 
-if [ ! -d "$1" ]
+if [ ! -d "$1" ] || [ -z "$(ls -A -- "$1")" ]
 then
 	echo -e "Error: The input must be a directory corresponding to a vertebrate species that contains the files of every individual of the specie used in this study." >&2
 	exit 2
