@@ -11,7 +11,7 @@ import pandas as pd
 import sys
 import os
 
-if len(sys.argv) == 1:
+if len(sys.argv) == 2:
     if os.path.isfile(sys.argv[1]):
         file = pd.read_csv(sys.argv[1], sep=' ')
         print(file)
