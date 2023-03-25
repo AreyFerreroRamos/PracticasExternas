@@ -7,12 +7,14 @@
 #   Output:
 #       -The alpha diversity of the species of vertebrate.
 
+import pandas as pd
 import sys
 import os
 
 if len(sys.argv) == 1:
     if os.path.isfile(sys.argv[1]):
-        print("Tratar fichero.")
+        file = pd.read_csv(sys.argv[1], sep=' ')
+        print(file)
     else:
         print("Error: The input must be a file corresponding to a species of vertebrate.")
 else:
