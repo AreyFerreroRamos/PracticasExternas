@@ -52,5 +52,5 @@ for individual in df_vertebrate:
         acum_captivity += num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual)
         num_captivity += 1
 
-print("Alpha_diversity wild: "+str(round(acum_wild / num_wild))+" species.")
-print("Alpha_diversity captivity: "+str(round(acum_captivity / num_captivity))+" species.")
+print("Alpha_diversity wild: "+str(round(0 - acum_wild / num_wild))+" species.")
+print("Alpha_diversity captivity: "+str(round(0 - acum_captivity / num_captivity))+" species.")
