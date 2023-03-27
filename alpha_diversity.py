@@ -19,8 +19,8 @@ if not os.path.isfile(sys.argv[1]):
     print("Error: The input must be a file corresponding to a species of vertebrate.")
     exit()
 
-individuals=[]
 df_vertebrate = pd.read_table(sys.argv[1], delimiter=' ', header=0)
+individuals = []
 
 for individual in df_vertebrate:
     num_bacterial_species_per_individual = 0
@@ -28,5 +28,4 @@ for individual in df_vertebrate:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
     individuals.append(num_bacterial_species_per_individual)
 
-print("alpha_diversity: "+str(sum(individuals) / len(individuals)))
-   
+print("Alpha_diversity: "+str(round(sum(individuals) / len(individuals))))
