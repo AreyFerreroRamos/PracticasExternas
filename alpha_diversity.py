@@ -8,6 +8,7 @@
 #       -The alpha diversity of the species of vertebrate.
 
 import pandas as pd
+import math
 import sys
 import os
 
@@ -20,12 +21,14 @@ if not os.path.isfile(sys.argv[1]):
     exit()
 
 df_vertebrate = pd.read_table(sys.argv[1], delimiter=' ', header=0)
-individuals = []
+acum_diversity = 0
+num_individuals = 0
 
 for individual in df_vertebrate:
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrate[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
-    individuals.append(num_bacterial_species_per_individual)
+    acum_diversity += num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual)
+    num_individuals += 1
 
-print("Alpha_diversity: "+str(round(sum(individuals) / len(individuals))))
+print("Alpha_diversity: "+str(round(acum_diversity / num_individuals))+" species.")
