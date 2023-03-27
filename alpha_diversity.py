@@ -10,6 +10,7 @@
 #       -The alpha diversity of the wild individuals in the species of vertebrate.
 #       -The alpha diversity of the captive individuals in the species of vertebrate.
 
+from matplotlib import pyplot as plt
 import pandas as pd
 import math
 import sys
