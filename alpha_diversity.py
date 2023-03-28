@@ -12,6 +12,7 @@
 #       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in vertebrate species.
 
 from matplotlib import pyplot as plt
+from matplotlib import gridspec
 import pandas as pd
 import math
 import sys
@@ -60,8 +61,9 @@ for individual in df_vertebrate:
 alpha_diversities = [alpha_diversities_wild, alpha_diversities_captivity]
 sample_types = ['Wild', 'Captivity']
 
+plt.boxplot(alpha_diversities, labels=sample_types, patch_artist=True)
+
 plt.title("Bacterial diversity in animal species")
 plt.xlabel("Sample type")
 plt.ylabel("Alpha diversity")
-plt.boxplot(alpha_diversities, labels=sample_types, patch_artist=True)
 plt.show()
