@@ -32,11 +32,8 @@ df_vertebrate = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
 sample_types = ['Wild', 'Captivity']
-
-acum_wild = 0
-acum_captivity = 0
-num_wild = 0
-num_captivity = 0
+alpha_diversities_wild = []
+alpha_diversities_captivity = []
 
 for individual in df_vertebrate:
     num_bacterial_species_per_individual = 0
@@ -49,23 +46,12 @@ for individual in df_vertebrate:
         else:
             row += 1
     if sample_type == "Wild":
-        acum_wild += num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual)
-        num_wild += 1
+        alpha_diversities_wild.append(num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual))
     else:
-        acum_captivity += num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual)
-        num_captivity += 1
+        alpha_diversities_captivity.append(num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual))
 
-alpha_diversity_wild = - round(acum_wild / num_wild)
-alpha_diversity_captivity = - round(acum_captivity / num_captivity)
+alpha_diversity_wild = - round(sum(alpha_diversities_wild) / len(alpha_diversities_wild))
+alpha_diversity_captivity = - round(sum(alpha_diversities_captivity) / len(alpha_diversities_captivity))
 
 print("Alpha_diversity wild: "+str(alpha_diversity_wild)+" species.")
 print("Alpha_diversity captivity: "+str(alpha_diversity_captivity)+" species.")
-
-alpha_diversity = [alpha_diversity_wild, alpha_diversity_captivity]
-
-ax = plt.boxplot([17, 2], labels=sample_types)
-#ax.set_title('Alpha diversity')
-#ax.set_xlabel('sample type')
-#ax.set_ylabel('alpha diversity')
-
-plt.show()
