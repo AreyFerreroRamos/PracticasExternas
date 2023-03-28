@@ -55,3 +55,11 @@ alpha_diversity_captivity = - round(sum(alpha_diversities_captivity) / len(alpha
 
 print("Alpha_diversity wild: "+str(alpha_diversity_wild)+" species.")
 print("Alpha_diversity captivity: "+str(alpha_diversity_captivity)+" species.")
+
+alpha_diversities = [alpha_diversities_wild, alpha_diversities_captivity]
+
+plt.boxplot(alpha_diversities, labels=sample_types, patch_artist=True)
+plt.xlabel("sample type")
+plt.ylabel("alpha diversity")
+plt.title("Bacterial diversity in animal species")
+plt.show()
