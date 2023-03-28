@@ -1,14 +1,15 @@
 # Author: Arey Ferrero Ramos.
-# Date: March 24, 2023. Version: 1
-# Description: This script calculates the alpha diversity of a the wild and captivity individuals from a species of vertebrate
-#        from those used in the study.
+# Date: March 24, 2023. Version: 1.
+# Description: This script calculates the alpha diversity of the wild and captivity individuals from vertebrate species from
+#        those used in the study.
 #   Parameters:
-#       -A first file that contains a table with the number of species per genus in every individual of that species of
-#        vertebrate used in that study.
+#       -A first file that contains a table with the number of species per genus in every individual of that vertebrate species
+#        used in that study.
 #       -A second file with the metadata of all the samples in the study. We need it for telling wild from captive individuals.
 #   Output:
-#       -The alpha diversity of the wild individuals in the species of vertebrate.
-#       -The alpha diversity of the captive individuals in the species of vertebrate.
+#       -The alpha diversity of the wild individuals in vertebrate species.
+#       -The alpha diversity of the captive individuals in vertebrate species.
+#       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in vertebrate species.
 
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -21,7 +22,7 @@ if len(sys.argv) != 3:
     exit()
 
 if not os.path.isfile(sys.argv[1]):
-    print("Error: The first parameter must be a file corresponding to a species of vertebrate.")
+    print("Error: The first parameter must be a file corresponding to a vertebrate species.")
     exit()
 
 if not os.path.isfile(sys.argv[2]):
@@ -50,11 +51,8 @@ for individual in df_vertebrate:
     else:
         alpha_diversities_captivity.append(num_bacterial_species_per_individual * math.log(num_bacterial_species_per_individual))
 
-alpha_diversity_wild = - round(sum(alpha_diversities_wild) / len(alpha_diversities_wild))
-alpha_diversity_captivity = - round(sum(alpha_diversities_captivity) / len(alpha_diversities_captivity))
-
-print("Alpha_diversity wild: "+str(alpha_diversity_wild)+" species.")
-print("Alpha_diversity captivity: "+str(alpha_diversity_captivity)+" species.")
+print("Alpha_diversity wild: "+str(round( - sum(alpha_diversities_wild) / len(alpha_diversities_wild)))+" species.")
+print("Alpha_diversity captivity: "+str(round( - sum(alpha_diversities_captivity) / len(alpha_diversities_captivity)))+" species.")
 
 alpha_diversities = [alpha_diversities_wild, alpha_diversities_captivity]
 
