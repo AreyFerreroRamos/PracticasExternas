@@ -30,40 +30,40 @@ if not os.path.isfile(sys.argv[2]):
     print("Error: The second parameter must be a file corresponding to a the metadata of all the samples in the study.")
     exit() 
 
-df_vertebrate = pd.read_table(sys.argv[1], delimiter=' ', header=0)
+df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
-alpha_diversities_wild = []
-alpha_diversities_captivity = []
+alpha_diversities = {'Wild': {}, 'Captivity': {}}
 
-for individual in df_vertebrate: 
-    num_bacterial_species_per_individual = 0
-    for num_bacterial_species_per_genus in df_vertebrate[individual]:
-        num_bacterial_species_per_individual += num_bacterial_species_per_genus
-    alpha_diversity = 0
-    for num_bacterial_species_per_genus in df_vertebrate[individual]:
-        if num_bacterial_species_per_genus != 0:
-            alpha_diversity += num_bacterial_species_per_genus / num_bacterial_species_per_individual * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
-    alpha_diversity = - alpha_diversity
-    
+for individual in df_vertebrates: 
     row = 0
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
+            specie = df_metadata.loc[row, df_metadata.columns[1]]
             sample_type = df_metadata.loc[row, df_metadata.columns[4]]
         else:
             row += 1
-    
-    if sample_type == "Wild":
-        alpha_diversities_wild.append(alpha_diversity)
-    else:
-        alpha_diversities_captivity.append(alpha_diversity)
 
-alpha_diversities = [alpha_diversities_wild, alpha_diversities_captivity]
+    if not len(alpha_diversities[sample_type][specie]):
+        alpha_diversities[sample_type][specie] = []
+
+    num_bacterial_species_per_individual = 0
+    for num_bacterial_species_per_genus in df_vertebrates[individual]:
+        num_bacterial_species_per_individual += num_bacterial_species_per_genus
+    alpha_diversity = 0
+    for num_bacterial_species_per_genus in df_vertebrates[individual]:
+        if num_bacterial_species_per_genus != 0:
+            alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
+
+    alpha_diversities[sample_type][specie].append(- alpha_diversity)
+
+alpha = [alpha_diversities['Wild']['MYTR'], alpha_diversities['Wild']['MYTR']]
 sample_types = ['Wild', 'Captivity']
 
-plt.boxplot(alpha_diversities, labels=sample_types, patch_artist=True)
+plt.boxplot(alpha, labels=sample_types, patch_artist=True)
 
 plt.title("Bacterial diversity in animal species")
 plt.xlabel("Sample type")
 plt.ylabel("Alpha diversity")
+
 plt.show()
