@@ -18,7 +18,7 @@ import math
 import sys
 import os
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Two files are needed.")
     exit()
 
@@ -39,8 +39,8 @@ for individual in df_vertebrates:
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
-            sample_type = df_metadata.loc[row, df_metadata.columns[4]]
             specie = df_metadata.loc[row, df_metadata.columns[2]]
+            sample_type = df_metadata.loc[row, df_metadata.columns[4]]
         else:
             row += 1
 
@@ -62,7 +62,7 @@ for sample_type in alpha_diversities:
     for specie in alpha_diversities[sample_type]:
         print(specie, alpha_diversities[sample_type][specie])
 
-plt.boxplot([alpha_diversities['Wild']['MYTR'], alpha_diversities['Captivity']['MYTR']], labels=['Wild', 'Captivity'], patch_artist=True)
+plt.boxplot([alpha_diversities['Wild'][sys.argv[3]], alpha_diversities['Captivity'][sys.argv[3]]], labels=['Wild', 'Captivity'], patch_artist=True)
 
 plt.title("Bacterial diversity in animal species")
 plt.xlabel("Sample type")
