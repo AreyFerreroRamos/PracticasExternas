@@ -37,7 +37,7 @@ if not os.path.isfile(sys.argv[3]):
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
-f_code = open(sys.argv[3], 'r')
+f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities = {'Wild': {}, 'Captivity': {}}
 
@@ -68,13 +68,13 @@ for sample_type in alpha_diversities:
     for specie in alpha_diversities[sample_type]:
         print(specie, alpha_diversities[sample_type][specie])
 
-for vertebrate_specie in f_code:
+for vertebrate_specie in f_codes_vertebrates:
     if sys.argv[4] == vertebrate_specie.split()[0]:
         name_specie = vertebrate_specie.split()[1]
 
 plt.boxplot([alpha_diversities['Wild'][sys.argv[4]], alpha_diversities['Captivity'][sys.argv[4]]], labels=['Wild', 'Captivity'])
 
-plt.title(name_specie)
+plt.title(name_specie.replace('_', ' ', 1))
 plt.xlabel("Sample type")
 plt.ylabel("Alpha diversity")
 
