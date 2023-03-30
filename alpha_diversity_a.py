@@ -50,11 +50,8 @@ for individual in df_vertebrates:
         else:
             row += 1
 
-    if sample_type not in alpha_diversities:
-        alpha_diversities[sample_type] = {}
-
-    if specie not in alpha_diversities[sample_type]:
-        alpha_diversities[sample_type][specie] = []
+    if specie not in alpha_diversities:
+        alpha_diversities[specie] = {'Wild': [], 'Captivity': []}
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -64,18 +61,18 @@ for individual in df_vertebrates:
         if num_bacterial_species_per_genus != 0:
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
 
-    alpha_diversities[sample_type][specie].append(round(0 - alpha_diversity, 2))
+    alpha_diversities[specie][sample_type].append(round(0 - alpha_diversity, 2))
 
-for sample_type in alpha_diversities:
-    print(sample_type)
-    for specie in alpha_diversities[sample_type]:
-        print(specie, alpha_diversities[sample_type][specie])
+for specie in alpha_diversities:
+    print(specie)
+    for sample_type in alpha_diversities[specie]:
+        print(sample_type, alpha_diversities[specie][sample_type])
 
 for vertebrate_specie in f_codes_vertebrates:
     if sys.argv[4] == vertebrate_specie.split()[0]:
         name_specie = vertebrate_specie.split()[1]
 
-plt.boxplot([alpha_diversities['Wild'][sys.argv[4]], alpha_diversities['Captivity'][sys.argv[4]]], labels=['Wild', 'Captivity'])
+plt.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
 
 plt.title(name_specie.replace('_', ' ', 1))
 plt.xlabel("Sample type")
