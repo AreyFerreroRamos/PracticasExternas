@@ -36,16 +36,18 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 alpha_diversities = {'Wild': {}, 'Captivity': {}}
 
 for individual in df_vertebrates: 
-    row = 0
+    row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
-            specie = df_metadata.loc[row, df_metadata.columns[1]]
+            specie = df_metadata.loc[row, df_metadata.columns[2]]
             sample_type = df_metadata.loc[row, df_metadata.columns[4]]
         else:
             row += 1
 
-    if not len(alpha_diversities[sample_type][specie]):
+    print(alpha_diversities)
+    if not len(alpha_diversities[sample_type]):
         alpha_diversities[sample_type][specie] = []
+    print(alpha_diversities)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
