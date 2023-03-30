@@ -39,7 +39,7 @@ df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 f_codes_vertebrates = open(sys.argv[3], 'r')
 
-alpha_diversities = {'Wild': {}, 'Captivity': {}}
+alpha_diversities = {}
 
 for individual in df_vertebrates: 
     row = 1
@@ -49,6 +49,9 @@ for individual in df_vertebrates:
             sample_type = df_metadata.loc[row, df_metadata.columns[4]]
         else:
             row += 1
+
+    if sample_type not in alpha_diversities:
+        alpha_diversities[sample_type] = {}
 
     if specie not in alpha_diversities[sample_type]:
         alpha_diversities[sample_type][specie] = []
