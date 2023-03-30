@@ -39,15 +39,13 @@ for individual in df_vertebrates:
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
-            specie = df_metadata.loc[row, df_metadata.columns[2]]
             sample_type = df_metadata.loc[row, df_metadata.columns[4]]
+            specie = df_metadata.loc[row, df_metadata.columns[2]]
         else:
             row += 1
 
-    print(alpha_diversities)
-    if not len(alpha_diversities[sample_type]):
+    if specie not in alpha_diversities[sample_type]:
         alpha_diversities[sample_type][specie] = []
-    print(alpha_diversities)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -59,13 +57,13 @@ for individual in df_vertebrates:
 
     alpha_diversities[sample_type][specie].append(- alpha_diversity)
 
-alpha = [alpha_diversities['Wild']['MYTR'], alpha_diversities['Wild']['MYTR']]
-sample_types = ['Wild', 'Captivity']
+#alpha = [alpha_diversities['Wild']['MYTR'], alpha_diversities['Wild']['MYTR']]
+#sample_types = ['Wild', 'Captivity']
 
-plt.boxplot(alpha, labels=sample_types, patch_artist=True)
+#plt.boxplot(alpha, labels=sample_types, patch_artist=True)
 
-plt.title("Bacterial diversity in animal species")
-plt.xlabel("Sample type")
-plt.ylabel("Alpha diversity")
+#plt.title("Bacterial diversity in animal species")
+#plt.xlabel("Sample type")
+#plt.ylabel("Alpha diversity")
 
-plt.show()
+#plt.show()
