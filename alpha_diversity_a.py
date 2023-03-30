@@ -74,10 +74,27 @@ for vertebrate_specie in f_codes_vertebrates:
     if sys.argv[4] == vertebrate_specie.split()[0]:
         name_specie = vertebrate_specie.split()[1]
 
-plt.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
+figure = plt.figure()
+spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
-plt.title(name_specie.replace('_', ' ', 1))
-plt.xlabel("Sample type")
-plt.ylabel("Alpha diversity")
+ax_list = []
+row = 0
+for specie in alpha_diversities:
+    column = 0
+    while column < 5:
+        ax_box = figure.add_subplot(spec[row, column])
+        ax_box.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
+        #ax_box.title(str(name_specie.replace('_', ' ', 1)))
+        #ax_box.xlabel("Sample type")
+        #ax_box.ylabel("Alpha diversity")
+        column += 1
+    row += 1
 
+#plt.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
+
+#plt.title(name_specie.replace('_', ' ', 1))
+#plt.xlabel("Sample type")
+#plt.ylabel("Alpha diversity")
+
+plt.suptitle("Bacterial diversity in vertebrate species")
 plt.show()
