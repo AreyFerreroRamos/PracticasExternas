@@ -63,10 +63,12 @@ for individual in df_vertebrates:
 
     alpha_diversities[specie][sample_type].append(round(0 - alpha_diversity, 2))
 
+print('Wild')
 for specie in alpha_diversities:
-    print(specie)
-    for sample_type in alpha_diversities[specie]:
-        print(sample_type, alpha_diversities[specie][sample_type])
+    print(specie, alpha_diversities[specie]['Wild'])
+print('Captivity')
+for specie in alpha_diversities:
+    print(specie, alpha_diversities[specie]['Captivity'])
 
 for vertebrate_specie in f_codes_vertebrates:
     if sys.argv[4] == vertebrate_specie.split()[0]:
