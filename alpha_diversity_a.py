@@ -55,15 +55,17 @@ for individual in df_vertebrates:
         if num_bacterial_species_per_genus != 0:
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
 
-    alpha_diversities[sample_type][specie].append(- alpha_diversity)
+    alpha_diversities[sample_type][specie].append(round(- alpha_diversity, 2))
 
-#alpha = [alpha_diversities['Wild']['MYTR'], alpha_diversities['Wild']['MYTR']]
-#sample_types = ['Wild', 'Captivity']
+for sample_type in alpha_diversities:
+    print(sample_type)
+    for specie in alpha_diversities[sample_type]:
+        print(specie, alpha_diversities[sample_type][specie])
 
-#plt.boxplot(alpha, labels=sample_types, patch_artist=True)
+plt.boxplot([alpha_diversities['Wild']['MYTR'], alpha_diversities['Captivity']['MYTR']], labels=['Wild', 'Captivity'], patch_artist=True)
 
-#plt.title("Bacterial diversity in animal species")
-#plt.xlabel("Sample type")
-#plt.ylabel("Alpha diversity")
+plt.title("Bacterial diversity in animal species")
+plt.xlabel("Sample type")
+plt.ylabel("Alpha diversity")
 
-#plt.show()
+plt.show()
