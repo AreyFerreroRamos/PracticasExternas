@@ -8,4 +8,4 @@
 #	Output:
 #		-
 
-python3 alpha_diversity_a.py 
+python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt
