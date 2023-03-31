@@ -77,18 +77,18 @@ for vertebrate_specie in f_codes_vertebrates:
 figure = plt.figure()
 spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
-ax_list = []
 row = 0
+column = 0
 for specie in alpha_diversities:
-    column = 0
-    while column < 5:
-        ax_box = figure.add_subplot(spec[row, column])
-        ax_box.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
-        #ax_box.title(str(name_specie.replace('_', ' ', 1)))
-        #ax_box.xlabel("Sample type")
-        #ax_box.ylabel("Alpha diversity")
-        column += 1
-    row += 1
+    ax_box = figure.add_subplot(spec[row, column])
+    ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+    #ax_box.title(str(name_specie.replace('_', ' ', 1)))
+    #ax_box.xlabel("Sample type")
+    #ax_box.ylabel("Alpha diversity")
+    column += 1
+    if (column >= 5):
+        column = 0
+        row += 1
 
 #plt.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
 
