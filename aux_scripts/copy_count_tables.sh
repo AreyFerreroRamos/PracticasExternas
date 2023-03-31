@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Author: Arey Ferrero Ramos.
-# Data: March 28, 2023. Version: 2.
-# Description: Given a directory, this script copys all the files from that directory which have the information in wich we are interested (specified by parameter) in a local directory inside our project.
+# Data: March 28, 2023. Version: 3.
+# Description: Given a directory, this script copys all the files from that directory which name contains the substring specified as second parameter in a local directory inside our project.
 # 	Input:
 #		-A directory with a list of files.
-#		-The type of information in which we are interested.
+#		-A substring that specifies the name or a part of the name of the file.
 #	Output:
 #		-A directory with all the files from the input directory that contains the information in which we are interested.
 
 if [ $# -eq 0 ]
 then
-	echo -e "copy_count_tables.sh: $0 directory search_information" >&2
+	echo -e "copy_count_tables.sh: $0 directory name" >&2
 	exit 1
 fi
 
@@ -39,13 +39,13 @@ then
 	exit 5
 fi
 
-mkdir -p ../Tables/$2
+mkdir -p ../input_files
 
 for file_name in "$1"/*
 do
 	if [ ! -z $(echo "$file_name" | grep -E ".*$2.*") ]
 	then
-		cp -p "$file_name" ../Tables/$2
+		cp -p "$file_name" ../input_files
 	fi
 done
 
