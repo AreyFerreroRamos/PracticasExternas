@@ -82,12 +82,13 @@ for specie in alpha_diversities:
             name_specie = vertebrate_specie.split()[1]
     plt.title(specie)
     #ax_box.title(str(name_specie.replace('_', ' ', 1)))
-    plt.xlabel("Sample type")
-    plt.ylabel("Alpha diversity")
+    if column == 0:
+        plt.ylabel("Alpha diversity")
+    if row == 4:
+        plt.xlabel("Sample type")
     column += 1
     if (column >= 5):
         column = 0
         row += 1
-
 plt.suptitle("Bacterial diversity in vertebrate species")
 plt.show()
