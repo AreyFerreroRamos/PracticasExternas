@@ -19,7 +19,7 @@ import math
 import sys
 import os
 
-if len(sys.argv) != 5:
+if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -70,31 +70,24 @@ print('Captivity')
 for specie in alpha_diversities:
     print(specie, alpha_diversities[specie]['Captivity'])
 
-for vertebrate_specie in f_codes_vertebrates:
-    if sys.argv[4] == vertebrate_specie.split()[0]:
-        name_specie = vertebrate_specie.split()[1]
-
 figure = plt.figure()
 spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
-
-row = 0
-column = 0
+row = column = 0
 for specie in alpha_diversities:
     ax_box = figure.add_subplot(spec[row, column])
     ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+    for vertebrate_specie in f_codes_vertebrates:
+        print(specie)
+        if specie == vertebrate_specie.split()[0]:
+            name_specie = vertebrate_specie.split()[1]
+    plt.title(specie)
     #ax_box.title(str(name_specie.replace('_', ' ', 1)))
-    #ax_box.xlabel("Sample type")
-    #ax_box.ylabel("Alpha diversity")
+    plt.xlabel("Sample type")
+    plt.ylabel("Alpha diversity")
     column += 1
     if (column >= 5):
         column = 0
         row += 1
-
-#plt.boxplot([alpha_diversities[sys.argv[4]]['Wild'], alpha_diversities[sys.argv[4]]['Captivity']], labels=['Wild', 'Captivity'])
-
-#plt.title(name_specie.replace('_', ' ', 1))
-#plt.xlabel("Sample type")
-#plt.ylabel("Alpha diversity")
 
 plt.suptitle("Bacterial diversity in vertebrate species")
 plt.show()
