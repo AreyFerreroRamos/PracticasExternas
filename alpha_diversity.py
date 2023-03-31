@@ -83,9 +83,11 @@ for specie in alpha_diversities:
         plt.xlabel("Sample type")
     
     column += 1
-    if (column >= 5):
+    if column >= 5:
         column = 0
         row += 1
+
+plt.suptitle("Bacterial diversity in vertebrate species")
 
 print('\nWild')
 for specie in alpha_diversities:
@@ -94,5 +96,4 @@ print('Captivity')
 for specie in alpha_diversities:
     print(specie, alpha_diversities[specie]['Captivity'])
 
-plt.suptitle("Bacterial diversity in vertebrate species")
 plt.show()
