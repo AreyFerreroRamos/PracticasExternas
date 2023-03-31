@@ -76,16 +76,15 @@ row = column = 0
 for specie in alpha_diversities:
     ax_box = figure.add_subplot(spec[row, column])
     ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
-    for vertebrate_specie in f_codes_vertebrates:
-        print(specie)
-        if specie == vertebrate_specie.split()[0]:
-            name_specie = vertebrate_specie.split()[1]
-    plt.title(specie)
-    #ax_box.title(str(name_specie.replace('_', ' ', 1)))
-    if column == 0:
+    if row == int(spec.nrows / 2) and column == 0:
         plt.ylabel("Alpha diversity")
-    if row == 4:
+    if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
         plt.xlabel("Sample type")
+    for vertebrate_specie in f_codes_vertebrates:
+        if specie == vertebrate_specie.split()[0]:
+            print(specie+'\t'+vertebrate_specie.split()[1])
+    plt.title(specie)
+    #plt.title(str(name_specie.replace('_', ' ', 1)))
     column += 1
     if (column >= 5):
         column = 0
