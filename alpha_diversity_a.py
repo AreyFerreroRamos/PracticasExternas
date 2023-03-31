@@ -10,7 +10,7 @@
 #   Output:
 #       -The alpha diversity of the wild individuals in all vertebrate species.
 #       -The alpha diversity of the captive individuals in all vertebrate species.
-#       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in vertebrate species.
+#       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in all vertebrate species.
 
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
@@ -63,31 +63,36 @@ for individual in df_vertebrates:
 
     alpha_diversities[specie][sample_type].append(round(0 - alpha_diversity, 2))
 
-print('Wild')
+figure = plt.figure()
+spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
+
+row = column = 0
+for specie in alpha_diversities:
+    ax_box = figure.add_subplot(spec[row, column])
+    ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+    
+    for vertebrate_specie in f_codes_vertebrates:
+        if specie == vertebrate_specie.split()[0]:
+            print(specie+'\t'+vertebrate_specie.split()[1].replace('_', ' ', 1))
+            break
+    plt.title(specie)
+    
+    if row == int(spec.nrows / 2) and column == 0:
+        plt.ylabel("Alpha diversity")
+    if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
+        plt.xlabel("Sample type")
+    
+    column += 1
+    if (column >= 5):
+        column = 0
+        row += 1
+
+print('\nWild')
 for specie in alpha_diversities:
     print(specie, alpha_diversities[specie]['Wild'])
 print('Captivity')
 for specie in alpha_diversities:
     print(specie, alpha_diversities[specie]['Captivity'])
 
-figure = plt.figure()
-spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
-row = column = 0
-for specie in alpha_diversities:
-    ax_box = figure.add_subplot(spec[row, column])
-    ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
-    if row == int(spec.nrows / 2) and column == 0:
-        plt.ylabel("Alpha diversity")
-    if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
-        plt.xlabel("Sample type")
-    for vertebrate_specie in f_codes_vertebrates:
-        if specie == vertebrate_specie.split()[0]:
-            print(specie+'\t'+vertebrate_specie.split()[1])
-    plt.title(specie)
-    #plt.title(str(name_specie.replace('_', ' ', 1)))
-    column += 1
-    if (column >= 5):
-        column = 0
-        row += 1
 plt.suptitle("Bacterial diversity in vertebrate species")
 plt.show()
