@@ -55,7 +55,7 @@ for individual in df_vertebrates:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
         alpha_diversities_specie[specie] = {}
         
-        #show_results.print_specie(specie, f_codes_vertebrates)
+        show_functions.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -76,6 +76,6 @@ show_functions.print_table(alpha_diversities_individual, 'Captivity')
 show_functions.print_table(alpha_diversities_specie, 'Wild')
 show_functions.print_table(alpha_diversities_specie, 'Captivity')
 
-#show_functions.show_plot('Boxplot', alpha_diversities_individual, '')
-#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+show_functions.show_plot('Boxplot', alpha_diversities_individual, '')
+show_functions.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+show_functions.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
