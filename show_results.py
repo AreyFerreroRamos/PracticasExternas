@@ -9,21 +9,24 @@ def print_specie(specie, f_codes_vertebrates):
             break
 
 
-def print_table(alpha_diversities_boxplot, sample_type):
+def print_table(alpha_diversities, sample_type):
     print('\n'+sample_type)
-    for specie in alpha_diversities_boxplot:
-        print(specie, alpha_diversities_boxplot[specie][sample_type])
+    for specie in alpha_diversities:
+        print(specie, alpha_diversities[specie][sample_type])
 
 
-def show_boxplot(alpha_diversities_boxplot):
+def show_plot(plot_type, alpha_diversities, sample_type):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
     row = column = 0
-    for specie in alpha_diversities_boxplot:
+    for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
-        ax_box.boxplot([alpha_diversities_boxplot[specie]['Wild'], alpha_diversities_boxplot[specie]['Captivity']], labels=['Wild', 'Captivity'])
-        
+        if plot_type == 'Boxplot':
+            ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+        else:
+            ax_box.hist(alpha_diversities[specie][sample_type], bins=[0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+
         plt.title(specie)
         
         if row == int(spec.nrows / 2) and column == 0:
@@ -36,30 +39,5 @@ def show_boxplot(alpha_diversities_boxplot):
             column = 0
             row += 1
 
-    plt.suptitle("Bacterial diversity in vertebrate species")
-    plt.show()
-
-
-def show_histogram(alpha_diversities_histogram, sample_type):
-    figure = plt.figure()
-    spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
-
-    row = column = 0
-    for specie in alpha_diversities_histogram:
-        ax_box = figure.add_subplot(spec[row, column])
-        ax_box.hist(alpha_diversities_histogram[specie][sample_type], bins=[0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-
-        plt.title(specie)
-
-        if row == int(spec.nrows / 2) and column == 0:
-            plt.ylabel("Alpha diversity")
-        if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
-            plt.xlabel("Sample type")
-
-        column += 1
-        if column >= 5:
-            column = 0
-            row += 1
-
-    plt.suptitle(sample_type)
+    plt.suptitle("Bacterial diversity in "+sample_type+" vertebrate species")
     plt.show()

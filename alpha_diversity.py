@@ -70,7 +70,6 @@ for individual in df_vertebrates:
 show_results.print_table(alpha_diversities_boxplot, 'Wild')
 show_results.print_table(alpha_diversities_boxplot, 'Captivity')
 
-show_results.show_boxplot(alpha_diversities_boxplot)
-
-show_results.show_histogram(alpha_diversities_histogram, 'Wild')
-show_results.show_histogram(alpha_diversities_histogram, 'Captivity')
+show_results.show_plot('Boxplot', alpha_diversities_boxplot, '')
+show_results.show_plot('Histogram', alpha_diversities_histogram, 'Wild')
+show_results.show_plot('Histogram', alpha_diversities_histogram, 'Captivity')
