@@ -38,8 +38,8 @@ df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 f_codes_vertebrates = open(sys.argv[3], 'r')
 
-alpha_diversities_boxplot = {}
-alpha_diversities_histogram = {}
+alpha_diversities_individual = {}
+alpha_diversities_specie = {}
 
 for individual in df_vertebrates: 
     row = 1
@@ -50,11 +50,11 @@ for individual in df_vertebrates:
         else:
             row += 1
 
-    if specie not in alpha_diversities_boxplot:
-        alpha_diversities_boxplot[specie] = {'Wild': [], 'Captivity': []}
-        alpha_diversities_histogram[specie] = {'Wild': [], 'Captivity': []}
+    if specie not in alpha_diversities_individual:
+        alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
+        alpha_diversities_specie[specie] = {}
         
-        show_results.print_specie(specie, f_codes_vertebrates)
+        #show_results.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -62,14 +62,29 @@ for individual in df_vertebrates:
     alpha_diversity = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
-            alpha_diversities_histogram[specie][sample_type].append(0 - ((num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)))
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
 
-    alpha_diversities_boxplot[specie][sample_type].append(round(0 - alpha_diversity, 2))
+    alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-show_results.print_table(alpha_diversities_boxplot, 'Wild')
-show_results.print_table(alpha_diversities_boxplot, 'Captivity')
+for specie in alpha_diversities_individual:
+    alpha_diversity_specie = 0
+    for alpha_diversity_individual in alpha_diversities_individual[specie]['Wild']:
+        if alpha_diversity_individual != 0:
+            alpha_diversity_specie += (alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Wild'])) * math.log(alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Wild']))
+    alpha_diversities_specie[specie]['Wild'] = round(0 - alpha_diversity_specie, 4)
 
-show_results.show_plot('Boxplot', alpha_diversities_boxplot, '')
-show_results.show_plot('Histogram', alpha_diversities_histogram, 'Wild')
-show_results.show_plot('Histogram', alpha_diversities_histogram, 'Captivity')
+    alpha_diversity_specie = 0
+    for alpha_diversity_individual in alpha_diversities_individual[specie]['Captivity']:
+        if alpha_diversity_individual != 0:
+            alpha_diversity_specie += (alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Captivity'])) * math.log(alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Captivity']))
+    alpha_diversities_specie[specie]['Captivity'] = round(0 - alpha_diversity_specie, 4)
+
+show_results.print_table(alpha_diversities_individual, 'Wild')
+show_results.print_table(alpha_diversities_individual, 'Captivity')
+
+show_results.print_table(alpha_diversities_specie, 'Wild')
+show_results.print_table(alpha_diversities_specie, 'Captivity')
+
+#show_results.show_plot('Boxplot', alpha_diversities_individual, '')
+#show_results.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+#show_results.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
