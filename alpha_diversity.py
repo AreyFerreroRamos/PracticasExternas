@@ -1,5 +1,5 @@
 # Author: Arey Ferrero Ramos.
-# Date: March 24, 2023. Version: 3.
+# Date: March 24, 2023. Version: 4.
 # Description: This script calculates the alpha diversity of the wild and captivity individuals from vertebrate species from
 #        those used in the study.
 #   Parameters:
@@ -12,12 +12,11 @@
 #       -The alpha diversity of the captive individuals in all vertebrate species.
 #       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in all vertebrate species.
 
-from matplotlib import pyplot as plt
-from matplotlib import gridspec
 import pandas as pd
 import math
 import sys
 import os
+import show_results
 
 if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
@@ -39,7 +38,8 @@ df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 f_codes_vertebrates = open(sys.argv[3], 'r')
 
-alpha_diversities = {}
+alpha_diversities_boxplot = {}
+alpha_diversities_histogram = {}
 
 for individual in df_vertebrates: 
     row = 1
@@ -50,8 +50,11 @@ for individual in df_vertebrates:
         else:
             row += 1
 
-    if specie not in alpha_diversities:
-        alpha_diversities[specie] = {'Wild': [], 'Captivity': []}
+    if specie not in alpha_diversities_boxplot:
+        alpha_diversities_boxplot[specie] = {'Wild': [], 'Captivity': []}
+        alpha_diversities_histogram[specie] = {'Wild': [], 'Captivity': []}
+        
+        show_results.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -59,41 +62,15 @@ for individual in df_vertebrates:
     alpha_diversity = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
+            alpha_diversities_histogram[specie][sample_type].append(0 - ((num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)))
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
 
-    alpha_diversities[specie][sample_type].append(round(0 - alpha_diversity, 2))
+    alpha_diversities_boxplot[specie][sample_type].append(round(0 - alpha_diversity, 2))
 
-figure = plt.figure()
-spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
+show_results.print_table(alpha_diversities_boxplot, 'Wild')
+show_results.print_table(alpha_diversities_boxplot, 'Captivity')
 
-row = column = 0
-for specie in alpha_diversities:
-    ax_box = figure.add_subplot(spec[row, column])
-    ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
-    
-    for vertebrate_specie in f_codes_vertebrates:
-        if specie == vertebrate_specie.split()[0]:
-            print(specie+'\t'+vertebrate_specie.split()[1].replace('_', ' ', 1))
-            break
-    plt.title(specie)
-    
-    if row == int(spec.nrows / 2) and column == 0:
-        plt.ylabel("Alpha diversity")
-    if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
-        plt.xlabel("Sample type")
-    
-    column += 1
-    if column >= 5:
-        column = 0
-        row += 1
+show_results.show_boxplot(alpha_diversities_boxplot)
 
-plt.suptitle("Bacterial diversity in vertebrate species")
-
-print('\nWild')
-for specie in alpha_diversities:
-    print(specie, alpha_diversities[specie]['Wild'])
-print('Captivity')
-for specie in alpha_diversities:
-    print(specie, alpha_diversities[specie]['Captivity'])
-
-plt.show()
+show_results.show_histogram(alpha_diversities_histogram, 'Wild')
+show_results.show_histogram(alpha_diversities_histogram, 'Captivity')
