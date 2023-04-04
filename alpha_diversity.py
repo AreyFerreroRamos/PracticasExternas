@@ -16,6 +16,7 @@ import pandas as pd
 import math
 import sys
 import os
+import support_functions
 import show_results
 
 if len(sys.argv) != 4:
@@ -66,18 +67,8 @@ for individual in df_vertebrates:
 
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-for specie in alpha_diversities_individual:
-    alpha_diversity_specie = 0
-    for alpha_diversity_individual in alpha_diversities_individual[specie]['Wild']:
-        if alpha_diversity_individual != 0:
-            alpha_diversity_specie += (alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Wild'])) * math.log(alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Wild']))
-    alpha_diversities_specie[specie]['Wild'] = round(0 - alpha_diversity_specie, 4)
-
-    alpha_diversity_specie = 0
-    for alpha_diversity_individual in alpha_diversities_individual[specie]['Captivity']:
-        if alpha_diversity_individual != 0:
-            alpha_diversity_specie += (alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Captivity'])) * math.log(alpha_diversity_individual / sum(alpha_diversities_individual[specie]['Captivity']))
-    alpha_diversities_specie[specie]['Captivity'] = round(0 - alpha_diversity_specie, 4)
+support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
+support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
 
 show_results.print_table(alpha_diversities_individual, 'Wild')
 show_results.print_table(alpha_diversities_individual, 'Captivity')
