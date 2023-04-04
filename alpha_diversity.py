@@ -17,7 +17,7 @@ import math
 import sys
 import os
 import support_functions
-import show_results
+import show_functions
 
 if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
@@ -70,12 +70,12 @@ for individual in df_vertebrates:
 support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
 support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
 
-show_results.print_table(alpha_diversities_individual, 'Wild')
-show_results.print_table(alpha_diversities_individual, 'Captivity')
+show_functions.print_table(alpha_diversities_individual, 'Wild')
+show_functions.print_table(alpha_diversities_individual, 'Captivity')
 
-show_results.print_table(alpha_diversities_specie, 'Wild')
-show_results.print_table(alpha_diversities_specie, 'Captivity')
+show_functions.print_table(alpha_diversities_specie, 'Wild')
+show_functions.print_table(alpha_diversities_specie, 'Captivity')
 
-#show_results.show_plot('Boxplot', alpha_diversities_individual, '')
-#show_results.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-#show_results.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+#show_functions.show_plot('Boxplot', alpha_diversities_individual, '')
+#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
