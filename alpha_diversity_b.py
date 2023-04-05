@@ -16,8 +16,8 @@ import pandas as pd
 import math
 import sys
 import os
-import support_functions
-import show_functions
+import support_functions as spf
+import show_functions as shf
 
 if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
@@ -62,7 +62,7 @@ for individual in df_vertebrates:
                 # Recorregut per alpha_diversities_specie.
             previous_specie = specie
         
-        #show_functions.print_specie(specie, f_codes_vertebrates)
+        #shf.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -76,15 +76,15 @@ for individual in df_vertebrates:
 
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity_individual, 2))
 
-support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
-support_functions.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
+spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
+spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
 
-show_functions.print_table(alpha_diversities_individual, 'Wild')
-show_functions.print_table(alpha_diversities_individual, 'Captivity')
+shf.print_table(alpha_diversities_individual, 'Wild')
+shf.print_table(alpha_diversities_individual, 'Captivity')
 
-#show_functions.print_table(alpha_diversities_specie, 'Wild')
-#show_functions.print_table(alpha_diversities_specie, 'Captivity')
+#shf.print_table(alpha_diversities_specie, 'Wild')
+#shf.print_table(alpha_diversities_specie, 'Captivity')
 
-#show_functions.show_plot('Boxplot', alpha_diversities_individual, '')
-#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-#show_functions.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+#shf.show_plot('Boxplot', alpha_diversities_individual, '')
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
