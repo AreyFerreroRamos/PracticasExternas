@@ -42,6 +42,9 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
 
+bacterial_species_per_specie = {'Wild': [], 'Captivity': []}
+total_bacterial_species_per_specie = {'Wild': 0, 'Captivity': 0}
+
 previous_specie = ""
 
 for individual in df_vertebrates: 
@@ -55,35 +58,38 @@ for individual in df_vertebrates:
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
-        alpha_diversities_specie = {'Wild': [], 'Captivity': []}
-        num_bacterial_species_per_specie = {'Wild': 0, 'Captivity': 0}
-        if previous_specie != specie:
-            if previous_specie:
-                # Recorregut per alpha_diversities_specie.
+        alpha_diversities_specie[specie] = {'Wild': 0, 'Captivity': 0}
+        if previous_specie:
+            alpha_diversity_specie = 0
+            for num_bacterial_species_per_genus in bacterial_species_per_specie['Wild']:
+                alpha_diversity_specie += (num_bacterial_species_per_genus / total_bacterial_species_per_specie['Wild']) * math.log(num_bacterial_species_per_genus / total_bacterial_species_per_specie['Wild'])
+            alpha_diversities_specie[specie]['Wild'] = round(0 - alpha_diversity_specie, 2)
+            alpha_diversity_specie = 0
+            for num_bacterial_species_per_genus in bacterial_species_per_specie['Captivity']:
+                alpha_diversity_specie += (num_bacterial_species_per_genus / total_bacterial_species_per_specie['Captivity']) * math.log(num_bacterial_species_per_genus / total_bacterial_species_per_specie['Captivity'])
+            alpha_diversities_specie[specie]['Captivity'] = round(0 - alpha_diversity_specie, 2)
+        else:
             previous_specie = specie
+        bacterial_species_per_specie = {'Wild': [], 'Captivity': []}
+        total_bacterial_species_per_specie = {'Wild': 0, 'Captivity': 0}
         
         #shf.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
-    num_bacterial_species_per_specie[sample_type] += num_bacterial_species_per_individual
-    
     alpha_diversity_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
             alpha_diversity_individual += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
+            bacterial_species_per_specie[sample_type].append(num_bacterial_species_per_genus)
 
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity_individual, 2))
+    
+    total_bacterial_species_per_specie[sample_type] += num_bacterial_species_per_individual
 
-#spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
-#spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
-
-shf.print_table(alpha_diversities_individual, 'Wild')
-shf.print_table(alpha_diversities_individual, 'Captivity')
-
-#shf.print_table(alpha_diversities_specie, 'Wild')
-#shf.print_table(alpha_diversities_specie, 'Captivity')
+#shf.print_alpha_diversities(alpha_diversities_individual)
+shf.print_alpha_diversities(alpha_diversities_specie)
 
 #shf.show_plot('Boxplot', alpha_diversities_individual, '')
 #shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
