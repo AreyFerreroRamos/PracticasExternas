@@ -9,10 +9,15 @@ def print_specie(specie, f_codes_vertebrates):
             break
 
 
-def print_table(alpha_diversities, sample_type):
+def print_alpha_diversities_sample_type(alpha_diversities, sample_type):
     print('\n'+sample_type)
     for specie in alpha_diversities:
         print(specie, alpha_diversities[specie][sample_type])
+
+
+def print_alpha_diversities(alpha_diversities):
+    print_alpha_diversities_sample_type(alpha_diversities, 'Wild')
+    print_alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
 def show_plot(plot_type, alpha_diversities, sample_type):

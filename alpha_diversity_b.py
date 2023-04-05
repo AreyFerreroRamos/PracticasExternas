@@ -12,12 +12,12 @@
 #       -The alpha diversity of the captive individuals in all vertebrate species.
 #       -A boxplot that shows the distribution of alpha diversities in both wild and captive individuals in all vertebrate species.
 
+import support_functions as spf
+import show_functions as shf
 import pandas as pd
 import math
 import sys
 import os
-import support_functions as spf
-import show_functions as shf
 
 if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
@@ -37,7 +37,7 @@ if not os.path.isfile(sys.argv[3]):
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
-f_codes_vertebrates = open(sys.argv[3], 'r')
+#f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
@@ -76,8 +76,8 @@ for individual in df_vertebrates:
 
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity_individual, 2))
 
-spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
-spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
+#spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
+#spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
 
 shf.print_table(alpha_diversities_individual, 'Wild')
 shf.print_table(alpha_diversities_individual, 'Captivity')

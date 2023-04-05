@@ -67,14 +67,10 @@ for individual in df_vertebrates:
 
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Wild')
-spf.fill_table(alpha_diversities_specie, alpha_diversities_individual, 'Captivity')
+spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 
-shf.print_table(alpha_diversities_individual, 'Wild')
-shf.print_table(alpha_diversities_individual, 'Captivity')
-
-shf.print_table(alpha_diversities_specie, 'Wild')
-shf.print_table(alpha_diversities_specie, 'Captivity')
+shf.print_alpha_diversities(alpha_diversities_individual)
+shf.print_alpha_diversities(alpha_diversities_specie)
 
 shf.show_plot('Boxplot', alpha_diversities_individual, '')
 shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
