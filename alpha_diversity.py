@@ -37,7 +37,7 @@ if not os.path.isfile(sys.argv[3]):
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
-f_codes_vertebrates = open(sys.argv[3], 'r')
+#f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
@@ -55,7 +55,7 @@ for individual in df_vertebrates:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
         alpha_diversities_specie[specie] = {}
         
-        shf.print_specie(specie, f_codes_vertebrates)
+        #shf.print_specie(specie, f_codes_vertebrates)
 
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -69,9 +69,9 @@ for individual in df_vertebrates:
 
 spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 
-shf.print_alpha_diversities(alpha_diversities_individual)
+#shf.print_alpha_diversities(alpha_diversities_individual)
 shf.print_alpha_diversities(alpha_diversities_specie)
 
-shf.show_plot('Boxplot', alpha_diversities_individual, '')
-shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+#shf.show_plot('Boxplot', alpha_diversities_individual, '')
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')

@@ -63,11 +63,11 @@ for individual in df_vertebrates:
             alpha_diversity_specie = 0
             for num_bacterial_species_per_genus in bacterial_species_per_specie['Wild']:
                 alpha_diversity_specie += (num_bacterial_species_per_genus / total_bacterial_species_per_specie['Wild']) * math.log(num_bacterial_species_per_genus / total_bacterial_species_per_specie['Wild'])
-            alpha_diversities_specie[specie]['Wild'] = round(0 - alpha_diversity_specie, 2)
+            alpha_diversities_specie[specie]['Wild'] = round(0 - alpha_diversity_specie, 4)
             alpha_diversity_specie = 0
             for num_bacterial_species_per_genus in bacterial_species_per_specie['Captivity']:
                 alpha_diversity_specie += (num_bacterial_species_per_genus / total_bacterial_species_per_specie['Captivity']) * math.log(num_bacterial_species_per_genus / total_bacterial_species_per_specie['Captivity'])
-            alpha_diversities_specie[specie]['Captivity'] = round(0 - alpha_diversity_specie, 2)
+            alpha_diversities_specie[specie]['Captivity'] = round(0 - alpha_diversity_specie, 4)
         else:
             previous_specie = specie
         bacterial_species_per_specie = {'Wild': [], 'Captivity': []}
@@ -84,7 +84,7 @@ for individual in df_vertebrates:
             alpha_diversity_individual += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
             bacterial_species_per_specie[sample_type].append(num_bacterial_species_per_genus)
 
-    alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity_individual, 2))
+    alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity_individual, 4))
     
     total_bacterial_species_per_specie[sample_type] += num_bacterial_species_per_individual
 
