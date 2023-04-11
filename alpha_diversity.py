@@ -60,8 +60,10 @@ for individual in df_vertebrates:
     
     relative_abundances[individual] = []
     num_bacterial_species_per_individual = alpha_diversity = num_zeros = num_genus = 0
+    
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
+    
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
             relative_abundances[individual].append(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
@@ -75,7 +77,6 @@ for individual in df_vertebrates:
     if (individual == sys.argv[4]):
         print(individual+" ("+specie+", "+sample_type+")\t"+str(round(num_zeros / num_genus * 100, 2))+"% zeros.")
         shf.show_histogram(relative_abundances, individual)
-
 
 #spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 
