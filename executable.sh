@@ -32,6 +32,6 @@ then
 	exit 4
 fi
 
-python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt
+python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt D12345
 
 exit 0

@@ -19,7 +19,7 @@ import math
 import sys
 import os
 
-if len(sys.argv) != 4:
+if len(sys.argv) != 5:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -41,7 +41,7 @@ f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
-relative_abundances_per_individual = {}
+relative_abundances = {}
 
 for individual in df_vertebrates: 
     row = 1
@@ -56,23 +56,25 @@ for individual in df_vertebrates:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
         alpha_diversities_specie[specie] = {}
         
-        shf.print_specie(specie, f_codes_vertebrates)
+        #shf.print_specie(specie, f_codes_vertebrates)
     
-    relative_abundances_per_individual[individual] = []
+    relative_abundances[individual] = []
     num_bacterial_species_per_individual = alpha_diversity = num_zeros = num_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
-            relative_abundances_per_individual[individual].append(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
+            relative_abundances[individual].append(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
         else:
             num_zeros += 1
         num_genus += 1
     
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
-
-    print(individual+"\t"+str(round(num_zeros / num_genus * 100, 2))+"% zeros.")
+    
+    if (individual == sys.argv[4]):
+        print(individual+" ("+specie+", "+sample_type+")\t"+str(round(num_zeros / num_genus * 100, 2))+"% zeros.")
+        shf.show_histogram(relative_abundances, individual)
 
 
 #spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
@@ -80,6 +82,4 @@ for individual in df_vertebrates:
 #shf.print_alpha_diversities(alpha_diversities_individual)
 #shf.print_alpha_diversities(alpha_diversities_specie)
 
-#shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-#shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
-#shf.show_plot('Boxplot', alpha_diversities_individual, '')
+#shf.show_boxplot(alpha_diversities_individual)

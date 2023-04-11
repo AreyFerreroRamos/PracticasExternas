@@ -20,17 +20,14 @@ def print_alpha_diversities(alpha_diversities):
     print_alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
-def show_plot(plot_type, alpha_diversities, sample_type):
+def show_boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
     row = column = 0
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
-        if plot_type == 'Boxplot':
-            ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
-        else:
-            ax_box.hist(alpha_diversities[specie][sample_type], bins=[0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+        ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
 
         plt.title(specie)
         
@@ -39,10 +36,20 @@ def show_plot(plot_type, alpha_diversities, sample_type):
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
             plt.xlabel("Sample type")
         
-        column += 1
-        if column >= 5:
+        if column >= 4:
             column = 0
             row += 1
+        else:
+            column += 1
 
-    plt.suptitle("Bacterial diversity in "+sample_type+" vertebrate species")
+    plt.suptitle("Bacterial diversity in vertebrate species")
+    plt.show()
+
+def show_histogram(relative_abundances, individual):
+    plt.hist(relative_abundances[individual], bins=[0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+    
+    plt.title("Relative abundances of bacterial genus in "+individual)
+    plt.ylabel("Num bacterial genus.")
+    plt.xlabel("Discretized relative abundances")
+    
     plt.show()
