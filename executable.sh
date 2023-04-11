@@ -4,34 +4,40 @@
 # Date: March 31, 2023. Version: 1.
 # Description: This script runs the command that runs the project.
 #	Input:
-#		-
+#		-The individual that we want to see the histogram with his relative abundances.
 #	Output:
 #		-
+
+if [ $# -ne 1 ]
+then
+	echo -e "executable.sh: $0 indvidual" >&2
+	exit 1
+fi
 
 if [ ! -d input_files ]
 then
 	echo -e "Error: The directory input_files that contains the input data for the project doesn't exist." >&2
-	exit 1
+	exit 2
 fi
 
 if [ ! -f input_files/count_Genus_all.tsv ]
 then
 	echo -e "Error: The file count_Genus_all.tsv, that contains the diversity of the individuals of all the vertebrate species in the study, doesn't exist." >&2
-	exit 2
+	exit 3
 fi
 
 if [ ! -f input_files/metadata.csv ]
 then
 	echo -e "Error: The file metadata.csv, that contains the metadata of all the samples in the study, doesn't exist." >&2
-	exit 3
+	exit 4
 fi
 
 if [ ! -f input_files/sp_code.txt ]
 then
 	echo -e "Error: The file sp_code.txt, that contains a list of the scientific name that corresponds to the code that identifies a vertebrate species, doesn't exist" >&2
-	exit 4
+	exit 5
 fi
 
-python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt D12345
+python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt $1
 
 exit 0
