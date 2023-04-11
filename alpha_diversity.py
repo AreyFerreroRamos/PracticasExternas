@@ -1,5 +1,5 @@
 # Author: Arey Ferrero Ramos.
-# Date: March 24, 2023. Version: 4.
+# Date: March 24, 2023. Version: 5.
 # Description: This script calculates the alpha diversity of the wild and captivity individuals from vertebrate species from
 #        those used in the study.
 #   Parameters:
@@ -41,6 +41,7 @@ f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
+relative_abundances_per_individual = {}
 
 for individual in df_vertebrates: 
     row = 1
@@ -56,22 +57,29 @@ for individual in df_vertebrates:
         alpha_diversities_specie[specie] = {}
         
         shf.print_specie(specie, f_codes_vertebrates)
-
-    num_bacterial_species_per_individual = 0
+    
+    relative_abundances_per_individual[individual] = []
+    num_bacterial_species_per_individual = alpha_diversity = num_zeros = num_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
-    alpha_diversity = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
+            relative_abundances_per_individual[individual].append(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
-
+        else:
+            num_zeros += 1
+        num_genus += 1
+    
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
+    print(individual+"\t"+str(round(num_zeros / num_genus * 100, 2))+"% zeros.")
 
-shf.print_alpha_diversities(alpha_diversities_individual)
-shf.print_alpha_diversities(alpha_diversities_specie)
 
-shf.show_plot('Boxplot', alpha_diversities_individual, '')
-shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
-shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+#spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
+
+#shf.print_alpha_diversities(alpha_diversities_individual)
+#shf.print_alpha_diversities(alpha_diversities_specie)
+
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Wild')
+#shf.show_plot('Histogram', alpha_diversities_specie, 'Captivity')
+#shf.show_plot('Boxplot', alpha_diversities_individual, '')
