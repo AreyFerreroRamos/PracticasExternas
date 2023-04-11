@@ -46,7 +46,8 @@ def show_boxplot(alpha_diversities):
     plt.show()
 
 def show_histogram(relative_abundances, individual):
-    plt.hist(relative_abundances[individual], bins=[0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+    plt.hist(relative_abundances[individual], bins=[0, 0.0001, 0.001, 0.01, 0.1, 1])
+    plt.xscale('log')
     
     plt.title("Relative abundances of bacterial genus in "+individual)
     plt.ylabel("Num bacterial genus.")
