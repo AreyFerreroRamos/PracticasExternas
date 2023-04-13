@@ -81,7 +81,7 @@ for individual in df_vertebrates:
 #spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 
 shf.print_alpha_diversities(alpha_diversities_individual)
-shf.t_test(alpha_diversities_individual)
+#shf.t_test(alpha_diversities_individual)
 #shf.print_alpha_diversities(alpha_diversities_specie)
 
-#shf.show_boxplot(alpha_diversities_individual)
+shf.show_boxplot(alpha_diversities_individual)

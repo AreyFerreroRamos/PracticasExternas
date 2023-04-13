@@ -38,12 +38,12 @@ def show_boxplot(alpha_diversities):
         ax_box = figure.add_subplot(spec[row, column])
         ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
 
-        plt.title(specie)
+        ax_box.set_title(specie)
         
         if row == int(spec.nrows / 2) and column == 0:
-            plt.ylabel("Alpha diversity")
+            ax_box.set_ylabel("Alpha diversity")
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
-            plt.xlabel("Sample type")
+            ax_box.set_xlabel("Sample type")
         
         if column >= 4:
             column = 0
