@@ -40,7 +40,6 @@ def t_test(alpha_diversities):
         print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10))+"\t"+calculate_significance(p_value))
 
 
-
 def show_boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
