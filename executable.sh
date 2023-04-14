@@ -4,15 +4,9 @@
 # Date: March 31, 2023. Version: 1.
 # Description: This script runs the command that runs the project.
 #	Input:
-#		-The individual that we want to see the histogram with his relative abundances.
+#		-
 #	Output:
 #		-
-
-if [ $# -ne 1 ]
-then
-	echo -e "executable.sh: $0 indvidual" >&2
-	exit 1
-fi
 
 if [ ! -d input_files ]
 then
@@ -38,6 +32,6 @@ then
 	exit 5
 fi
 
-python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt $1
+python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt
 
 exit 0

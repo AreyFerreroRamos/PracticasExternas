@@ -19,7 +19,7 @@ import math
 import sys
 import os
 
-if len(sys.argv) != 5:
+if len(sys.argv) != 4:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -41,7 +41,12 @@ f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 alpha_diversities_specie = {}
+
 relative_abundances = {}
+for bacterial_genus in df_vertebrates.index:
+    relative_abundances[bacterial_genus] = 0
+
+num_zeros = num_genus = num_individuals = 0
 
 for individual in df_vertebrates: 
     row = 1
@@ -58,30 +63,33 @@ for individual in df_vertebrates:
         
         #shf.print_specie(specie, f_codes_vertebrates)
     
-    relative_abundances[individual] = []
-    num_bacterial_species_per_individual = alpha_diversity = num_zeros = num_genus = 0
+    num_bacterial_species_per_individual = alpha_diversity = pos = 0
     
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
     
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         if num_bacterial_species_per_genus != 0:
-            relative_abundances[individual].append(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
             alpha_diversity += (num_bacterial_species_per_genus / num_bacterial_species_per_individual) * math.log(num_bacterial_species_per_genus / num_bacterial_species_per_individual)
+            relative_abundances[df_vertebrates.index[pos]] += num_bacterial_species_per_genus / num_bacterial_species_per_individual
         else:
             num_zeros += 1
         num_genus += 1
-    
+        pos += 1
+
+    num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
     
-    if (individual == sys.argv[4]):
-        print(individual+" ("+specie+", "+sample_type+")\t"+str(round(num_zeros / num_genus * 100, 2))+"% zeros.")
-        shf.show_histogram(relative_abundances, individual)
+print("Total zeros: "+str(round(num_zeros / num_genus * 100, 4))+"%.")
+
+relative_abundances_array = spf.cp_dictionary_to_array(relative_abundances)
+spf.normalize_relative_abundances(relative_abundances_array, num_individuals)
+shf.show_histogram(relative_abundances_array)
 
 #spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 
-shf.print_alpha_diversities(alpha_diversities_individual)
-shf.t_test(alpha_diversities_individual)
+#shf.print_alpha_diversities(alpha_diversities_individual)
+#shf.t_test(alpha_diversities_individual)
 #shf.print_alpha_diversities(alpha_diversities_specie)
 
-shf.show_boxplot(alpha_diversities_individual)
+#shf.show_boxplot(alpha_diversities_individual)

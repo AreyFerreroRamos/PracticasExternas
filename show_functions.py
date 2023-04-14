@@ -40,6 +40,18 @@ def t_test(alpha_diversities):
         print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10))+"\t"+calculate_significance(p_value))
 
 
+def show_histogram(relative_abundances):
+    plt.hist(relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+    
+    plt.xscale('log')
+    
+    plt.title("Relative abundances of bacterial genus")
+    plt.ylabel("Num bacterial genus")
+    plt.xlabel("Relative abundances")
+    
+    plt.show()
+
+
 def show_boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
@@ -63,15 +75,4 @@ def show_boxplot(alpha_diversities):
             column += 1
 
     plt.suptitle("Bacterial genus diversity in vertebrate species")
-    plt.show()
-
-
-def show_histogram(relative_abundances, individual):
-    plt.hist(relative_abundances[individual], bins=[0, 0.0001, 0.001, 0.01, 0.1, 1])
-    plt.xscale('log')
-    
-    plt.title("Relative abundances of bacterial genus in "+individual)
-    plt.ylabel("Num bacterial genus.")
-    plt.xlabel("Discretized relative abundances")
-    
     plt.show()
