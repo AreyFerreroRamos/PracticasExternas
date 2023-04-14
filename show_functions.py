@@ -1,4 +1,5 @@
 from scipy import stats
+import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
 
@@ -42,19 +43,21 @@ def t_test(alpha_diversities):
 
 
 def show_boxplot(alpha_diversities):
-    figure = plt.figure()
-    spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
+    #figure = plt.figure()
+    #spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
+    fig, ax_box = plt.subplots(5, 5)
 
     row = column = 0
     for specie in alpha_diversities:
-        ax_box = figure.add_subplot(spec[row, column])
-        ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+        #ax_box = figure.add_subplot(spec[row, column])
+        ax_box[row * 5 + column].boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captivity'])
+        #sns.boxplot(ax=ax_box[row * 5 + column])
 
-        ax_box.set_title(specie)
-        
-        if row == int(spec.nrows / 2) and column == 0:
+        ax_box[row * 5 + column].set_title(specie)
+
+        if row == 2 and column == 0:
             ax_box.set_ylabel("Alpha diversity")
-        if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
+        if row == 4 and column == 2:
             ax_box.set_xlabel("Sample type")
         
         if column >= 4:
