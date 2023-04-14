@@ -21,12 +21,24 @@ def print_alpha_diversities(alpha_diversities):
     print_alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
+def calculate_significance(p_value):
+    if p_value < 0.001:
+        return "***"
+    elif p_value < 0.01:
+        return "**"
+    elif p_value < 0.05:
+        return "*"
+    else:
+        return "n.s"
+    
+
 def t_test(alpha_diversities):
     print("\nStudent's t-test")
     for specie in alpha_diversities:
         # Show gaussians.
         t_statistic, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
-        print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10)))
+        print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10))+"\t"+calculate_significance(p_value))
+
 
 
 def show_boxplot(alpha_diversities):
