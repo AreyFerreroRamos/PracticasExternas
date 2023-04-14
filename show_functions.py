@@ -58,7 +58,7 @@ def show_boxplot(alpha_diversities):
     row = column = 0
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
-        ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild', 'Captive'])
+        ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
 
         ax_box.set_title(specie)
         
