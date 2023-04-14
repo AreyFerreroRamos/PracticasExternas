@@ -79,12 +79,11 @@ for individual in df_vertebrates:
 
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
-    
-print("Total zeros: "+str(round(num_zeros / num_genus * 100, 4))+"%.")
 
-relative_abundances_array = spf.cp_dictionary_to_array(relative_abundances)
-spf.normalize_relative_abundances(relative_abundances_array, num_individuals)
-shf.show_histogram(relative_abundances_array)
+spf.normalize_relative_abundances(relative_abundances, num_individuals)
+
+print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+shf.show_histogram(spf.to_array(relative_abundances))
 
 #spf.calculate_alpha_diversity_specie(alpha_diversities_specie, alpha_diversities_individual)
 

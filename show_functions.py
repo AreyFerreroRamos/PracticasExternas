@@ -35,7 +35,6 @@ def calculate_significance(p_value):
 def t_test(alpha_diversities):
     print("\nStudent's t-test")
     for specie in alpha_diversities:
-        # Show gaussians.
         t_statistic, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
         print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10))+"\t"+calculate_significance(p_value))
 
@@ -45,9 +44,9 @@ def show_histogram(relative_abundances):
     
     plt.xscale('log')
     
-    plt.title("Relative abundances of bacterial genus")
+    plt.title("Relative diversities of bacterial genus")
     plt.ylabel("Num bacterial genus")
-    plt.xlabel("Relative abundances")
+    plt.xlabel("Relative diversities")
     
     plt.show()
 

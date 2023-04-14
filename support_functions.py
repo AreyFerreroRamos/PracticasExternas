@@ -1,19 +1,17 @@
 import math
 
 
-def cp_dictionary_to_array(relative_abundances_dictionary):
-    relative_abundances_array = []
+def to_array(dictionary):
+    array = []
     
-    for relative_abundance in relative_abundances_dictionary:
-        relative_abundances_array.append(relative_abundances_dictionary[relative_abundance])
-    return relative_abundances_array
+    for key in dictionary:
+        array.append(dictionary[key])
+    return array
 
 
-def normalize_relative_abundances(relative_abundances_array, num_individuals):
-    i = 0
-    while i < len(relative_abundances_array):
-        relative_abundances_array[i] /= num_individuals
-        i += 1
+def normalize_relative_abundances(relative_abundances, num_individuals):
+    for bacterial_genus in relative_abundances:    
+        relative_abundances[bacterial_genus] /= num_individuals
 
 
 def calculate_alpha_diversity_specie_sample_type(alpha_diversities_specie, alpha_diversities_individual, sample_type):
