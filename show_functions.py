@@ -51,7 +51,7 @@ def show_boxplot(alpha_diversities):
         else:
             column += 1
 
-    plt.suptitle("Bacterial diversity in vertebrate species")
+    plt.suptitle("Bacterial genus diversity in vertebrate species")
     plt.show()
 
 
