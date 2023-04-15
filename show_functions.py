@@ -61,7 +61,11 @@ def boxplot(alpha_diversities, t_tests):
         
         xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
         xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
-        y = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0])
+        yd = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + 0.1
+        yu = yd + 0.1
+        plt.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1)
+
+        y = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + 0.2
         ax_box.text(x=(xl + xr) / 2, y=y, s=significance_conversion(t_tests[specie][1]), ha='center', va='bottom')
         #ax_box.annotate(significance_conversion(t_tests[specie][1]), ((xl + xr) / 2, y))
 
