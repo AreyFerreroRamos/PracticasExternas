@@ -49,17 +49,23 @@ def histogram(relative_abundances):
     plt.show()
 
 
-def boxplot(alpha_diversities):
+def boxplot(alpha_diversities, t_tests):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
     row = column = 0
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
-        ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
-
-        ax_box.set_title(specie)
+        plot_information = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
         
+        xl = (plot_information['caps'][1].get_xdata()[0] + plot_information['caps'][1].get_xdata()[1]) / 2
+        xr = (plot_information['caps'][3].get_xdata()[0] + plot_information['caps'][3].get_xdata()[1]) / 2
+        y = min(plot_information['caps'][1].get_ydata()[0], plot_information['caps'][3].get_ydata()[0])
+        
+        ax_box.text(x=(xl + xr) / 2, y=y, s=significance_conversion(t_tests[specie][1]))
+        
+        ax_box.set_title(specie)
+
         if row == int(spec.nrows / 2) and column == 0:
             ax_box.set_ylabel("Alpha diversity")
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
