@@ -59,9 +59,9 @@ def boxplot(alpha_diversities, t_tests):
         
         bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
         
-        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.05
         xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
         xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
+        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.05
         yd = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
         yu = yd + yrange
         
