@@ -2,23 +2,12 @@ from scipy import stats
 import math
 
 
-def significance(p_value):
-    if p_value < 0.001:
-        return "***"
-    elif p_value < 0.01:
-        return "**"
-    elif p_value < 0.05:
-        return "*"
-    else:
-        return "n.s"
-
-
 def t_test(alpha_diversities):
     t_tests = {}
     
     for specie in alpha_diversities:
         t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
-        t_tests[specie] = [t_stat, p_value, significance(p_value)]
+        t_tests[specie] = [t_stat, p_value]
     return t_tests
 
 

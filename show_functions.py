@@ -20,10 +20,21 @@ def alpha_diversities(alpha_diversities):
     alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
+def significance_conversion(p_value):
+    if p_value < 0.001:
+        return "***"
+    elif p_value < 0.01:
+        return "**"
+    elif p_value < 0.05:
+        return "*"
+    else:
+        return "n.s"
+
+
 def t_test(t_tests):
     print("\nStudent's t-test")
     for specie in t_tests:
-        print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+t_tests[specie][2])
+        print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+significance_conversion(t_tests[specie][1]))
 
 
 def histogram(relative_abundances):
