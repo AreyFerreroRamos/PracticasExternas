@@ -44,7 +44,7 @@ for individual in df_vertebrates:
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}        
-        shf.print_specie(specie, f_codes_vertebrates)
+        #shf.print_specie(specie, f_codes_vertebrates)
     
     num_bacterial_species_per_individual = alpha_diversity = pos = 0
     
@@ -65,10 +65,10 @@ for individual in df_vertebrates:
 
 spf.normalize_relative_abundances(relative_abundances, num_individuals)
 
-shf.print_alpha_diversities(alpha_diversities_individual)
-shf.t_test(alpha_diversities_individual)
+#shf.print_alpha_diversities(alpha_diversities_individual)
+shf.show_t_test(spf.t_test(alpha_diversities_individual))
 
-shf.show_boxplot(alpha_diversities_individual)
+#shf.show_boxplot(alpha_diversities_individual)
 
-print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-shf.show_histogram(spf.to_array(relative_abundances))
+#print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+#shf.show_histogram(spf.to_array(relative_abundances))

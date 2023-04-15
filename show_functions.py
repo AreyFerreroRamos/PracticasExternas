@@ -1,4 +1,3 @@
-from scipy import stats
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
 
@@ -21,22 +20,10 @@ def print_alpha_diversities(alpha_diversities):
     print_alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
-def calculate_significance(p_value):
-    if p_value < 0.001:
-        return "***"
-    elif p_value < 0.01:
-        return "**"
-    elif p_value < 0.05:
-        return "*"
-    else:
-        return "n.s"
-    
-
-def t_test(alpha_diversities):
+def show_t_test(t_tests):
     print("\nStudent's t-test")
-    for specie in alpha_diversities:
-        t_statistic, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
-        print(specie+":\tt statistic = "+str(round(t_statistic, 10))+"\tp-value = "+str(round(p_value, 10))+"\t"+calculate_significance(p_value))
+    for specie in t_tests:
+        print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+t_tests[specie][2])
 
 
 def show_histogram(relative_abundances):
