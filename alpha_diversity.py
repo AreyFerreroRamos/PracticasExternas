@@ -1,5 +1,6 @@
-import support_functions as spf
-import show_functions as shf
+import calculation_functions as calculation
+import support_functions as support
+import show_functions as show
 import pandas as pd
 import math
 import sys
@@ -44,7 +45,7 @@ for individual in df_vertebrates:
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}        
-        #shf.print_specie(specie, f_codes_vertebrates)
+        show.name_specie(specie, f_codes_vertebrates)
     
     num_bacterial_species_per_individual = alpha_diversity = pos = 0
     
@@ -63,12 +64,12 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-spf.normalize_relative_abundances(relative_abundances, num_individuals)
+calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 
-#shf.print_alpha_diversities(alpha_diversities_individual)
-shf.show_t_test(spf.t_test(alpha_diversities_individual))
+show.alpha_diversities(alpha_diversities_individual)
+show.t_test(calculation.t_test(alpha_diversities_individual))
 
-#shf.show_boxplot(alpha_diversities_individual)
+show.boxplot(alpha_diversities_individual)
 
-#print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-#shf.show_histogram(spf.to_array(relative_abundances))
+print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+show.histogram(support.to_array(relative_abundances))

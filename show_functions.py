@@ -2,31 +2,31 @@ from matplotlib import pyplot as plt
 from matplotlib import gridspec
 
 
-def print_specie(specie, f_codes_vertebrates):
+def name_specie(specie, f_codes_vertebrates):
     for vertebrate_specie in f_codes_vertebrates:
         if specie == vertebrate_specie.split()[0]:
             print(specie+'\t'+vertebrate_specie.split()[1].replace('_', ' ', 1))
             break
 
 
-def print_alpha_diversities_sample_type(alpha_diversities, sample_type):
+def alpha_diversities_sample_type(alpha_diversities, sample_type):
     print('\n'+sample_type)
     for specie in alpha_diversities:
         print(specie, alpha_diversities[specie][sample_type])
 
 
-def print_alpha_diversities(alpha_diversities):
-    print_alpha_diversities_sample_type(alpha_diversities, 'Wild')
-    print_alpha_diversities_sample_type(alpha_diversities, 'Captivity')
+def alpha_diversities(alpha_diversities):
+    alpha_diversities_sample_type(alpha_diversities, 'Wild')
+    alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
-def show_t_test(t_tests):
+def t_test(t_tests):
     print("\nStudent's t-test")
     for specie in t_tests:
         print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+t_tests[specie][2])
 
 
-def show_histogram(relative_abundances):
+def histogram(relative_abundances):
     plt.hist(relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
     
     plt.xscale('log')
@@ -38,7 +38,7 @@ def show_histogram(relative_abundances):
     plt.show()
 
 
-def show_boxplot(alpha_diversities):
+def boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
