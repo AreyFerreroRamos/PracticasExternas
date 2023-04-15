@@ -56,14 +56,15 @@ def boxplot(alpha_diversities, t_tests):
     row = column = 0
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
-        plot_information = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
         
-        xl = (plot_information['caps'][1].get_xdata()[0] + plot_information['caps'][1].get_xdata()[1]) / 2
-        xr = (plot_information['caps'][3].get_xdata()[0] + plot_information['caps'][3].get_xdata()[1]) / 2
-        y = min(plot_information['caps'][1].get_ydata()[0], plot_information['caps'][3].get_ydata()[0])
+        bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
         
-        ax_box.text(x=(xl + xr) / 2, y=y, s=significance_conversion(t_tests[specie][1]))
-        
+        xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
+        xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
+        y = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0])
+        ax_box.text(x=(xl + xr) / 2, y=y, s=significance_conversion(t_tests[specie][1]), ha='center', va='bottom')
+        #ax_box.annotate(significance_conversion(t_tests[specie][1]), ((xl + xr) / 2, y))
+
         ax_box.set_title(specie)
 
         if row == int(spec.nrows / 2) and column == 0:
