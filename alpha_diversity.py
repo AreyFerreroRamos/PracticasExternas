@@ -66,10 +66,12 @@ for individual in df_vertebrates:
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 calculation.t_test(alpha_diversities_individual)
 
-#show.alpha_diversities(alpha_diversities_individual)
+show.alpha_diversities(alpha_diversities_individual)
 #show.t_test(calculation.t_test(alpha_diversities_individual))
 
 show.pyplot_boxplot(alpha_diversities_individual, f_codes_vertebrates)
 
-#print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-#show.histogram(support.to_array(relative_abundances))
+print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+show.histogram(support.to_array(relative_abundances))
+
+f_codes_vertebrates.close()
