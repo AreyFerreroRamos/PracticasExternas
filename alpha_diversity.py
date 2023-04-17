@@ -45,7 +45,6 @@ for individual in df_vertebrates:
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}        
-        #show.name_specie(specie, f_codes_vertebrates)
     
     num_bacterial_species_per_individual = alpha_diversity = pos = 0
     
@@ -70,7 +69,7 @@ calculation.t_test(alpha_diversities_individual)
 #show.alpha_diversities(alpha_diversities_individual)
 #show.t_test(calculation.t_test(alpha_diversities_individual))
 
-show.pyplot_boxplot(alpha_diversities_individual)
+show.pyplot_boxplot(alpha_diversities_individual, f_codes_vertebrates)
 
 #print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
 #show.histogram(support.to_array(relative_abundances))

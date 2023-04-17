@@ -5,8 +5,7 @@ from matplotlib import gridspec
 def name_specie(specie, f_codes_vertebrates):
     for vertebrate_specie in f_codes_vertebrates:
         if specie == vertebrate_specie.split()[0]:
-            print(specie+'\t'+vertebrate_specie.split()[1].replace('_', ' ', 1))
-            break
+            return vertebrate_specie.split()[1].replace('_', ' ', 1)
 
 
 def alpha_diversities_sample_type(alpha_diversities, sample_type):
@@ -49,7 +48,7 @@ def histogram(relative_abundances):
     plt.show()
 
 
-def pyplot_boxplot(alpha_diversities):
+def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
     spec.update(hspace=0.5)
@@ -79,7 +78,7 @@ def pyplot_boxplot(alpha_diversities):
         
         ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
 
-        ax_box.set_title(specie, fontsize=8)
+        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=8)
         
         if row == int(spec.nrows / 2) and column == 0:
             ax_box.set_ylabel("Alpha diversity")
