@@ -78,7 +78,7 @@ def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
         
         ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
 
-        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=8)
+        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=8, y=0.95)
         
         if row == int(spec.nrows / 2) and column == 0:
             ax_box.set_ylabel("Alpha diversity")
