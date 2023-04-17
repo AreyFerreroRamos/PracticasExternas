@@ -57,19 +57,18 @@ def boxplot(alpha_diversities, t_tests):
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
         
-        bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
-        
+        bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')']) 
+        ax_box.set_ylim(0.0, 5.0)
+
         xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
         xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
-        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.05
-        yd = min(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
+        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
+        yd = max(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
         yu = yd + yrange
-        
         ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
         ax_box.text(x=(xl + xr) / 2, y=(yu + yrange / 2), s=significance_conversion(t_tests[specie][1]))
 
         ax_box.set_title(specie)
-
         if row == int(spec.nrows / 2) and column == 0:
             ax_box.set_ylabel("Alpha diversity")
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
