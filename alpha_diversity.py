@@ -70,7 +70,7 @@ calculation.t_test(alpha_diversities_individual)
 #show.alpha_diversities(alpha_diversities_individual)
 #show.t_test(calculation.t_test(alpha_diversities_individual))
 
-show.boxplot(alpha_diversities_individual)
+show.pyplot_boxplot(alpha_diversities_individual)
 
 #print("\nTotal zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
 #show.histogram(support.to_array(relative_abundances))

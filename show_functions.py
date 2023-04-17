@@ -28,7 +28,7 @@ def significance_conversion(p_value):
     elif p_value < 0.05:
         return "*"
     else:
-        return "n.s"
+        return "n.s."
 
 
 def t_test(t_tests):
@@ -49,26 +49,38 @@ def histogram(relative_abundances):
     plt.show()
 
 
-def boxplot(alpha_diversities):
+def pyplot_boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
+    spec.update(hspace=0.5)
 
     row = column = 0
     for specie in alpha_diversities:
         ax_box = figure.add_subplot(spec[row, column])
         
         bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')']) 
-        ax_box.set_ylim(0.0, 5.0)
+        ax_box.set_ylim(0.0, 5.1)
+        plt.xticks(fontsize=8)
 
         xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
         xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
+        
         yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
         yd = max(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
         yu = yd + yrange
+        
         ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
-        ax_box.text(x=(xl + xr) / 2, y=(yu + yrange / 2), s=significance_conversion(alpha_diversities[specie]['p_value']))
+        
+        significance = significance_conversion(alpha_diversities[specie]['p_value'])
+        if significance == 'n.s.':
+            y = yu + yrange / 2
+        else:
+            y = yu - yrange / 2
+        
+        ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
 
-        ax_box.set_title(specie)
+        ax_box.set_title(specie, fontsize=8)
+        
         if row == int(spec.nrows / 2) and column == 0:
             ax_box.set_ylabel("Alpha diversity")
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
