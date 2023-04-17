@@ -49,7 +49,7 @@ def histogram(relative_abundances):
     plt.show()
 
 
-def boxplot(alpha_diversities, t_tests):
+def boxplot(alpha_diversities):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
 
@@ -66,7 +66,7 @@ def boxplot(alpha_diversities, t_tests):
         yd = max(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
         yu = yd + yrange
         ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
-        ax_box.text(x=(xl + xr) / 2, y=(yu + yrange / 2), s=significance_conversion(t_tests[specie][1]))
+        ax_box.text(x=(xl + xr) / 2, y=(yu + yrange / 2), s=significance_conversion(alpha_diversities[specie]['p_value']))
 
         ax_box.set_title(specie)
         if row == int(spec.nrows / 2) and column == 0:

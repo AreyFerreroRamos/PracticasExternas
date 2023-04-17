@@ -3,12 +3,10 @@ import math
 
 
 def t_test(alpha_diversities):
-    t_tests = {}
-    
     for specie in alpha_diversities:
         t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
-        t_tests[specie] = [t_stat, p_value]
-    return t_tests
+        alpha_diversities[specie]['t_stat'] = t_stat
+        alpha_diversities[specie]['p_value'] = p_value
 
 
 def normalize_relative_abundances(relative_abundances, num_individuals):
