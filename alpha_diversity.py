@@ -24,7 +24,6 @@ if not os.path.isfile(sys.argv[3]):
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
-f_codes_vertebrates = open(sys.argv[3], 'r')
 
 alpha_diversities_individual = {}
 
@@ -66,12 +65,11 @@ for individual in df_vertebrates:
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 calculation.t_test(alpha_diversities_individual)
 
-show.alpha_diversities(alpha_diversities_individual)
+#show.alpha_diversities(alpha_diversities_individual)
 #show.t_test(calculation.t_test(alpha_diversities_individual))
 
-show.pyplot_boxplot(alpha_diversities_individual, f_codes_vertebrates)
+show.pyplot_boxplot(alpha_diversities_individual, sys.argv[3])
+#show.seaborn_boxplot(alpha_diversities_individual, f_codes_vertebrates)
 
-print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-show.histogram(support.to_array(relative_abundances))
-
-f_codes_vertebrates.close()
+#print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+#show.histogram(support.to_array(relative_abundances))

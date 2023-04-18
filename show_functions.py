@@ -1,11 +1,15 @@
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
+import seaborn as sns
 
 
-def name_specie(specie, f_codes_vertebrates):
+def name_specie(specie, name_file_codes_vertebrates):
+    f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
+    
     for vertebrate_specie in f_codes_vertebrates:
         if specie == vertebrate_specie.split()[0]:
             return vertebrate_specie.split()[1].replace('_', ' ', 1)
+    f_codes_vertebrates.close()
 
 
 def alpha_diversities_sample_type(alpha_diversities, sample_type):
@@ -49,7 +53,7 @@ def histogram(relative_abundances):
     plt.show()
 
 
-def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
+def pyplot_boxplot(alpha_diversities, name_file_codes_vertebrates):
     figure = plt.figure()
     spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
     spec.update(hspace=0.5)
@@ -60,15 +64,12 @@ def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
         
         bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')']) 
         ax_box.set_ylim(0.0, 5.1)
-        plt.xticks(fontsize=8)
 
         xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
         xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
-        
         yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
         yd = max(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
         yu = yd + yrange
-        
         ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
         
         significance = significance_conversion(alpha_diversities[specie]['p_value'])
@@ -76,15 +77,17 @@ def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
             y = yu + yrange / 2
         else:
             y = yu - yrange / 2
-        
         ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
 
-        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=9, y=0.95)
+        ax_box.tick_params(axis='x', labelsize=8)
+        ax_box.tick_params(axis='y', labelsize=8)
+
+        ax_box.set_title(name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
         
         if row == int(spec.nrows / 2) and column == 0:
-            ax_box.set_ylabel("Alpha diversity")
+            ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)
         if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
-            ax_box.set_xlabel("Sample type")
+            ax_box.set_xlabel("Sample type", fontsize=11, labelpad=10)
         
         if column >= 4:
             column = 0
@@ -93,4 +96,34 @@ def pyplot_boxplot(alpha_diversities, f_codes_vertebrates):
             column += 1
 
     plt.suptitle("Bacterial genus diversity in vertebrate species")
+    plt.show()
+
+
+def seaborn_boxplot(alpha_diversities, f_codes_vertebrates):
+    figure, axes = plt.subplots(nrows=5, ncols=5)
+    plt.subplots_adjust(hspace=0.5)
+
+    row = column = 0
+    for specie in alpha_diversities:
+        ax_box = axes[row, column]
+
+        #sns.boxplot()
+
+        ax_box.tick_params(axis='x', labelsize=8)
+        ax_box.tick_params(axis='y', labelsize=8)
+
+        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=9, y=0.95)
+
+        if row == int(axes.shape[0] / 2) and column == 0:
+            ax_box.set_ylabel("Alpha diversity")
+        if row == (axes.shape[0] - 1) and column == int(axes.shape[1] / 2):
+            ax_box.set_xlabel("Sample type")
+
+        if column >= 4:
+            column = 0
+            row += 1
+        else:
+            column += 1
+
+    figure.suptitle("Bacterial genus diversity in vertebrate species")
     plt.show()
