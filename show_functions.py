@@ -43,12 +43,13 @@ def t_test(t_tests):
         print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+significance_conversion(t_tests[specie][1]))
 
 
-def pyplot_histogram(relative_abundances): 
+def pyplot_histogram(relative_abundances):
     plt.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
     
     plt.xscale('log')
     
     plt.title("Relative diversities of bacterial genus")
+    
     plt.ylabel("Num bacterial genus")
     plt.xlabel("Relative diversities")
     
@@ -61,6 +62,7 @@ def seaborn_histogram(relative_abundances):
     ax_hist.set_xscale('log')
 
     ax_hist.set_title("Relative diversities of bacterial genus")
+    
     ax_hist.set_ylabel("Num bacterial genus")
     ax_hist.set_xlabel("Relative diversities")
     
