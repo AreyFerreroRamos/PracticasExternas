@@ -1,6 +1,8 @@
+import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
 import seaborn as sns
+import pandas as pd
 
 
 def name_specie(specie, name_file_codes_vertebrates):
@@ -107,7 +109,12 @@ def seaborn_boxplot(alpha_diversities, name_file_codes_vertebrates):
     for specie in alpha_diversities:
         ax_box = axes[row, column]
 
-        #sns.boxplot()
+        data = {'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')': alpha_diversities[specie]['Wild'], 
+                'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')': alpha_diversities[specie]['Captivity']}
+        support.pad_array(data['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'], 
+                          data['Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
+        sns.boxplot(data=pd.DataFrame(data), ax=ax_box, width=0.25)
+        ax_box.set_ylim(0.0, 5.1)
 
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
