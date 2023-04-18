@@ -43,7 +43,7 @@ def t_test(t_tests):
         print(specie+":\tt statistic = "+str(round(t_tests[specie][0], 10))+"\tp-value = "+str(round(t_tests[specie][1], 10))+"\t"+significance_conversion(t_tests[specie][1]))
 
 
-def histogram(relative_abundances):
+def pyplot_histogram(relative_abundances):
     plt.hist(relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
     
     plt.xscale('log')
