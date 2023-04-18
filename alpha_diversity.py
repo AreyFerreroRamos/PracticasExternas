@@ -68,8 +68,8 @@ calculation.t_test(alpha_diversities_individual)
 #show.alpha_diversities(alpha_diversities_individual)
 #show.t_test(calculation.t_test(alpha_diversities_individual))
 
-show.pyplot_boxplot(alpha_diversities_individual, sys.argv[3])
-#show.seaborn_boxplot(alpha_diversities_individual, f_codes_vertebrates)
+#show.pyplot_boxplot(alpha_diversities_individual, sys.argv[3])
+show.seaborn_boxplot(alpha_diversities_individual, sys.argv[3])
 
 #print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
 #show.histogram(support.to_array(relative_abundances))

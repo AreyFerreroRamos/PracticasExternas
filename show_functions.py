@@ -99,7 +99,7 @@ def pyplot_boxplot(alpha_diversities, name_file_codes_vertebrates):
     plt.show()
 
 
-def seaborn_boxplot(alpha_diversities, f_codes_vertebrates):
+def seaborn_boxplot(alpha_diversities, name_file_codes_vertebrates):
     figure, axes = plt.subplots(nrows=5, ncols=5)
     plt.subplots_adjust(hspace=0.5)
 
@@ -112,12 +112,12 @@ def seaborn_boxplot(alpha_diversities, f_codes_vertebrates):
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
 
-        ax_box.set_title(name_specie(specie, f_codes_vertebrates), fontsize=9, y=0.95)
+        ax_box.set_title(name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
 
         if row == int(axes.shape[0] / 2) and column == 0:
-            ax_box.set_ylabel("Alpha diversity")
+            ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)
         if row == (axes.shape[0] - 1) and column == int(axes.shape[1] / 2):
-            ax_box.set_xlabel("Sample type")
+            ax_box.set_xlabel("Sample type", fontsize=11, labelpad=10)
 
         if column >= 4:
             column = 0
