@@ -37,12 +37,10 @@ class Ploter(abc.ABC):
             return "*"
         else:
             return "n.s."
-    
-    @abc.abstractmethod
-    def histogram(self, relative_abundances):
-        pass
 
-    def show_histogram(self, ax_hist):
+    def histogram(self, relative_abundances):
+        ax_hist = self.define_histogram(relative_abundances)
+        
         ax_hist.set_xscale('log')
         
         ax_hist.set_title("Relative diversities of bacterial genus")
@@ -53,16 +51,19 @@ class Ploter(abc.ABC):
         plt.show()
 
     @abc.abstractmethod
+    def define_histogram(self, relative_abundances):
+        pass
+
+    @abc.abstractmethod
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
         pass
 
 
 class PyplotPloter(Ploter):
-    def histogram(self, relative_abundances):
+    def define_histogram(self, relative_abundances):
         ax_hist = plt.figure().add_subplot()
         ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-
-        self.show_histogram(ax_hist)
+        return ax_hist
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
         figure = plt.figure()
@@ -73,7 +74,10 @@ class PyplotPloter(Ploter):
         for specie in alpha_diversities:
             ax_box = figure.add_subplot(spec[row, column])
             
-            bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')', 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')']) 
+            wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
+            captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
+
+            bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=[wild, captive]) 
             ax_box.set_ylim(0.0, 5.1)
 
             xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
@@ -111,10 +115,9 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def histogram(self, relative_abundances):
+    def define_histogram(self, relative_abundances):
         ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-        
-        self.show_histogram(ax_hist)
+        return ax_hist
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates, option='manual'):
         figure, axes = plt.subplots(nrows=5, ncols=5)
