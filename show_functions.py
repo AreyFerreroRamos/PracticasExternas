@@ -20,6 +20,9 @@ def alpha_diversities(alpha_diversities):
 
 
 class Ploter(abc.ABC):
+    def __init__(self):
+        self.ax_hist = None
+    
     def get_name_specie(self, specie, name_file_codes_vertebrates):
         f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
         
@@ -39,8 +42,18 @@ class Ploter(abc.ABC):
             return "n.s."
     
     @abc.abstractmethod
-    def histogram(self, relative_abundances):
+    def create_histogram(self, relative_abundances):
         pass
+
+    def show_histogram(self):
+        self.ax_hist.set_xscale('log')
+        
+        self.ax_hist.set_title("Relative diversities of bacterial genus")
+        
+        self.ax_hist.set_ylabel("Num bacterial genus")
+        self.ax_hist.set_xlabel("Relative diversities")
+        
+        plt.show()
 
     @abc.abstractmethod
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
@@ -48,18 +61,9 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
-    def histogram(self, relative_abundances):
-        ax_hist = plt.figure().add_subplot()
-        ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-
-        ax_hist.set_xscale('log')
-        
-        ax_hist.set_title("Relative diversities of bacterial genus")
-        
-        ax_hist.set_ylabel("Num bacterial genus")
-        ax_hist.set_xlabel("Relative diversities")
-        
-        plt.show()
+    def create_histogram(self, relative_abundances):
+        self.ax_hist = plt.figure().add_subplot()
+        self.ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
         figure = plt.figure()
@@ -108,17 +112,8 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def histogram(self, relative_abundances):
-        ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-        
-        ax_hist.set_xscale('log')
-
-        ax_hist.set_title("Relative diversities of bacterial genus")
-        
-        ax_hist.set_ylabel("Num bacterial genus")
-        ax_hist.set_xlabel("Relative diversities")
-        
-        plt.show()    
+    def create_histogram(self, relative_abundances):
+        self.ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates, option='manual'):
         figure, axes = plt.subplots(nrows=5, ncols=5)

@@ -73,6 +73,9 @@ elif sys.argv[4] == "seaborn":
     ploter = show.SeabornPloter()
 else:
     ploter = show.PyplotPloter()
+
 print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-ploter.histogram(support.to_array(relative_abundances))
+ploter.create_histogram(support.to_array(relative_abundances))
+ploter.show_histogram()
+
 ploter.boxplot(alpha_diversities_individual, sys.argv[3])
