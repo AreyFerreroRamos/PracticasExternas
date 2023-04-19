@@ -6,7 +6,7 @@ import math
 import sys
 import os
 
-if len(sys.argv) != 4:
+if len(sys.argv) != 5:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -66,11 +66,13 @@ calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 calculation.t_test(alpha_diversities_individual)
 
 #show.alpha_diversities(alpha_diversities_individual)
-#show.t_test(calculation.t_test(alpha_diversities_individual))
 
-show.pyplot_boxplot(alpha_diversities_individual, sys.argv[3])
-show.seaborn_boxplot(alpha_diversities_individual, sys.argv[3])
-
-#print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-#show.pyplot_histogram(support.to_array(relative_abundances))
-#show.seaborn_histogram(support.to_array(relative_abundances))
+if sys.argv[4] == "pyplot":
+    ploter = show.PyplotPloter()
+elif sys.argv[4] == "seaborn":
+    ploter = show.SeabornPloter()
+else:
+    ploter = show.PyplotPloter()
+print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
+ploter.histogram(support.to_array(relative_abundances))
+ploter.boxplot(alpha_diversities_individual, sys.argv[3])
