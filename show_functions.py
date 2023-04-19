@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from matplotlib import gridspec
 import seaborn as sns
 import pandas as pd
+#import statannot
 
 
 def name_specie(specie, name_file_codes_vertebrates):
@@ -123,12 +124,31 @@ def seaborn_boxplot(alpha_diversities, name_file_codes_vertebrates):
     for specie in alpha_diversities:
         ax_box = axes[row, column]
 
-        data = {'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')': alpha_diversities[specie]['Wild'], 
-                'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')': alpha_diversities[specie]['Captivity']}
-        support.pad_array(data['Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'], 
-                          data['Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'])
-        sns.boxplot(data=pd.DataFrame(data), ax=ax_box, width=0.25)
+        wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
+        captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
+        
+        data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
+        support.pad_array(data[wild], data[captive])
+        data_df = pd.DataFrame(data)
+        
+        sns.boxplot(data=data_df, ax=ax_box, width=0.25)
         ax_box.set_ylim(0.0, 5.1)
+
+        xl = ax_box.lines[3].get_xdata().mean()
+        xr = ax_box.lines[9].get_xdata().mean()
+        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
+        yd = max(ax_box.lines[3].get_ydata()[0], ax_box.lines[9].get_ydata()[0]) + yrange
+        yu = yd + yrange
+        ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
+
+        significance = significance_conversion(alpha_diversities[specie]['p_value'])
+        if significance == 'n.s.':
+            y = yu + yrange / 2
+        else:
+            y = yu - yrange / 2
+        ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
+        
+        #statannot.add_stat_annotation(ax=ax_box, data=data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
 
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
