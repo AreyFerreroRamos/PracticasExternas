@@ -39,7 +39,7 @@ class Ploter(abc.ABC):
             return "n.s."
 
     def histogram(self, relative_abundances):
-        ax_hist = self.define_histogram(relative_abundances)
+        ax_hist = self.set_histogram(relative_abundances)
         
         ax_hist.set_xscale('log')
         
@@ -51,124 +51,150 @@ class Ploter(abc.ABC):
         plt.show()
 
     @abc.abstractmethod
-    def define_histogram(self, relative_abundances):
+    def set_histogram(self, relative_abundances):
         pass
 
-    @abc.abstractmethod
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
-        pass
-
-
-class PyplotPloter(Ploter):
-    def define_histogram(self, relative_abundances):
-        ax_hist = plt.figure().add_subplot()
-        ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
-        return ax_hist
-
-    def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
-        figure = plt.figure()
-        spec = gridspec.GridSpec(nrows=5, ncols=5, figure=figure)
-        spec.update(hspace=0.5)
-
+        self.initialize_grid()
+        
         row = column = 0
         for specie in alpha_diversities:
-            ax_box = figure.add_subplot(spec[row, column])
-            
+            ax_box = self.initialize_plot(row, column)
+
             wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
             captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
 
-            bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=[wild, captive]) 
+            self.set_boxplot(ax_box, alpha_diversities, specie, wild, captive)
             ax_box.set_ylim(0.0, 5.1)
-
-            xl = (bp['caps'][1].get_xdata()[0] + bp['caps'][1].get_xdata()[1]) / 2
-            xr = (bp['caps'][3].get_xdata()[0] + bp['caps'][3].get_xdata()[1]) / 2
+    
             yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
-            yd = max(bp['caps'][1].get_ydata()[0], bp['caps'][3].get_ydata()[0]) + yrange
-            yu = yd + yrange
+            xl, xr, yd, yu = self.set_line_significance(ax_box, yrange)
             ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
-            
+
             significance = self.significance_conversion(alpha_diversities[specie]['p_value'])
             if significance == 'n.s.':
                 y = yu + yrange / 2
             else:
                 y = yu - yrange / 2
             ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
+            
+            #statannot.add_stat_annotation(ax=ax_box, data=data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
 
             ax_box.tick_params(axis='x', labelsize=8)
             ax_box.tick_params(axis='y', labelsize=8)
 
             ax_box.set_title(self.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
-            
-            if row == int(spec.nrows / 2) and column == 0:
+
+            if row == int(self.get_nrows() / 2) and column == 0:
                 ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)
-            if row == (spec.nrows - 1) and column == int(spec.ncols / 2):
+            if row == (self.get_nrows() - 1) and column == int(self.get_ncols() / 2):
                 ax_box.set_xlabel("Sample type", fontsize=11, labelpad=10)
-            
+
             if column >= 4:
                 column = 0
                 row += 1
             else:
                 column += 1
-
-        plt.suptitle("Bacterial genus diversity in vertebrate species")
+        
+        self.set_suptitle()
         plt.show()
+
+    @abc.abstractmethod
+    def initialize_grid(self):     
+        pass 
+
+    @abc.abstractmethod
+    def initialize_plot(self, row, column):
+        pass
+
+    @abc.abstractmethod
+    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+        pass
+
+    @abc.abstractmethod
+    def set_line_significance(self, ax_box, yrange):
+        pass
+
+    @abc.abstractmethod
+    def get_nrows(self):
+        pass
+
+    @abc.abstractmethod
+    def get_ncols(self):
+        pass
+
+    @abc.abstractmethod
+    def set_suptitle(self):
+        pass
+
+
+class PyplotPloter(Ploter):
+    def set_histogram(self, relative_abundances):
+        ax_hist = plt.figure().add_subplot()
+        ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+        return ax_hist
+
+    def initialize_grid(self):
+        self.figure = plt.figure()
+        self.spec = gridspec.GridSpec(nrows=5, ncols=5, figure=self.figure)
+        self.spec.update(hspace=0.5)
+
+    def initialize_plot(self, row, column):
+        return self.figure.add_subplot(self.spec[row, column])
+
+    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+        self.bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=[wild, captive])
+
+    def set_line_significance(self, ax_box, yrange):
+        xl = (self.bp['caps'][1].get_xdata()[0] + self.bp['caps'][1].get_xdata()[1]) / 2
+        xr = (self.bp['caps'][3].get_xdata()[0] + self.bp['caps'][3].get_xdata()[1]) / 2
+        yd = max(self.bp['caps'][1].get_ydata()[0], self.bp['caps'][3].get_ydata()[0]) + yrange
+        yu = yd + yrange
+
+        return xl, xr, yd, yu
+
+    def get_nrows(self):
+        return self.spec.nrows
+
+    def get_ncols(self):
+        return self.spec.ncols
+
+    def set_suptitle(self):
+        plt.suptitle("Bacterial genus diversity in vertebrate species")
 
 
 class SeabornPloter(Ploter):
-    def define_histogram(self, relative_abundances):
+    def set_histogram(self, relative_abundances):
         ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
 
-    def boxplot(self, alpha_diversities, name_file_codes_vertebrates, option='manual'):
-        figure, axes = plt.subplots(nrows=5, ncols=5)
+    def initialize_grid(self):
+        self.figure, self.axes = plt.subplots(nrows=5, ncols=5)
         plt.subplots_adjust(hspace=0.5)
 
-        row = column = 0
-        for specie in alpha_diversities:
-            ax_box = axes[row, column]
+    def initialize_plot(self, row, column):
+        return self.axes[row, column]
 
-            wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
-            captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
-            
-            data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
-            support.pad_array(data[wild], data[captive])
-            data_df = pd.DataFrame(data)
-            
-            sns.boxplot(data=data_df, ax=ax_box, width=0.25)
-            ax_box.set_ylim(0.0, 5.1)
+    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+        data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
+        support.pad_array(data[wild], data[captive])
+        data_df = pd.DataFrame(data)
 
-            if (option == 'manual'):
-                xl = ax_box.lines[3].get_xdata().mean()
-                xr = ax_box.lines[9].get_xdata().mean()
-                yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
-                yd = max(ax_box.lines[3].get_ydata()[0], ax_box.lines[9].get_ydata()[0]) + yrange
-                yu = yd + yrange
-                ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
+        sns.boxplot(data=data_df, ax=ax_box, width=0.25)
+    
+    def set_line_significance(self, ax_box, yrange):
+        xl = ax_box.lines[3].get_xdata().mean()
+        xr = ax_box.lines[9].get_xdata().mean()
+        yd = max(ax_box.lines[3].get_ydata()[0], ax_box.lines[9].get_ydata()[0]) + yrange
+        yu = yd + yrange
 
-                significance = self.significance_conversion(alpha_diversities[specie]['p_value'])
-                if significance == 'n.s.':
-                    y = yu + yrange / 2
-                else:
-                    y = yu - yrange / 2
-                ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
-            else:
-                statannot.add_stat_annotation(ax=ax_box, data=data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
-            
-            ax_box.tick_params(axis='x', labelsize=8)
-            ax_box.tick_params(axis='y', labelsize=8)
+        return xl, xr, yd, yu
 
-            ax_box.set_title(self.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
+    def get_nrows(self):
+        return self.axes.shape[0]
 
-            if row == int(axes.shape[0] / 2) and column == 0:
-                ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)
-            if row == (axes.shape[0] - 1) and column == int(axes.shape[1] / 2):
-                ax_box.set_xlabel("Sample type", fontsize=11, labelpad=10)
+    def get_ncols(self):
+        return self.axes.shape[1]
 
-            if column >= 4:
-                column = 0
-                row += 1
-            else:
-                column += 1
-
-        figure.suptitle("Bacterial genus diversity in vertebrate species")
-        plt.show()
+    def set_suptitle(self):
+        self.figure.suptitle("Bacterial genus diversity in vertebrate species")
