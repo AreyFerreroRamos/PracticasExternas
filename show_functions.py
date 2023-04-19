@@ -49,14 +49,15 @@ class Ploter(abc.ABC):
 
 class PyplotPloter(Ploter):
     def histogram(self, relative_abundances):
-        plt.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+        ax_hist = plt.figure().add_subplot()
+        ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
 
-        plt.xscale('log')
+        ax_hist.set_xscale('log')
         
-        plt.title("Relative diversities of bacterial genus")
+        ax_hist.set_title("Relative diversities of bacterial genus")
         
-        plt.ylabel("Num bacterial genus")
-        plt.xlabel("Relative diversities")
+        ax_hist.set_ylabel("Num bacterial genus")
+        ax_hist.set_xlabel("Relative diversities")
         
         plt.show()
 
