@@ -54,7 +54,7 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
+    def boxplot(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
         self.initialize_grid()
         
         row = column = 0
@@ -67,18 +67,10 @@ class Ploter(abc.ABC):
             self.set_boxplot(ax_box, alpha_diversities, specie, wild, captive)
             ax_box.set_ylim(0.0, 5.1)
     
-            yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
-            xl, xr, yd, yu = self.set_line_significance(ax_box, yrange)
-            ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
-
-            significance = self.significance_conversion(alpha_diversities[specie]['p_value'])
-            if significance == 'n.s.':
-                y = yu + yrange / 2
+            if mechanism == "manual":
+                self.set_significance(ax_box, alpha_diversities, specie)
             else:
-                y = yu - yrange / 2
-            ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
-            
-            #statannot.add_stat_annotation(ax=ax_box, data=data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
+                self.set_significance_semiautomatic(ax_box, wild, captive)
 
             ax_box.tick_params(axis='x', labelsize=8)
             ax_box.tick_params(axis='y', labelsize=8)
@@ -111,8 +103,25 @@ class Ploter(abc.ABC):
     def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
         pass
 
+    def set_significance(self, ax_box, alpha_diversities, specie):
+        yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
+        xl, xr, yd, yu = self.set_line_significance(ax_box, yrange)
+
+        significance = self.significance_conversion(alpha_diversities[specie]['p_value'])
+        if significance == 'n.s.':
+            y = yu + yrange / 2
+        else:
+            y = yu - yrange / 2
+
+        ax_box.plot([xl, xl, xr, xr], [yd, yu, yu, yd], lw=1, c='k')
+        ax_box.text(x=(xl + xr) / 2, y=y, s=significance, fontsize=7)
+
     @abc.abstractmethod
     def set_line_significance(self, ax_box, yrange):
+        pass
+
+    @abc.abstractmethod
+    def set_significance_semiautomatic(self, ax_box, wild, captive):
         pass
 
     @abc.abstractmethod
@@ -153,6 +162,9 @@ class PyplotPloter(Ploter):
 
         return xl, xr, yd, yu
 
+    def set_significance_semiautomatic(self, ax_box, wild, captive):
+        return None
+
     def get_nrows(self):
         return self.spec.nrows
 
@@ -178,9 +190,9 @@ class SeabornPloter(Ploter):
     def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
         data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
         support.pad_array(data[wild], data[captive])
-        data_df = pd.DataFrame(data)
+        self.data_df = pd.DataFrame(data)
 
-        sns.boxplot(data=data_df, ax=ax_box, width=0.25)
+        sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
     
     def set_line_significance(self, ax_box, yrange):
         xl = ax_box.lines[3].get_xdata().mean()
@@ -189,6 +201,9 @@ class SeabornPloter(Ploter):
         yu = yd + yrange
 
         return xl, xr, yd, yu
+
+    def set_significance_semiautomatic(self, ax_box, wild, captive):
+        statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
 
     def get_nrows(self):
         return self.axes.shape[0]
