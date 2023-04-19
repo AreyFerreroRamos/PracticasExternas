@@ -75,7 +75,6 @@ else:
     ploter = show.PyplotPloter()
 
 print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
-ploter.create_histogram(support.to_array(relative_abundances))
-ploter.show_histogram()
+ploter.histogram(support.to_array(relative_abundances))
 
 ploter.boxplot(alpha_diversities_individual, sys.argv[3])

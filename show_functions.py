@@ -42,7 +42,7 @@ class Ploter(abc.ABC):
             return "n.s."
     
     @abc.abstractmethod
-    def create_histogram(self, relative_abundances):
+    def histogram(self, relative_abundances):
         pass
 
     def show_histogram(self):
@@ -61,9 +61,11 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
-    def create_histogram(self, relative_abundances):
+    def histogram(self, relative_abundances):
         self.ax_hist = plt.figure().add_subplot()
         self.ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+
+        self.show_histogram()
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates):
         figure = plt.figure()
@@ -112,8 +114,9 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def create_histogram(self, relative_abundances):
+    def histogram(self, relative_abundances):
         self.ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+        self.show_histogram()
 
     def boxplot(self, alpha_diversities, name_file_codes_vertebrates, option='manual'):
         figure, axes = plt.subplots(nrows=5, ncols=5)
