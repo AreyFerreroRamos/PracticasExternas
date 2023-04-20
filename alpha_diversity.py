@@ -65,7 +65,7 @@ for individual in df_vertebrates:
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 calculation.t_test(alpha_diversities_individual)
 
-#show.alpha_diversities(alpha_diversities_individual)
+show.alpha_diversities(alpha_diversities_individual)
 
 ploter = show.create_ploter(sys.argv[4])
 
