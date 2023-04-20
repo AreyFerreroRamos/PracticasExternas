@@ -67,6 +67,7 @@ class Ploter(abc.ABC):
             self.set_boxplot(ax_box, alpha_diversities, specie, self.wild, self.captive)
             ax_box.set_ylim(0.0, 5.1)
     
+            self.mechanism = mechanism
             self.select_mechanism(ax_box, alpha_diversities, specie)
 
             ax_box.tick_params(axis='x', labelsize=8)
@@ -191,8 +192,8 @@ class SeabornPloter(Ploter):
 
         sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
     
-    def select_mechanism(self, ax_box, alpha_diversities, specie, mechanism='manual'):
-        if mechanism == 'automatic':
+    def select_mechanism(self, ax_box, alpha_diversities, specie):
+        if self.mechanism == 'automatic':
             statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(self.wild, self.captive)], test='t-test_ind', text_format='star')
         else:
             self.set_significance(ax_box, alpha_diversities, specie)
