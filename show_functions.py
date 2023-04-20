@@ -61,13 +61,13 @@ class Ploter(abc.ABC):
         for specie in alpha_diversities:
             ax_box = self.initialize_plot(row, column)
 
-            wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
-            captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
+            self.wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
+            self.captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
 
-            self.set_boxplot(ax_box, alpha_diversities, specie, wild, captive)
+            self.set_boxplot(ax_box, alpha_diversities, specie, self.wild, self.captive)
             ax_box.set_ylim(0.0, 5.1)
     
-            self.select_mechanism(mechanism, ax_box, alpha_diversities, specie, wild, captive)
+            self.select_mechanism(ax_box, alpha_diversities, specie)
 
             ax_box.tick_params(axis='x', labelsize=8)
             ax_box.tick_params(axis='y', labelsize=8)
@@ -101,7 +101,7 @@ class Ploter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def select_mechanism(self, mechanism, ax_box, alpha_diversities, specie, wild, captive):
+    def select_mechanism(self, ax_box, alpha_diversities, specie):
         pass
 
     def set_significance(self, ax_box, alpha_diversities, specie):
@@ -151,7 +151,7 @@ class PyplotPloter(Ploter):
     def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
         self.bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=[wild, captive])
 
-    def select_mechanism(self, mechanism, ax_box, alpha_diversities, specie, wild, captive):
+    def select_mechanism(self, ax_box, alpha_diversities, specie):
         self.set_significance(ax_box, alpha_diversities, specie)
 
     def set_line_significance(self, ax_box, yrange):
@@ -191,11 +191,11 @@ class SeabornPloter(Ploter):
 
         sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
     
-    def select_mechanism(self, mechanism, ax_box, alpha_diversities, specie, wild, captive):
-        if mechanism == "manual":
-            self.set_significance(ax_box, alpha_diversities, specie)
+    def select_mechanism(self, ax_box, alpha_diversities, specie, mechanism='manual'):
+        if mechanism == 'automatic':
+            statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(self.wild, self.captive)], test='t-test_ind', text_format='star')
         else:
-            self.set_significance_semiautomatic(ax_box, wild, captive)
+            self.set_significance(ax_box, alpha_diversities, specie)
 
     def set_line_significance(self, ax_box, yrange):
         xl = ax_box.lines[3].get_xdata().mean()
@@ -204,9 +204,6 @@ class SeabornPloter(Ploter):
         yu = yd + yrange
 
         return xl, xr, yd, yu
-
-    def set_significance_semiautomatic(self, ax_box, wild, captive):
-        statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(wild, captive)], test='t-test_ind', text_format='star')
 
     def get_nrows(self):
         return self.axes.shape[0]
