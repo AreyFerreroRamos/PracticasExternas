@@ -11,11 +11,11 @@ def alpha_diversities_sample_type(alpha_diversities, sample_type):
     print(sample_type)
     for specie in alpha_diversities:
         print(specie, alpha_diversities[specie][sample_type])
+    print()
 
 
 def alpha_diversities(alpha_diversities):
     alpha_diversities_sample_type(alpha_diversities, 'Wild')
-    print()
     alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
