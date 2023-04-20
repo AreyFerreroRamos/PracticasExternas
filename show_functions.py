@@ -19,6 +19,12 @@ def alpha_diversities(alpha_diversities):
     alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
+def create_ploter(library):
+    if library == "seaborn":
+        return SeabornPloter()
+    return PyplotPloter()
+
+
 class Ploter(abc.ABC):
     def get_name_specie(self, specie, name_file_codes_vertebrates):
         f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')

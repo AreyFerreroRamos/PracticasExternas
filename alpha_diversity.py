@@ -67,12 +67,7 @@ calculation.t_test(alpha_diversities_individual)
 
 #show.alpha_diversities(alpha_diversities_individual)
 
-if sys.argv[4] == "pyplot":
-    ploter = show.PyplotPloter()
-elif sys.argv[4] == "seaborn":
-    ploter = show.SeabornPloter()
-else:
-    ploter = show.PyplotPloter()
+ploter = show.create_ploter(sys.argv[4])
 
 print("Total zeros: "+str(round(num_zeros / num_genus * 100, 2))+"%.")
 ploter.histogram(support.to_array(relative_abundances))
