@@ -19,7 +19,8 @@ if not os.path.isfile(sys.argv[2]):
     exit()
 
 if not os.path.isfile(sys.argv[3]):
-    print("Error: The third parameter must be a file with a list of the scientific name that corresponds to the code that identifies a vertebrate species.")
+    print("Error: The third parameter must be a file with a list of the scientific name that corresponds to the code "
+          "that identifies a vertebrate species.")
     exit()
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)

@@ -4,7 +4,8 @@ import math
 
 def t_test(alpha_diversities):
     for specie in alpha_diversities:
-        t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'], equal_var=False)
+        t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'],
+                                          equal_var=False)
         alpha_diversities[specie]['t_stat'] = t_stat
         alpha_diversities[specie]['p_value'] = p_value
 
