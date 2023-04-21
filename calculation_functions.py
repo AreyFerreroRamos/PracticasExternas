@@ -10,6 +10,20 @@ def t_test(alpha_diversities):
         alpha_diversities[specie]['p_value'] = p_value
 
 
+def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_individuals_wild, num_individuals_captivity):
+    num_genus = 0
+    while num_genus < matrix_vertebrate_genus.shape[1]:
+        if num_individuals_wild != 0:
+            matrix_vertebrate_genus[num_specie][num_genus] /= num_individuals_wild
+        else:
+            matrix_vertebrate_genus[num_specie][num_genus] = 0
+        if num_individuals_captivity != 0:
+            matrix_vertebrate_genus[num_specie + 1][num_genus] /= num_individuals_captivity
+        else:
+            matrix_vertebrate_genus[num_specie + 1][num_genus] = 0
+        num_genus += 1
+
+
 def normalize_relative_abundances(relative_abundances, num_individuals):
     for bacterial_genus in relative_abundances:    
         relative_abundances[bacterial_genus] /= num_individuals
