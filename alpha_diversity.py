@@ -35,7 +35,7 @@ relative_abundances = {}
 for bacterial_genus in df_vertebrates.index:
     relative_abundances[bacterial_genus] = 0
 
-num_zeros = num_abundances = num_individuals = 0
+num_zeros = num_abundances = num_individuals = num_genus = 0
 
 for individual in df_vertebrates: 
     row = 1
@@ -51,10 +51,10 @@ for individual in df_vertebrates:
 
     num_bacterial_species_per_individual = alpha_diversity = pos = 0
 
-    num_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
-        num_genus += 1
+        if matrix_individuals_genus.size == 0:
+            num_genus += 1
 
     if matrix_individuals_genus.size == 0:
         matrix_individuals_genus.resize((1, num_genus))
@@ -86,5 +86,3 @@ for individual in df_vertebrates:
 # print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
 # ploter.histogram(support.to_array(relative_abundances))
 # ploter.boxplot(alpha_diversities_individual, sys.argv[3])
-
-print(matrix_individuals_genus[0, 10])
