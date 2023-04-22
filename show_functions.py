@@ -20,12 +20,6 @@ def alpha_diversities(alpha_diversities):
     alpha_diversities_sample_type(alpha_diversities, 'Captivity')
 
 
-def create_ploter(library):
-    if library == "seaborn":
-        return SeabornPloter()
-    return PyplotPloter()
-
-
 class Ploter(abc.ABC):
     def get_name_specie(self, specie, name_file_codes_vertebrates):
         f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
@@ -141,12 +135,20 @@ class Ploter(abc.ABC):
     def set_suptitle(self):
         pass
 
+    def dendrogram(self, matrix, x_label):
+        dendrogram(matrix)
+
+        plt.title('Dendrogram')
+        plt.ylabel('Distance')
+        plt.xlabel(x_label)
+        plt.show()
+
     def clustermap(self, matrix):
         self.set_clustermap(matrix)
         plt.show()
 
     @abc.abstractmethod
-    def set_clustermap(self):
+    def set_clustermap(self, matrix):
         pass
 
 
@@ -187,8 +189,8 @@ class PyplotPloter(Ploter):
     def set_suptitle(self):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
-    def set_clustermap(self, clustered_matrix):
-        dendrogram(clustered_matrix)
+    def set_clustermap(self, matrix):
+        dendrogram(matrix)
 
 
 class SeabornPloter(Ploter):
@@ -233,5 +235,5 @@ class SeabornPloter(Ploter):
     def set_suptitle(self):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
 
-    def clustermap(self, matrix):
+    def set_clustermap(self, matrix):
         sns.clustermap(matrix, method='ward', cmap='viridis')
