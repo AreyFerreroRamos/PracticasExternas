@@ -141,7 +141,16 @@ class Ploter(abc.ABC):
         plt.title('Dendrogram')
         plt.ylabel('Distance')
         plt.xlabel(x_label)
+
         plt.show()
+
+    def heatmap(self, matrix):
+        self.set_heatmap(matrix)
+        plt.show()
+
+    @abc.abstractmethod
+    def set_heatmap(self, matrix):
+        pass
 
     def clustermap(self, matrix):
         self.set_clustermap(matrix)
@@ -189,6 +198,10 @@ class PyplotPloter(Ploter):
     def set_suptitle(self):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
+    def set_heatmap(self, matrix):
+        plt.imshow(matrix, cmap='viridis')
+        plt.colorbar()
+
     def set_clustermap(self, matrix):
         dendrogram(matrix)
 
@@ -234,6 +247,9 @@ class SeabornPloter(Ploter):
 
     def set_suptitle(self):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
+
+    def set_heatmap(self, matrix):
+        sns.heatmap(matrix, cmap='viridis')
 
     def set_clustermap(self, matrix):
         sns.clustermap(matrix, method='ward', cmap='viridis')

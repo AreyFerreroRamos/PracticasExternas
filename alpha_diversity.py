@@ -100,9 +100,10 @@ calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_spe
 
 # show.alpha_diversities(alpha_diversities_individual)
 
+matrix_individuals_genus = calculation.hierarchical_clustering(matrix_individuals_genus)
+matrix_vertebrates_genus = calculation.hierarchical_clustering(matrix_vertebrates_genus)
+
 if sys.argv[4] == "" or sys.argv[4] == "pyplot":
-    matrix_individuals_genus = calculation.hierarchical_clustering(matrix_individuals_genus)
-    matrix_vertebrates_genus = calculation.hierarchical_clustering(matrix_vertebrates_genus)
     ploter = show.PyplotPloter()
 else:
     ploter = show.SeabornPloter()
@@ -111,8 +112,11 @@ else:
 # ploter.histogram(support.to_array(relative_abundances))
 # ploter.boxplot(alpha_diversities_individual, sys.argv[3])
 
-ploter.dendrogram(matrix_individuals_genus, 'Individuals')
-ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+# ploter.dendrogram(matrix_individuals_genus, 'Individuals')
+# ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+
+ploter.heatmap(matrix_individuals_genus)
+ploter.heatmap(matrix_vertebrates_genus)
 
 # ploter.clustermap(matrix_individuals_genus)
 # ploter.clustermap(matrix_vertebrates_genus)
