@@ -152,12 +152,12 @@ class Ploter(abc.ABC):
     def set_heatmap(self, matrix):
         pass
 
-    def clustermap(self, matrix):
-        self.set_clustermap(matrix)
+    def cluster_map(self, matrix):
+        self.set_cluster_map(matrix)
         plt.show()
 
     @abc.abstractmethod
-    def set_clustermap(self, matrix):
+    def set_cluster_map(self, matrix):
         pass
 
 
@@ -202,8 +202,14 @@ class PyplotPloter(Ploter):
         plt.imshow(matrix, cmap='viridis')
         plt.colorbar()
 
-    def set_clustermap(self, matrix):
-        dendrogram(matrix)
+    def set_cluster_map(self, matrix):
+        plt.figure(figsize=(5, 5))
+        dn = dendrogram(matrix)
+        plt.axis('off')
+
+        plt.figure(figsize=(5, 5))
+        plt.pcolormesh(matrix[dn['leaves'], :], cmap='viridis')
+        plt.axis('off')
 
 
 class SeabornPloter(Ploter):
@@ -251,5 +257,5 @@ class SeabornPloter(Ploter):
     def set_heatmap(self, matrix):
         sns.heatmap(matrix, cmap='viridis')
 
-    def set_clustermap(self, matrix):
-        sns.clustermap(matrix, method='ward', cmap='viridis')
+    def set_cluster_map(self, matrix):
+        sns.clustermap(matrix, cmap='viridis')
