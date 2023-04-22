@@ -36,7 +36,7 @@ relative_abundances = {}
 for bacterial_genus in df_vertebrates.index:
     relative_abundances[bacterial_genus] = 0
 
-num_zeros = num_abundances = num_individuals = num_genus = num_species = 0
+num_zeros = num_abundances = num_individuals = num_genus = num_species = num_wild = num_captivity = 0
 
 for individual in df_vertebrates: 
     row = 1
@@ -50,7 +50,7 @@ for individual in df_vertebrates:
     num_bacterial_species_per_individual = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         num_bacterial_species_per_individual += num_bacterial_species_per_genus
-        if matrix_individuals_genus.size == 0:
+        if df_vertebrates.columns.get_loc(individual) == 0:
             num_genus += 1
 
     if matrix_individuals_genus.size == 0:
@@ -63,15 +63,16 @@ for individual in df_vertebrates:
         if matrix_vertebrates_genus.size == 0:
             matrix_vertebrates_genus.resize((2, num_genus))
         else:
-            calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_individuals_wild,
-                                                           num_individuals_captivity)
+            calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild,
+                                                           num_captivity)
             num_species += 2
+            num_wild = num_captivity = 0
             matrix_vertebrates_genus.resize((matrix_vertebrates_genus.shape[0] + 2, matrix_vertebrates_genus.shape[1]))
 
-    alpha_diversity = pos = column_genus = num_individuals_wild = num_individuals_captivity = 0
+    alpha_diversity = pos = column_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
         relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
-        if num_bacterial_species_per_genus != 0:
+        if relative_abundance != 0:
             alpha_diversity += relative_abundance * math.log(relative_abundance)
             relative_abundances[df_vertebrates.index[pos]] += relative_abundance
         else:
@@ -80,17 +81,17 @@ for individual in df_vertebrates:
         pos += 1
 
         matrix_individuals_genus[num_individuals][column_genus] = relative_abundance
-        if sample_type == 'Wild':
-            matrix_vertebrates_genus[num_species][column_genus] += relative_abundance
-            num_individuals_wild += 1
-        else:
-            matrix_vertebrates_genus[num_species][column_genus] += relative_abundance
-            num_individuals_captivity += 1
+        matrix_vertebrates_genus[num_species + support.offset(sample_type)][column_genus] += relative_abundance
         column_genus += 1
 
+    if sample_type == 'Wild':
+        num_wild += 1
+    else:
+        num_captivity += 1
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
+calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
 # calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 # calculation.t_test(alpha_diversities_individual)
 

@@ -1,6 +1,13 @@
 import numpy as np
 
 
+def offset(sample_type):
+    if sample_type == 'Wild':
+        return 0
+    else:
+        return 1
+
+
 def to_array(dictionary):
     array = []
     
