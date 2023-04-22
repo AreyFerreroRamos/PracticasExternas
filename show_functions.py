@@ -1,6 +1,7 @@
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
+from scipy.cluster.hierarchy import dendrogram
 import seaborn as sns
 import pandas as pd
 import statannot
@@ -140,6 +141,14 @@ class Ploter(abc.ABC):
     def set_suptitle(self):
         pass
 
+    def clustermap(self, matrix):
+        self.set_clustermap(matrix)
+        plt.show()
+
+    @abc.abstractmethod
+    def set_clustermap(self):
+        pass
+
 
 class PyplotPloter(Ploter):
     def set_histogram(self, relative_abundances):
@@ -177,6 +186,9 @@ class PyplotPloter(Ploter):
 
     def set_suptitle(self):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
+
+    def set_clustermap(self, clustered_matrix):
+        dendrogram(clustered_matrix)
 
 
 class SeabornPloter(Ploter):
@@ -220,3 +232,6 @@ class SeabornPloter(Ploter):
 
     def set_suptitle(self):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
+
+    def clustermap(self, matrix):
+        sns.clustermap(matrix, method='ward', cmap='viridis')

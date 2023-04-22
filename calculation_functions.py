@@ -1,3 +1,4 @@
+from scipy.cluster.hierarchy import linkage
 from scipy import stats
 import math
 
@@ -8,6 +9,10 @@ def t_test(alpha_diversities):
                                           equal_var=False)
         alpha_diversities[specie]['t_stat'] = t_stat
         alpha_diversities[specie]['p_value'] = p_value
+
+
+def hierarchical_clustering(matrix):
+    return linkage(matrix)
 
 
 def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_individuals_wild, num_individuals_captivity):

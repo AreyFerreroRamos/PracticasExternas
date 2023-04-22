@@ -7,6 +7,10 @@ import math
 import sys
 import os
 
+from scipy.cluster.hierarchy import linkage, dendrogram
+from matplotlib import pyplot as plt
+import seaborn as sns
+
 if len(sys.argv) != 5:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
@@ -92,13 +96,21 @@ for individual in df_vertebrates:
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
 calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
+
 # calculation.normalize_relative_abundances(relative_abundances, num_individuals)
+
 # calculation.t_test(alpha_diversities_individual)
+
+matrix_individuals_genus_clustered = calculation.hierarchical_clustering(matrix_individuals_genus)
+matrix_vertebrates_genus_clustered = calculation.hierarchical_clustering(matrix_vertebrates_genus)
 
 # show.alpha_diversities(alpha_diversities_individual)
 
-# ploter = show.create_ploter(sys.argv[4])
+ploter = show.create_ploter(sys.argv[4])
 
 # print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
 # ploter.histogram(support.to_array(relative_abundances))
 # ploter.boxplot(alpha_diversities_individual, sys.argv[3])
+
+ploter.clustermap(matrix_individuals_genus_clustered)
+ploter.clustermap(matrix_vertebrates_genus_clustered)
