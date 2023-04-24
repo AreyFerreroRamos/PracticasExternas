@@ -212,20 +212,21 @@ class PyplotPloter(Ploter):
     def set_cluster_map(self, matrix):
         matrix = calculation.hierarchical_clustering(matrix)
 
-        spec = gridspec.GridSpec(nrows=1, ncols=2)
+        figure = plt.figure()
+        spec = gridspec.GridSpec(nrows=1, ncols=2, figure=figure)
 
-        plt.subplot(spec[0, 0])
+        ax_dendrogram = figure.add_subplot(spec[0, 0])
         dendrogram(matrix, orientation='left')
-        plt.axis('off')
+        ax_dendrogram.axis('off')
 
         # ll = leaves_list(matrix)
         # idx = np.array(ll, dtype=int) - 1
         # matrix = matrix[idx, :]
         # matrix = matrix[:, idx]
 
-        plt.subplot(spec[0, 1])
-        plt.imshow(matrix, cmap='viridis')
-        plt.colorbar()
+        ax_heatmap = figure.add_subplot(spec[0, 1])
+        heatmap = ax_heatmap.imshow(matrix, cmap='viridis')
+        plt.colorbar(heatmap)
 
 
 class SeabornPloter(Ploter):
