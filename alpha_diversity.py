@@ -115,8 +115,8 @@ else:
 # ploter.dendrogram(matrix_individuals_genus, 'Individuals')
 # ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
 
-# ploter.heatmap(matrix_individuals_genus)
-# ploter.heatmap(matrix_vertebrates_genus)
+ploter.heatmap(matrix_individuals_genus)
+ploter.heatmap(matrix_vertebrates_genus)
 
-ploter.cluster_map(matrix_individuals_genus)
-ploter.cluster_map(matrix_vertebrates_genus)
+# ploter.cluster_map(matrix_individuals_genus)
+# ploter.cluster_map(matrix_vertebrates_genus)

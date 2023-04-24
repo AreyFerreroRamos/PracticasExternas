@@ -1,9 +1,10 @@
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
-from scipy.cluster.hierarchy import dendrogram
+from scipy.cluster.hierarchy import dendrogram, leaves_list
 import seaborn as sns
 import pandas as pd
+import numpy as np
 import statannot
 import abc
 
@@ -199,6 +200,11 @@ class PyplotPloter(Ploter):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, matrix):
+        # ll = leaves_list(matrix)
+        # idx = np.array(ll)
+        # matrix = matrix[idx, :]
+        # matrix = matrix[:, idx]
+
         plt.imshow(matrix, cmap='viridis')
         plt.colorbar()
 
