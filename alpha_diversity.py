@@ -100,9 +100,6 @@ calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_spe
 
 # show.alpha_diversities(alpha_diversities_individual)
 
-matrix_individuals_genus = calculation.hierarchical_clustering(matrix_individuals_genus)
-matrix_vertebrates_genus = calculation.hierarchical_clustering(matrix_vertebrates_genus)
-
 if sys.argv[4] == "" or sys.argv[4] == "pyplot":
     ploter = show.PyplotPloter()
 else:
@@ -115,8 +112,8 @@ else:
 # ploter.dendrogram(matrix_individuals_genus, 'Individuals')
 # ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
 
-ploter.heatmap(matrix_individuals_genus)
-ploter.heatmap(matrix_vertebrates_genus)
+# ploter.heatmap(matrix_individuals_genus)
+# ploter.heatmap(matrix_vertebrates_genus)
 
-# ploter.cluster_map(matrix_individuals_genus)
-# ploter.cluster_map(matrix_vertebrates_genus)
+ploter.cluster_map(matrix_individuals_genus)
+ploter.cluster_map(matrix_vertebrates_genus)

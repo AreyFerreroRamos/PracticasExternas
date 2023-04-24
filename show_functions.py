@@ -1,3 +1,4 @@
+import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
@@ -137,7 +138,7 @@ class Ploter(abc.ABC):
         pass
 
     def dendrogram(self, matrix, x_label):
-        dendrogram(matrix)
+        dendrogram(calculation.hierarchical_clustering(matrix))
 
         plt.title('Dendrogram')
         plt.ylabel('Distance')
@@ -146,7 +147,7 @@ class Ploter(abc.ABC):
         plt.show()
 
     def heatmap(self, matrix):
-        self.set_heatmap(matrix)
+        self.set_heatmap(calculation.hierarchical_clustering(matrix))
         plt.show()
 
     @abc.abstractmethod
@@ -210,7 +211,7 @@ class PyplotPloter(Ploter):
 
     def set_cluster_map(self, matrix):
         plt.figure(figsize=(5, 5))
-        dn = dendrogram(matrix)
+        dn = dendrogram(calculation.hierarchical_clustering(matrix))
         plt.axis('off')
 
         plt.figure(figsize=(5, 5))
