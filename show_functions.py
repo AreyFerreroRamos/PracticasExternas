@@ -210,13 +210,22 @@ class PyplotPloter(Ploter):
         plt.colorbar()
 
     def set_cluster_map(self, matrix):
-        plt.figure(figsize=(5, 5))
-        dn = dendrogram(calculation.hierarchical_clustering(matrix))
+        matrix = calculation.hierarchical_clustering(matrix)
+
+        spec = gridspec.GridSpec(nrows=1, ncols=2)
+
+        plt.subplot(spec[0, 0])
+        dendrogram(matrix, orientation='left')
         plt.axis('off')
 
-        plt.figure(figsize=(5, 5))
-        plt.pcolormesh(matrix[dn['leaves'], :], cmap='viridis')
-        plt.axis('off')
+        # ll = leaves_list(matrix)
+        # idx = np.array(ll, dtype=int) - 1
+        # matrix = matrix[idx, :]
+        # matrix = matrix[:, idx]
+
+        plt.subplot(spec[0, 1])
+        plt.imshow(matrix, cmap='viridis')
+        plt.colorbar()
 
 
 class SeabornPloter(Ploter):
