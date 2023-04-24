@@ -8,7 +8,7 @@ import sys
 import os
 
 
-if len(sys.argv) != 5:
+if len(sys.argv) != 6:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -94,9 +94,8 @@ for individual in df_vertebrates:
 
 calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
 
-# calculation.normalize_relative_abundances(relative_abundances, num_individuals)
-
-# calculation.t_test(alpha_diversities_individual)
+calculation.normalize_relative_abundances(relative_abundances, num_individuals)
+calculation.t_test(alpha_diversities_individual)
 
 # show.alpha_diversities(alpha_diversities_individual)
 
@@ -105,15 +104,17 @@ if sys.argv[4] == "" or sys.argv[4] == "pyplot":
 else:
     ploter = show.SeabornPloter()
 
-# print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
-# ploter.histogram(support.to_array(relative_abundances))
-# ploter.boxplot(alpha_diversities_individual, sys.argv[3])
-
-# ploter.dendrogram(matrix_individuals_genus, 'Individuals')
-# ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
-
-ploter.heatmap(matrix_individuals_genus)
-ploter.heatmap(matrix_vertebrates_genus)
-
-# ploter.cluster_map(matrix_individuals_genus)
-# ploter.cluster_map(matrix_vertebrates_genus)
+if sys.argv[5] == "histogram":
+    print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
+    ploter.histogram(support.to_array(relative_abundances))
+elif sys.argv[5] == "boxplot":
+    ploter.boxplot(alpha_diversities_individual, sys.argv[3])
+elif sys.argv[5] == "dendrogram":
+    ploter.dendrogram(matrix_individuals_genus, 'Individuals')
+    ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+elif sys.argv[5] == "heatmap":
+    ploter.heatmap(matrix_individuals_genus)
+    ploter.heatmap(matrix_vertebrates_genus)
+elif sys.argv[5] == "clustermap":
+    ploter.cluster_map(matrix_individuals_genus)
+    ploter.cluster_map(matrix_vertebrates_genus)
