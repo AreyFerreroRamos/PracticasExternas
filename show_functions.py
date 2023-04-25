@@ -2,10 +2,9 @@ import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
-from scipy.cluster.hierarchy import dendrogram, leaves_list
+from scipy.cluster.hierarchy import dendrogram
 import seaborn as sns
 import pandas as pd
-import numpy as np
 import statannot
 import abc
 
@@ -20,6 +19,12 @@ def alpha_diversities_sample_type(alpha_diversities, sample_type):
 def alpha_diversities(alpha_diversities):
     alpha_diversities_sample_type(alpha_diversities, 'Wild')
     alpha_diversities_sample_type(alpha_diversities, 'Captivity')
+
+
+def select_ploter(library):
+    if library == "matplotlib" or library == "pyplot":
+        return PyplotPloter()
+    return SeabornPloter()
 
 
 class Ploter(abc.ABC):
@@ -201,11 +206,6 @@ class PyplotPloter(Ploter):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, matrix):
-        # ll = leaves_list(matrix)
-        # idx = np.array(ll)
-        # matrix = matrix[idx, :]
-        # matrix = matrix[:, idx]
-
         plt.imshow(matrix, cmap='viridis')
         plt.colorbar()
 
@@ -218,11 +218,6 @@ class PyplotPloter(Ploter):
         ax_dendrogram = figure.add_subplot(spec[0, 0])
         dendrogram(matrix, orientation='left')
         ax_dendrogram.axis('off')
-
-        # ll = leaves_list(matrix)
-        # idx = np.array(ll, dtype=int) - 1
-        # matrix = matrix[idx, :]
-        # matrix = matrix[:, idx]
 
         ax_heatmap = figure.add_subplot(spec[0, 1])
         heatmap = ax_heatmap.imshow(matrix, cmap='viridis')

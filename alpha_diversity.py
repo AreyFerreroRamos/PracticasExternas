@@ -99,10 +99,7 @@ calculation.t_test(alpha_diversities_individual)
 
 # show.alpha_diversities(alpha_diversities_individual)
 
-if sys.argv[5] == "" or sys.argv[5] == "pyplot":
-    ploter = show.PyplotPloter()
-else:
-    ploter = show.SeabornPloter()
+ploter = show.select_ploter(sys.argv[5])
 
 if sys.argv[4] == "histogram":
     print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
