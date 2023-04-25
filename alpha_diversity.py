@@ -99,22 +99,22 @@ calculation.t_test(alpha_diversities_individual)
 
 # show.alpha_diversities(alpha_diversities_individual)
 
-if sys.argv[4] == "" or sys.argv[4] == "pyplot":
+if sys.argv[5] == "" or sys.argv[5] == "pyplot":
     ploter = show.PyplotPloter()
 else:
     ploter = show.SeabornPloter()
 
-if sys.argv[5] == "histogram":
+if sys.argv[4] == "histogram":
     print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
     ploter.histogram(support.to_array(relative_abundances))
-elif sys.argv[5] == "boxplot":
+elif sys.argv[4] == "boxplot":
     ploter.boxplot(alpha_diversities_individual, sys.argv[3])
-elif sys.argv[5] == "dendrogram":
+elif sys.argv[4] == "dendrogram":
     ploter.dendrogram(matrix_individuals_genus, 'Individuals')
     ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
-elif sys.argv[5] == "heatmap":
+elif sys.argv[4] == "heatmap":
     ploter.heatmap(matrix_individuals_genus)
     ploter.heatmap(matrix_vertebrates_genus)
-elif sys.argv[5] == "clustermap":
+elif sys.argv[4] == "clustermap":
     ploter.cluster_map(matrix_individuals_genus)
     ploter.cluster_map(matrix_vertebrates_genus)
