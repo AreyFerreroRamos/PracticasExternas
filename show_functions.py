@@ -152,11 +152,17 @@ class Ploter(abc.ABC):
         plt.show()
 
     def heatmap(self, matrix):
-        self.set_heatmap(matrix)
+        row_order = sch.leaves_list(calculation.hierarchical_clustering(matrix)) - 1
+        column_order = sch.leaves_list(calculation.hierarchical_clustering(matrix[:, row_order].T)) - 1
+
+        reordered_matrix = matrix[row_order, :]
+        reordered_matrix = reordered_matrix[:, column_order]
+
+        self.set_heatmap(reordered_matrix)
         plt.show()
 
     @abc.abstractmethod
-    def set_heatmap(self, matrix):
+    def set_heatmap(self, reordered_matrix):
         pass
 
     def cluster_map(self, matrix):
@@ -205,8 +211,8 @@ class PyplotPloter(Ploter):
     def set_suptitle(self):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
-    def set_heatmap(self, matrix):
-        plt.imshow(matrix, cmap='viridis')
+    def set_heatmap(self, reordered_matrix):
+        plt.imshow(reordered_matrix, cmap='viridis')
         plt.colorbar()
 
     def set_cluster_map(self, matrix):
@@ -266,13 +272,7 @@ class SeabornPloter(Ploter):
     def set_suptitle(self):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
 
-    def set_heatmap(self, matrix):
-        row_order = sch.leaves_list(calculation.hierarchical_clustering(matrix)) - 1
-        column_order = sch.leaves_list(calculation.hierarchical_clustering(matrix[:, row_order].T)) - 1
-
-        reordered_matrix = matrix[row_order, :]
-        reordered_matrix = reordered_matrix[:, column_order]
-
+    def set_heatmap(self, reordered_matrix):
         sns.heatmap(reordered_matrix, cmap='viridis')
 
     def set_cluster_map(self, matrix):
