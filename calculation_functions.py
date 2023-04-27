@@ -12,7 +12,7 @@ def t_test(alpha_diversities):
 
 
 def hierarchical_clustering(matrix):
-    return fastcluster.linkage(matrix)
+    return fastcluster.linkage(matrix, method='average', metric='euclidean')
 
 
 def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_individuals_wild, num_individuals_captivity):

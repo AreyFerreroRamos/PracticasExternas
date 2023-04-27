@@ -2,7 +2,7 @@ import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
-from scipy.cluster.hierarchy import dendrogram
+import scipy.cluster.hierarchy as sch
 import seaborn as sns
 import pandas as pd
 import statannot
@@ -143,7 +143,7 @@ class Ploter(abc.ABC):
         pass
 
     def dendrogram(self, matrix, x_label):
-        dendrogram(calculation.hierarchical_clustering(matrix))
+        sch.dendrogram(calculation.hierarchical_clustering(matrix))
 
         plt.title('Dendrogram')
         plt.ylabel('Distance')
@@ -152,7 +152,7 @@ class Ploter(abc.ABC):
         plt.show()
 
     def heatmap(self, matrix):
-        self.set_heatmap(calculation.hierarchical_clustering(matrix))
+        self.set_heatmap(matrix)
         plt.show()
 
     @abc.abstractmethod
@@ -216,7 +216,7 @@ class PyplotPloter(Ploter):
         spec = gridspec.GridSpec(nrows=1, ncols=2, figure=figure)
 
         ax_dendrogram = figure.add_subplot(spec[0, 0])
-        dendrogram(matrix, orientation='left')
+        sch.dendrogram(matrix, orientation='left')
         ax_dendrogram.axis('off')
 
         ax_heatmap = figure.add_subplot(spec[0, 1])
@@ -267,7 +267,15 @@ class SeabornPloter(Ploter):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, matrix):
-        sns.heatmap(matrix, cmap='viridis')
+        # row_order = sch.leaves_list(calculation.hierarchical_clustering(matrix)) - 1
+        # column_order = sch.leaves_list(calculation.hierarchical_clustering(matrix.T[:, row_order])) - 1
+
+        # reordered_matrix = matrix[row_order, :]
+        # reordered_matrix = reordered_matrix[:, column_order]
+
+        reordered_matrix = calculation.hierarchical_clustering(matrix)
+
+        sns.heatmap(reordered_matrix, cmap='viridis')
 
     def set_cluster_map(self, matrix):
-        sns.clustermap(matrix, cmap='viridis')
+        sns.clustermap(matrix, cmap='viridis', method='average', metric='euclidean')
