@@ -15,17 +15,20 @@ def hierarchical_clustering(matrix):
     return fastcluster.linkage(matrix, method='average', metric='euclidean')
 
 
-def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_individuals_wild, num_individuals_captivity):
+def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_individuals_wild,
+                                       num_individuals_captivity):
     num_genus = 0
     while num_genus < matrix_vertebrate_genus.shape[1]:
-        if num_individuals_wild != 0:
-            matrix_vertebrate_genus[num_specie][num_genus] /= num_individuals_wild
+        if num_individuals_wild != 0 and matrix_vertebrate_genus[num_specie][num_genus] > 0:
+            matrix_vertebrate_genus[num_specie][num_genus] = math.log(matrix_vertebrate_genus[num_specie][num_genus] /
+                                                                      num_individuals_wild, 10)
         else:
-            matrix_vertebrate_genus[num_specie][num_genus] = 0
-        if num_individuals_captivity != 0:
-            matrix_vertebrate_genus[num_specie + 1][num_genus] /= num_individuals_captivity
+            matrix_vertebrate_genus[num_specie][num_genus] = -10
+        if num_individuals_captivity != 0 and matrix_vertebrate_genus[num_specie][num_genus] > 0:
+            matrix_vertebrate_genus[num_specie + 1][num_genus] = math.log(matrix_vertebrate_genus[num_specie + 1]
+                                                                          [num_genus] / num_individuals_captivity, 10)
         else:
-            matrix_vertebrate_genus[num_specie + 1][num_genus] = 0
+            matrix_vertebrate_genus[num_specie + 1][num_genus] = -10
         num_genus += 1
 
 

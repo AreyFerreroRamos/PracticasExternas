@@ -81,7 +81,10 @@ for individual in df_vertebrates:
         num_abundances += 1
         pos += 1
 
-        matrix_individuals_genus[num_individuals][column_genus] = relative_abundance
+        if relative_abundance == 0:
+            matrix_individuals_genus[num_individuals][column_genus] = -10
+        else:
+            matrix_individuals_genus[num_individuals][column_genus] = math.log(relative_abundance, 10)
         matrix_vertebrates_genus[num_species + support.offset(sample_type)][column_genus] += relative_abundance
         column_genus += 1
 
