@@ -267,13 +267,11 @@ class SeabornPloter(Ploter):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, matrix):
-        # row_order = sch.leaves_list(calculation.hierarchical_clustering(matrix)) - 1
-        # column_order = sch.leaves_list(calculation.hierarchical_clustering(matrix.T[:, row_order])) - 1
+        row_order = sch.leaves_list(calculation.hierarchical_clustering(matrix)) - 1
+        column_order = sch.leaves_list(calculation.hierarchical_clustering(matrix[:, row_order].T)) - 1
 
-        # reordered_matrix = matrix[row_order, :]
-        # reordered_matrix = reordered_matrix[:, column_order]
-
-        reordered_matrix = calculation.hierarchical_clustering(matrix)
+        reordered_matrix = matrix[row_order, :]
+        reordered_matrix = reordered_matrix[:, column_order]
 
         sns.heatmap(reordered_matrix, cmap='viridis')
 
