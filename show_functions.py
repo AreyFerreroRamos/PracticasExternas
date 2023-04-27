@@ -212,7 +212,7 @@ class PyplotPloter(Ploter):
         plt.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, reordered_matrix):
-        plt.imshow(reordered_matrix, cmap='viridis')
+        plt.imshow(reordered_matrix)
         plt.colorbar()
 
     def set_cluster_map(self, matrix):
@@ -226,7 +226,7 @@ class PyplotPloter(Ploter):
         ax_dendrogram.axis('off')
 
         ax_heatmap = figure.add_subplot(spec[0, 1])
-        heatmap = ax_heatmap.imshow(matrix, cmap='viridis')
+        heatmap = ax_heatmap.imshow(matrix)
         plt.colorbar(heatmap)
 
 
@@ -273,7 +273,7 @@ class SeabornPloter(Ploter):
         self.figure.suptitle("Bacterial genus diversity in vertebrate species")
 
     def set_heatmap(self, reordered_matrix):
-        sns.heatmap(reordered_matrix, cmap='viridis')
+        sns.heatmap(reordered_matrix)
 
     def set_cluster_map(self, matrix):
-        sns.clustermap(matrix, cmap='viridis', method='average', metric='euclidean')
+        sns.clustermap(matrix, method='average', metric='euclidean')
