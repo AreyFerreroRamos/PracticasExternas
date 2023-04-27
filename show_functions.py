@@ -189,7 +189,8 @@ class PyplotPloter(Ploter):
         return self.figure.add_subplot(self.spec[row, column])
 
     def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
-        self.bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']], labels=[wild, captive])
+        self.bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']],
+                                 labels=[wild, captive])
 
     def select_mechanism(self, ax_box, alpha_diversities, specie):
         self.set_significance(ax_box, alpha_diversities, specie)
@@ -232,7 +233,8 @@ class PyplotPloter(Ploter):
 
 class SeabornPloter(Ploter):
     def set_histogram(self, relative_abundances):
-        ax_hist = sns.histplot(data=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
+        ax_hist = sns.histplot(data=relative_abundances,
+                               bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
 
     def initialize_grid(self):
@@ -251,7 +253,8 @@ class SeabornPloter(Ploter):
     
     def select_mechanism(self, ax_box, alpha_diversities, specie):
         if self.mechanism == 'automatic':
-            statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(self.wild, self.captive)], test='t-test_ind', text_format='star')
+            statannot.add_stat_annotation(ax=ax_box, data=self.data_df, box_pairs=[(self.wild, self.captive)],
+                                          test='t-test_ind', text_format='star')
         else:
             self.set_significance(ax_box, alpha_diversities, specie)
 
