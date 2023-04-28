@@ -64,8 +64,7 @@ for individual in df_vertebrates:
         if matrix_vertebrates_genus.size == 0:
             matrix_vertebrates_genus.resize((2, num_genus))
         else:
-            calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild,
-                                                           num_captivity)
+            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
             num_species += 2
             num_wild = num_captivity = 0
             matrix_vertebrates_genus.resize((matrix_vertebrates_genus.shape[0] + 2, matrix_vertebrates_genus.shape[1]))
@@ -95,7 +94,7 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-calculation.normalize_matrix_vertebrates_genus(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
+calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
 
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 calculation.t_test(alpha_diversities_individual)
