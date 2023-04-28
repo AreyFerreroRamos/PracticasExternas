@@ -24,7 +24,7 @@ def normalize_matrix_vertebrates_genus(matrix_vertebrate_genus, num_specie, num_
                                                                       num_individuals_wild, 10)
         else:
             matrix_vertebrate_genus[num_specie][num_genus] = -10
-        if num_individuals_captivity != 0 and matrix_vertebrate_genus[num_specie][num_genus] > 0:
+        if num_individuals_captivity != 0 and matrix_vertebrate_genus[num_specie + 1][num_genus] > 0:
             matrix_vertebrate_genus[num_specie + 1][num_genus] = math.log(matrix_vertebrate_genus[num_specie + 1]
                                                                           [num_genus] / num_individuals_captivity, 10)
         else:
