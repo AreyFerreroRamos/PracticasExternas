@@ -181,7 +181,7 @@ class PyplotPloter(Ploter):
         return ax_hist
 
     def initialize_grid(self):
-        self.figure = plt.figure()
+        self.figure = plt.figure(figsize=(11.5, 8.5))
         self.spec = gridspec.GridSpec(nrows=5, ncols=5, figure=self.figure)
         self.spec.update(hspace=0.5)
 
