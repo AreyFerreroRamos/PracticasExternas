@@ -176,7 +176,7 @@ class Ploter(abc.ABC):
 
 class PyplotPloter(Ploter):
     def set_histogram(self, relative_abundances):
-        ax_hist = plt.figure().add_subplot()
+        ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
         ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
 
@@ -233,6 +233,7 @@ class PyplotPloter(Ploter):
 
 class SeabornPloter(Ploter):
     def set_histogram(self, relative_abundances):
+        plt.figure(figsize=(11, 8.5))
         ax_hist = sns.histplot(data=relative_abundances,
                                bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
