@@ -238,7 +238,7 @@ class SeabornPloter(Ploter):
         return ax_hist
 
     def initialize_grid(self):
-        self.figure, self.axes = plt.subplots(nrows=5, ncols=5)
+        self.figure, self.axes = plt.subplots(nrows=5, ncols=5, figsize=(11.5, 8.5))
         plt.subplots_adjust(hspace=0.5)
 
     def initialize_plot(self, row, column):
