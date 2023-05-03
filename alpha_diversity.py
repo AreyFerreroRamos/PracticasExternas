@@ -31,7 +31,7 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 alpha_diversities_individual = {}
 
 matrix_individuals_genus = np.empty((0, 0))
-matrix_vertebrates_genus = np.empty((0, 0))
+matrix_vertebrates_genus_sample_type = np.empty((0, 0))
 
 relative_abundances = {}
 for bacterial_genus in df_vertebrates.index:
@@ -61,13 +61,15 @@ for individual in df_vertebrates:
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
-        if matrix_vertebrates_genus.size == 0:
-            matrix_vertebrates_genus.resize((2, num_genus))
+        if matrix_vertebrates_genus_sample_type.size == 0:
+            matrix_vertebrates_genus_sample_type.resize((2, num_genus))
         else:
-            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
+            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus_sample_type, num_species, num_wild,
+                                                     num_captivity)
             num_species += 2
             num_wild = num_captivity = 0
-            matrix_vertebrates_genus.resize((matrix_vertebrates_genus.shape[0] + 2, matrix_vertebrates_genus.shape[1]))
+            matrix_vertebrates_genus_sample_type.resize((matrix_vertebrates_genus_sample_type.shape[0] + 2,
+                                                         matrix_vertebrates_genus_sample_type.shape[1]))
 
     alpha_diversity = pos = column_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -84,7 +86,8 @@ for individual in df_vertebrates:
             matrix_individuals_genus[num_individuals][column_genus] = -10
         else:
             matrix_individuals_genus[num_individuals][column_genus] = math.log(relative_abundance, 10)
-        matrix_vertebrates_genus[num_species + support.offset(sample_type)][column_genus] += relative_abundance
+        matrix_vertebrates_genus_sample_type[num_species +
+                                             support.offset(sample_type)][column_genus] += relative_abundance
         column_genus += 1
 
     if sample_type == 'Wild':
@@ -94,9 +97,11 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
+calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus_sample_type, num_species, num_wild, num_captivity)
+
 
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
+
 calculation.t_test(alpha_diversities_individual)
 
 # show.alpha_diversities(alpha_diversities_individual)
@@ -110,10 +115,10 @@ elif sys.argv[4] == "boxplot":
     ploter.boxplot(alpha_diversities_individual, sys.argv[3])
 elif sys.argv[4] == "dendrogram":
     ploter.dendrogram(matrix_individuals_genus, 'Individuals')
-    ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+    ploter.dendrogram(matrix_vertebrates_genus_sample_type, 'Vertebrate species')
 elif sys.argv[4] == "heatmap":
     ploter.heatmap(matrix_individuals_genus)
-    ploter.heatmap(matrix_vertebrates_genus)
+    ploter.heatmap(matrix_vertebrates_genus_sample_type)
 elif sys.argv[4] == "clustermap":
     ploter.cluster_map(matrix_individuals_genus)
-    ploter.cluster_map(matrix_vertebrates_genus)
+    ploter.cluster_map(matrix_vertebrates_genus_sample_type)

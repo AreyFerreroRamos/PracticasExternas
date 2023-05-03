@@ -16,11 +16,10 @@ def hierarchical_clustering(matrix):
 
 
 def normalize_matrix_vertebrates_sample_type(matrix_vertebrate_genus, num_specie, num_genus, num_individuals):
-    if num_individuals != 0 and matrix_vertebrate_genus[num_specie][num_genus] > 0:
-        matrix_vertebrate_genus[num_specie][num_genus] = math.log(matrix_vertebrate_genus[num_specie][num_genus] /
-                                                                  num_individuals, 10)
+    if num_individuals != 0:
+        matrix_vertebrate_genus[num_specie][num_genus] = matrix_vertebrate_genus[num_specie][num_genus] / num_individuals
     else:
-        matrix_vertebrate_genus[num_specie][num_genus] = -10
+        matrix_vertebrate_genus[num_specie][num_genus] = 0
 
 
 def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, num_captivity):
