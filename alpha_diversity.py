@@ -39,7 +39,7 @@ for bacterial_genus in df_vertebrates.index:
 
 num_zeros = num_abundances = num_individuals = num_genus = num_species = num_wild = num_captivity = 0
 
-for individual in df_vertebrates: 
+for individual in df_vertebrates:
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
@@ -98,6 +98,7 @@ for individual in df_vertebrates:
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
 calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus_sample_type, num_species, num_wild, num_captivity)
+calculation.log_matrix_vertebrates(matrix_vertebrates_genus_sample_type)
 
 
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)

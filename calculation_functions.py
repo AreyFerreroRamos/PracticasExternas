@@ -30,6 +30,20 @@ def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, 
         num_genus += 1
 
 
+def log_matrix_vertebrates(matrix_vertebrate_genus_sample_type):
+    num_specie_sample_type = 0
+    while num_specie_sample_type < matrix_vertebrate_genus_sample_type.shape[0]:
+        num_genus = 0
+        while num_genus < matrix_vertebrate_genus_sample_type.shape[1]:
+            if matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] > 0:
+                matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] = \
+                    math.log(matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus], 10)
+            else:
+                matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] = -10
+            num_genus += 1
+        num_specie_sample_type += 1
+
+
 def normalize_relative_abundances(relative_abundances, num_individuals):
     for bacterial_genus in relative_abundances:    
         relative_abundances[bacterial_genus] /= num_individuals
