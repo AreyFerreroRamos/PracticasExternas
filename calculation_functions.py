@@ -1,5 +1,6 @@
 from scipy import stats
 import fastcluster
+import numpy as np
 import math
 
 
@@ -42,6 +43,27 @@ def log_matrix_vertebrates(matrix_vertebrate_genus_sample_type):
                 matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] = -10
             num_genus += 1
         num_specie_sample_type += 1
+
+
+def generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type):
+    matrix_vertebrates_genus = np.empty((int(matrix_vertebrates_genus_sample_type.shape[0] / 2),
+                                         matrix_vertebrates_genus_sample_type.shape[1]))
+
+    num_genus = 0
+    while num_genus < matrix_vertebrates_genus_sample_type.shape[1]:
+        num_specie = 0
+        while num_specie < matrix_vertebrates_genus_sample_type.shape[0]:
+            if matrix_vertebrates_genus_sample_type[num_specie][num_genus] > 0 and \
+                    matrix_vertebrates_genus_sample_type[num_specie + 1][num_genus] > 0:
+                matrix_vertebrates_genus[int(num_specie / 2)][num_genus] = math.log(
+                    matrix_vertebrates_genus_sample_type[num_specie][num_genus] /
+                    matrix_vertebrates_genus_sample_type[num_specie + 1][num_genus], 10)
+            else:
+                matrix_vertebrates_genus[int(num_specie / 2)][num_genus] = 0
+            num_specie += 2
+        num_genus += 1
+
+    return matrix_vertebrates_genus
 
 
 def normalize_relative_abundances(relative_abundances, num_individuals):
