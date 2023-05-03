@@ -165,12 +165,12 @@ class Ploter(abc.ABC):
     def set_heatmap(self, reordered_matrix):
         pass
 
-    def cluster_map(self, matrix):
-        self.set_cluster_map(matrix)
+    def cluster_map(self, matrix, colour_map):
+        self.set_cluster_map(matrix, colour_map)
         plt.show()
 
     @abc.abstractmethod
-    def set_cluster_map(self, matrix):
+    def set_cluster_map(self, matrix, colour_map):
         pass
 
 
@@ -216,7 +216,7 @@ class PyplotPloter(Ploter):
         plt.imshow(reordered_matrix)
         plt.colorbar()
 
-    def set_cluster_map(self, matrix):
+    def set_cluster_map(self, matrix, colour_map):
         matrix = calculation.hierarchical_clustering(matrix)
 
         figure = plt.figure()
@@ -279,5 +279,8 @@ class SeabornPloter(Ploter):
     def set_heatmap(self, reordered_matrix):
         sns.heatmap(reordered_matrix)
 
-    def set_cluster_map(self, matrix):
-        sns.clustermap(matrix, method='average', metric='euclidean')
+    def set_cluster_map(self, matrix, colour_map):
+        if not colour_map:
+            sns.clustermap(matrix, method='average', metric='euclidean')
+        else:
+            sns.clustermap(matrix, cmap=colour_map, method='average', metric='euclidean', center=0)

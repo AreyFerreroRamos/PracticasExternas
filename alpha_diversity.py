@@ -122,6 +122,6 @@ elif sys.argv[4] == "heatmap":
     ploter.heatmap(matrix_individuals_genus)
     ploter.heatmap(matrix_vertebrates_genus_sample_type)
 elif sys.argv[4] == "clustermap":
-    ploter.cluster_map(matrix_individuals_genus)
-    ploter.cluster_map(matrix_vertebrates_genus_sample_type)
-    ploter.cluster_map(matrix_vertebrates_genus)
+    ploter.cluster_map(matrix_individuals_genus, '')
+    ploter.cluster_map(matrix_vertebrates_genus_sample_type, '')
+    ploter.cluster_map(matrix_vertebrates_genus, 'RdBu')
