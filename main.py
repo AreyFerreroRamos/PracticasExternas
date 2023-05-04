@@ -28,13 +28,13 @@ if not os.path.isfile(sys.argv[3]):
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
-alpha_diversities_individual = {}
-
-matrix_abundances = np.empty((0, 0))
-
 relative_abundances = {}
 for bacterial_genus in df_vertebrates.index:
     relative_abundances[bacterial_genus] = 0
+
+alpha_diversities_individual = {}
+
+matrix_abundances = np.empty((0, 0))
 
 num_zeros = num_abundances = num_individuals = num_genus = num_species = num_wild = num_captivity = 0
 

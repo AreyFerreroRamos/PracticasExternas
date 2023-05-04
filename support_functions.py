@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def offset(sample_type):
     if sample_type == 'Wild':
         return 0
