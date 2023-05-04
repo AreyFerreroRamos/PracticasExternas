@@ -91,34 +91,33 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-calculation.log_matrix(matrix_individuals_genus)
-# calculation.discretize_matrix(matrix_individuals_genus, 0.0000001)
+if sys.argv[4] == "alpha-diversities":
+    show.alpha_diversities(alpha_diversities_individual)
+else:
+    ploter = show.select_ploter(sys.argv[5])
+    if sys.argv[4] == "histogram":
+        calculation.normalize_relative_abundances(relative_abundances, num_individuals)
+        print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
+        ploter.histogram(support.to_array(relative_abundances))
+    elif sys.argv[4] == "boxplot":
+        calculation.t_test(alpha_diversities_individual)
+        ploter.boxplot(alpha_diversities_individual, sys.argv[3])
+    else:
+        calculation.log_matrix(matrix_individuals_genus)
+        # calculation.discretize_matrix(matrix_individuals_genus, 0.0000001)
 
-calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
-matrix_vertebrates_genus_log_fold = calculation.generate_matrix_vertebrates_genus(matrix_vertebrates_genus)
-calculation.log_matrix(matrix_vertebrates_genus)
-# calculation.discretize_matrix(matrix_vertebrates_genus, 0.0000001)
+        calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
+        matrix_vertebrates_genus_log_fold = calculation.generate_matrix_vertebrates_genus(matrix_vertebrates_genus)
+        calculation.log_matrix(matrix_vertebrates_genus)
+        # calculation.discretize_matrix(matrix_vertebrates_genus, 0.0000001)
 
-calculation.normalize_relative_abundances(relative_abundances, num_individuals)
-
-calculation.t_test(alpha_diversities_individual)
-
-# show.alpha_diversities(alpha_diversities_individual)
-
-ploter = show.select_ploter(sys.argv[5])
-
-if sys.argv[4] == "histogram":
-    print("Total zeros: "+str(round(num_zeros / num_abundances * 100, 2))+"%.")
-    ploter.histogram(support.to_array(relative_abundances))
-elif sys.argv[4] == "boxplot":
-    ploter.boxplot(alpha_diversities_individual, sys.argv[3])
-elif sys.argv[4] == "dendrogram":
-    ploter.dendrogram(matrix_individuals_genus, 'Individuals')
-    ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
-elif sys.argv[4] == "heatmap":
-    ploter.heatmap(matrix_individuals_genus)
-    ploter.heatmap(matrix_vertebrates_genus)
-elif sys.argv[4] == "clustermap":
-    ploter.cluster_map(matrix_individuals_genus, '')
-    ploter.cluster_map(matrix_vertebrates_genus, '')
-    # ploter.cluster_map(matrix_vertebrates_genus_log_fold, 'RdBu')
+        if sys.argv[4] == "dendrogram":
+            ploter.dendrogram(matrix_individuals_genus, 'Individuals')
+            ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+        elif sys.argv[4] == "heatmap":
+            ploter.heatmap(matrix_individuals_genus)
+            ploter.heatmap(matrix_vertebrates_genus)
+        elif sys.argv[4] == "clustermap":
+            ploter.cluster_map(matrix_individuals_genus, '')
+            ploter.cluster_map(matrix_vertebrates_genus, '')
+            # ploter.cluster_map(matrix_vertebrates_genus_log_fold, 'RdBu')
