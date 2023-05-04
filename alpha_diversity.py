@@ -8,7 +8,7 @@ import sys
 import os
 
 
-if len(sys.argv) != 6:
+if len(sys.argv) != 7:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
 
@@ -103,9 +103,7 @@ else:
         calculation.t_test(alpha_diversities_individual)
         ploter.boxplot(alpha_diversities_individual, sys.argv[3])
     else:
-
         calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
-        matrix_vertebrates_genus_log_fold = calculation.generate_matrix_vertebrates_genus(matrix_vertebrates_genus)
 
         if sys.argv[4] == "dendrogram":
             ploter.dendrogram(matrix_individuals_genus, 'Individuals')
@@ -125,7 +123,8 @@ else:
                 ploter.cluster_map(matrix_individuals_genus, 'viridis')
             elif sys.argv[5] == "discrete-vertebrates":
                 calculation.discretize_matrix(matrix_vertebrates_genus, 0.0000001)
-                ploter.cluster_map(matrix_individuals_genus, 'viridis')
+                ploter.cluster_map(matrix_vertebrates_genus, 'viridis')
             elif sys.argv[5] == "log-fold-vertebrates":
+                matrix_vertebrates_genus_log_fold = calculation.generate_log_fold_matrix(matrix_vertebrates_genus)
                 ploter.cluster_map(matrix_vertebrates_genus_log_fold, 'RdBu')
 

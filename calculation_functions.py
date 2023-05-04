@@ -57,7 +57,7 @@ def discretize_matrix(matrix, threshold):
         rows += 1
 
 
-def generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type):
+def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
     matrix_vertebrates_genus = np.empty((int(matrix_vertebrates_genus_sample_type.shape[0] / 2),
                                          matrix_vertebrates_genus_sample_type.shape[1]))
     num_genus = 0
