@@ -16,18 +16,18 @@ def hierarchical_clustering(matrix):
     return fastcluster.linkage(matrix, method='average', metric='euclidean')
 
 
-def normalize_matrix_vertebrates_sample_type(matrix_vertebrate_genus, num_specie, num_genus, num_individuals):
+def normalize_matrix(matrix, rows, columns, num_individuals):
     if num_individuals != 0:
-        matrix_vertebrate_genus[num_specie][num_genus] = matrix_vertebrate_genus[num_specie][num_genus] / num_individuals
+        matrix[rows][columns] = matrix[rows][columns] / num_individuals
     else:
-        matrix_vertebrate_genus[num_specie][num_genus] = 0
+        matrix[rows][columns] = 0
 
 
 def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, num_captivity):
     num_genus = 0
     while num_genus < matrix_vertebrate_genus.shape[1]:
-        normalize_matrix_vertebrates_sample_type(matrix_vertebrate_genus, num_specie, num_genus, num_wild)
-        normalize_matrix_vertebrates_sample_type(matrix_vertebrate_genus, num_specie + 1, num_genus, num_captivity)
+        normalize_matrix(matrix_vertebrate_genus, num_specie, num_genus, num_wild)
+        normalize_matrix(matrix_vertebrate_genus, num_specie + 1, num_genus, num_captivity)
         num_genus += 1
 
 
