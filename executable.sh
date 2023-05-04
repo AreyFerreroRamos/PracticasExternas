@@ -32,6 +32,6 @@ then
 	exit 5
 fi
 
-python3 alpha_diversity.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1" "$2" "$3"
+python3 main.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1" "$2" "$3"
 
 exit 0
