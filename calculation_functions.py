@@ -31,18 +31,17 @@ def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, 
         num_genus += 1
 
 
-def log_matrix_vertebrates(matrix_vertebrate_genus_sample_type):
-    num_specie_sample_type = 0
-    while num_specie_sample_type < matrix_vertebrate_genus_sample_type.shape[0]:
-        num_genus = 0
-        while num_genus < matrix_vertebrate_genus_sample_type.shape[1]:
-            if matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] > 0:
-                matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] = \
-                    math.log(matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus], 10)
+def log_matrix(matrix):
+    rows = 0
+    while rows < matrix.shape[0]:
+        columns = 0
+        while columns < matrix.shape[1]:
+            if matrix[rows][columns] > 0:
+                matrix[rows][columns] = math.log(matrix[rows][columns], 10)
             else:
-                matrix_vertebrate_genus_sample_type[num_specie_sample_type][num_genus] = -10
-            num_genus += 1
-        num_specie_sample_type += 1
+                matrix[rows][columns] = -10
+            columns += 1
+        rows += 1
 
 
 def generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type):

@@ -82,10 +82,7 @@ for individual in df_vertebrates:
         num_abundances += 1
         pos += 1
 
-        if relative_abundance == 0:
-            matrix_individuals_genus[num_individuals][column_genus] = -10
-        else:
-            matrix_individuals_genus[num_individuals][column_genus] = math.log(relative_abundance, 10)
+        matrix_individuals_genus[num_individuals][column_genus] = relative_abundance
         matrix_vertebrates_genus_sample_type[num_species +
                                              support.offset(sample_type)][column_genus] += relative_abundance
         column_genus += 1
@@ -97,10 +94,11 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
+calculation.log_matrix(matrix_individuals_genus)
+
 calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus_sample_type, num_species, num_wild, num_captivity)
 matrix_vertebrates_genus = calculation.generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type)
-calculation.log_matrix_vertebrates(matrix_vertebrates_genus_sample_type)
-
+calculation.log_matrix(matrix_vertebrates_genus_sample_type)
 
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 
@@ -124,4 +122,4 @@ elif sys.argv[4] == "heatmap":
 elif sys.argv[4] == "clustermap":
     ploter.cluster_map(matrix_individuals_genus, '')
     ploter.cluster_map(matrix_vertebrates_genus_sample_type, '')
-    ploter.cluster_map(matrix_vertebrates_genus, 'RdBu')
+    # ploter.cluster_map(matrix_vertebrates_genus, 'RdBu')
