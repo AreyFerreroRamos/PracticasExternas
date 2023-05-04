@@ -30,8 +30,7 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
 alpha_diversities_individual = {}
 
-matrix_individuals_genus = np.empty((0, 0))
-matrix_vertebrates_genus = np.empty((0, 0))
+matrix_abundances = np.empty((0, 0))
 
 relative_abundances = {}
 for bacterial_genus in df_vertebrates.index:
@@ -54,20 +53,22 @@ for individual in df_vertebrates:
         if df_vertebrates.columns.get_loc(individual) == 0:
             num_genus += 1
 
-    if matrix_individuals_genus.size == 0:
-        matrix_individuals_genus.resize((1, num_genus))
-    else:
-        matrix_individuals_genus.resize((matrix_individuals_genus.shape[0] + 1, matrix_individuals_genus.shape[1]))
+    if sys.argv[5].split('-')[0] == "individuals":
+        if matrix_abundances.size == 0:
+            matrix_abundances.resize((1, num_genus))
+        else:
+            matrix_abundances.resize((matrix_abundances.shape[0] + 1, matrix_abundances.shape[1]))
 
     if specie not in alpha_diversities_individual:
         alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
-        if matrix_vertebrates_genus.size == 0:
-            matrix_vertebrates_genus.resize((2, num_genus))
-        else:
-            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
-            num_species += 2
-            num_wild = num_captivity = 0
-            matrix_vertebrates_genus.resize((matrix_vertebrates_genus.shape[0] + 2, matrix_vertebrates_genus.shape[1]))
+        if sys.argv[5].split('-')[0] == "vertebrates":
+            if matrix_abundances.size == 0:
+                matrix_abundances.resize((2, num_genus))
+            else:
+                calculation.normalize_matrix_vertebrates(matrix_abundances, num_species, num_wild, num_captivity)
+                num_species += 2
+                num_wild = num_captivity = 0
+                matrix_abundances.resize((matrix_abundances.shape[0] + 2, matrix_abundances.shape[1]))
 
     alpha_diversity = pos = column_genus = 0
     for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -80,8 +81,10 @@ for individual in df_vertebrates:
         num_abundances += 1
         pos += 1
 
-        matrix_individuals_genus[num_individuals][column_genus] = relative_abundance
-        matrix_vertebrates_genus[num_species + support.offset(sample_type)][column_genus] += relative_abundance
+        if sys.argv[5].split('-')[0] == "individuals":
+            matrix_abundances[num_individuals][column_genus] = relative_abundance
+        elif sys.argv[5].split('-')[0] == "vertebrates":
+            matrix_abundances[num_species + support.offset(sample_type)][column_genus] += relative_abundance
         column_genus += 1
 
     if sample_type == 'Wild':
@@ -89,7 +92,10 @@ for individual in df_vertebrates:
     else:
         num_captivity += 1
     num_individuals += 1
-    alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
+    alpha_diversities_individual[specie][sample_type].append(0 - alpha_diversity)
+
+if sys.argv[5].split('-')[0] == "vertebrates":
+    calculation.normalize_matrix_vertebrates(matrix_abundances, num_species, num_wild, num_captivity)
 
 if sys.argv[4] == "alpha-diversities":
     show.alpha_diversities(alpha_diversities_individual)
@@ -103,27 +109,17 @@ else:
         calculation.t_test(alpha_diversities_individual)
         ploter.boxplot(alpha_diversities_individual, sys.argv[3])
     else:
-        if sys.argv[5].split('-')[0] == "vertebrates":
-            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
         if sys.argv[4] == "dendrogram":
-            ploter.dendrogram(matrix_individuals_genus, 'Individuals')
-            ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
+            ploter.dendrogram(matrix_abundances, sys.argv[5])
         elif sys.argv[4] == "heatmap":
-            ploter.heatmap(matrix_individuals_genus)
-            ploter.heatmap(matrix_vertebrates_genus)
+            ploter.heatmap(matrix_abundances)
         elif sys.argv[4] == "clustermap":
-            if sys.argv[5] == "individuals-log":
-                calculation.log_matrix(matrix_individuals_genus)
-                ploter.cluster_map(matrix_individuals_genus, '')
-            elif sys.argv[5] == "vertebrates-log":
-                calculation.log_matrix(matrix_vertebrates_genus)
-                ploter.cluster_map(matrix_vertebrates_genus, '')
-            elif sys.argv[5] == "individuals-discrete":
-                calculation.discretize_matrix(matrix_individuals_genus, 0.0001)
-                ploter.cluster_map(matrix_individuals_genus, 'viridis')
-            elif sys.argv[5] == "vertebrates-discrete":
-                calculation.discretize_matrix(matrix_vertebrates_genus, 0.0001)
-                ploter.cluster_map(matrix_vertebrates_genus, 'viridis')
-            elif sys.argv[5] == "vertebrates-log-fold":
-                matrix_vertebrates_genus_log_fold = calculation.generate_log_fold_matrix(matrix_vertebrates_genus)
-                ploter.cluster_map(matrix_vertebrates_genus_log_fold, 'RdBu')
+            if sys.argv[5].split('-')[1] == "log":
+                calculation.log_matrix(matrix_abundances)
+                ploter.cluster_map(matrix_abundances, '')
+            elif sys.argv[5].split('-')[1] == "discrete":
+                calculation.discretize_matrix(matrix_abundances, 0.0001)
+                ploter.cluster_map(matrix_abundances, 'viridis')
+            elif sys.argv[5].split('-')[1] == "fold":
+                matrix_log_fold = calculation.generate_log_fold_matrix(matrix_abundances)
+                ploter.cluster_map(matrix_log_fold, 'RdBu')

@@ -9,16 +9,17 @@ import statannot
 import abc
 
 
-def alpha_diversities_sample_type(alpha_diversities, sample_type):
+def alpha_diversities_sample_type(alpha_diversities_individual, sample_type):
     print(sample_type)
-    for specie in alpha_diversities:
-        print(specie, alpha_diversities[specie][sample_type])
+    for specie in alpha_diversities_individual:
+        print(specie, [round(alpha_diversity, 2)
+                       for alpha_diversity in alpha_diversities_individual[specie][sample_type]])
+
+
+def alpha_diversities(alpha_diversities_individual):
+    alpha_diversities_sample_type(alpha_diversities_individual, 'Wild')
     print()
-
-
-def alpha_diversities(alpha_diversities):
-    alpha_diversities_sample_type(alpha_diversities, 'Wild')
-    alpha_diversities_sample_type(alpha_diversities, 'Captivity')
+    alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
 
 
 def select_ploter(library):
@@ -146,7 +147,7 @@ class Ploter(abc.ABC):
         sch.dendrogram(calculation.hierarchical_clustering(matrix))
 
         plt.title('Dendrogram')
-        plt.ylabel('Distance')
+        plt.ylabel('distance')
         plt.xlabel(x_label)
 
         plt.show()
