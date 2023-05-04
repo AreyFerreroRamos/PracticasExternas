@@ -94,11 +94,13 @@ for individual in df_vertebrates:
     num_individuals += 1
     alpha_diversities_individual[specie][sample_type].append(round(0 - alpha_diversity, 4))
 
-calculation.log_matrix(matrix_individuals_genus)
+# calculation.log_matrix(matrix_individuals_genus)
+calculation.discretize_matrix(matrix_individuals_genus, 0.0000001)
 
 calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus_sample_type, num_species, num_wild, num_captivity)
 matrix_vertebrates_genus = calculation.generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type)
-calculation.log_matrix(matrix_vertebrates_genus_sample_type)
+# calculation.log_matrix(matrix_vertebrates_genus_sample_type)
+calculation.discretize_matrix(matrix_vertebrates_genus_sample_type, 0.0000001)
 
 calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 

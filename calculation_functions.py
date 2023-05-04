@@ -44,6 +44,19 @@ def log_matrix(matrix):
         rows += 1
 
 
+def discretize_matrix(matrix, threshold):
+    rows = 0
+    while rows < matrix.shape[0]:
+        columns = 0
+        while columns < matrix.shape[1]:
+            if matrix[rows][columns] > threshold:
+                matrix[rows][columns] = 1
+            else:
+                matrix[rows][columns] = 0
+            columns += 1
+        rows += 1
+
+
 def generate_matrix_vertebrates_genus(matrix_vertebrates_genus_sample_type):
     matrix_vertebrates_genus = np.empty((int(matrix_vertebrates_genus_sample_type.shape[0] / 2),
                                          matrix_vertebrates_genus_sample_type.shape[1]))
