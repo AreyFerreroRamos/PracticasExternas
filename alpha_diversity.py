@@ -103,8 +103,8 @@ else:
         calculation.t_test(alpha_diversities_individual)
         ploter.boxplot(alpha_diversities_individual, sys.argv[3])
     else:
-        calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
-
+        if sys.argv[5].split('-')[0] == "vertebrates":
+            calculation.normalize_matrix_vertebrates(matrix_vertebrates_genus, num_species, num_wild, num_captivity)
         if sys.argv[4] == "dendrogram":
             ploter.dendrogram(matrix_individuals_genus, 'Individuals')
             ploter.dendrogram(matrix_vertebrates_genus, 'Vertebrate species')
@@ -112,19 +112,18 @@ else:
             ploter.heatmap(matrix_individuals_genus)
             ploter.heatmap(matrix_vertebrates_genus)
         elif sys.argv[4] == "clustermap":
-            if sys.argv[5] == "individuals":
+            if sys.argv[5] == "individuals-log":
                 calculation.log_matrix(matrix_individuals_genus)
                 ploter.cluster_map(matrix_individuals_genus, '')
-            elif sys.argv[5] == "vertebrates":
+            elif sys.argv[5] == "vertebrates-log":
                 calculation.log_matrix(matrix_vertebrates_genus)
                 ploter.cluster_map(matrix_vertebrates_genus, '')
-            elif sys.argv[5] == "discrete-individuals":
+            elif sys.argv[5] == "individuals-discrete":
                 calculation.discretize_matrix(matrix_individuals_genus, 0.0000001)
                 ploter.cluster_map(matrix_individuals_genus, 'viridis')
-            elif sys.argv[5] == "discrete-vertebrates":
+            elif sys.argv[5] == "vertebrates-discrete":
                 calculation.discretize_matrix(matrix_vertebrates_genus, 0.0000001)
                 ploter.cluster_map(matrix_vertebrates_genus, 'viridis')
-            elif sys.argv[5] == "log-fold-vertebrates":
+            elif sys.argv[5] == "vertebrates-log-fold":
                 matrix_vertebrates_genus_log_fold = calculation.generate_log_fold_matrix(matrix_vertebrates_genus)
                 ploter.cluster_map(matrix_vertebrates_genus_log_fold, 'RdBu')
-
