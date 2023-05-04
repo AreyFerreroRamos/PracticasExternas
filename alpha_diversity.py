@@ -119,10 +119,10 @@ else:
                 calculation.log_matrix(matrix_vertebrates_genus)
                 ploter.cluster_map(matrix_vertebrates_genus, '')
             elif sys.argv[5] == "individuals-discrete":
-                calculation.discretize_matrix(matrix_individuals_genus, 0.0000001)
+                calculation.discretize_matrix(matrix_individuals_genus, 0.0001)
                 ploter.cluster_map(matrix_individuals_genus, 'viridis')
             elif sys.argv[5] == "vertebrates-discrete":
-                calculation.discretize_matrix(matrix_vertebrates_genus, 0.0000001)
+                calculation.discretize_matrix(matrix_vertebrates_genus, 0.0001)
                 ploter.cluster_map(matrix_vertebrates_genus, 'viridis')
             elif sys.argv[5] == "vertebrates-log-fold":
                 matrix_vertebrates_genus_log_fold = calculation.generate_log_fold_matrix(matrix_vertebrates_genus)
