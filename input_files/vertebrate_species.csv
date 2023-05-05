@@ -1,25 +1,25 @@
-Name;Specie;Class;Habitat;Biome;Diet;State_of_conservation;Significance;Significant
-Giant_panda;Ailuropoda_melanoleuca;Mammalia;Mountains_central_China;Decidious_temperate_forest;Herbivorous;Vulnerable;***;Yes
-Aldabra_giant_tortoise;Aldabrachelys_gigantea;Reptilia;Aldabra_island;Coral_reef_island;Herbivorous;Vulnerable;*;Yes
-Spanish_pupfish;Aphanius_iberus;Actinopterygii;Spanish_mouths_Mediterranean_Sea;Mediterranean_Sea;Omnivorous;Endangered;n.s.;No
-Gaur;Bos_gaurus;Mammalia;South_Southeast_Asia;Tropical_forest,subtropical_forest;Herbivorous;Vulnerable;n.s.;No
-Sika_deer;Cervus_nippon;Mammalia;East_Asia;Forest,grassland,wetland;Herbivorous;Least_concern;**;Yes
-Green_sea_turtle;Chelonia_mydas;Reptilia;Shallow_coastal_wathers;Tropical_sea,subtropical_sea;Herbivorous;Endangered;n.s.;No
-Père_David's_deer;Elaphurus_davidianus;Mammalia;Central_Eastern_China;Wetland;Herbivorous;Extint_in_the_wild;n.s.;No
-Kiang;Equus_kiang;Mammalia;Tibetan_plateau;Alpine_meadow,steppe,desert;Herbivorous;Least_concern;***;Yes
-Western_gorilla;Gorilla_gorilla;Mammalia;Western_Africa;Tropical_forest;Herbivorous;Critically_endangered;***;Yes
-Southern_hairy-nosed_wombat;Lasiorhinus_latifrons;Mammalia;Southern_Australia;Arid_steppe,woodland;Herbivorous;Near_threatened;n.s.;No
-Himalayan_musk_deer;Moschus_chrysogaster;Mammalia;Himmalaya;Mountain_forest;Herbivorous;***;Yes
-Giant_anteater;Myrmecophaga_tridactyla;Mammalia;Central_South_America;Tropical_forest,subtropical_forest,savanna,steppe;Carnivorous;Vulnerable;n.s.;No
-Olive_baboon;Papio_anubis;Mammalia;Sub-Saharan_Africa;Forest,savanna,steppe;Omnivorous;Least_concern;n.s.;No
-Tiger;Panthera_tigris;Mammalia;Asia;Tropical_forest,decidious_temperate_forest,grassland,wetland;Carnivorous;Endangered;**;Yes
-Common_chimpanzee;Pan_troglodytes;Mammalia;Central_Western_Africa;Tropical_forest;Omnivorous;Endangered;n.s.;No
-White-footed_mouse;Peromyscus_leucopus;Mammalia;Central_Eastern_North_America;Forest,grassland,agricultural_area,urban_area;Omnivorous;Least_concern;n.s.;No
-Deer_mouse;Peromyscus_maniculatus;Mammalia;North_America;Forest,grassland,agricultural_area;Omnivorous;Least_concern;***;Yes
-Douc_langur;Pygathrix_nemaeus;Mammalia;Southeast_Asia;Tropical_forest,subtropical_forest;Herbivorous;Endangered;n.s.;No
-Dybowskii's_frog;Rana_dybowskii;Amphibia;Amur_river;Wetland;Carnivorous;Least_concern;n.s.;No
-Black_snub-nosed_monkey;Rhinopitecus_brelichi;Mammalia;Mountains_Southeast_China;Temperate_forest,mountain_forest;Herbivorous;Endangered;n.s.;No
-Tasmanian_devil;Sarcophilus_harrisii;Mammalia;Tasmania_island;Temperate_forest,grassland;Carnivorous;Endangered;*;Yes
-Crocodile_lizard;Shinisaurus_crocodilurus;Reptilia;China_Vietnam;Tropical_forest,subtropical_forest,mountain_forest;Carnivorous;Endangered;n.s.;No
-Bottlenose_dolphin;Tursiops_truncatus;Mammalia;Wide_range_in_ocean;Tropical_sea,temperate_sea;Carnivorous;Least_concern;**;Yes
-Spanish_killifish;Valencia_hispanica;Actinopterygii;Spanish_mouths_Mediterranean_Sea;Mediterranean_Sea;Carnivorous;Critically_endangered;n.s.;No
+Specie	Name	Class	Habitat	Biome	Diet	Conservation	Significance
+Ailuropoda melanoleuca	Giant panda	Mammalia	Mountains central China	Decidious temperate forest	Herbivorous	VU	***
+Aldabrachelys gigantea	Aldabra giant tortoise	Reptilia	Aldabra island	Coral reef island	Herbivorous	VU	*
+Aphanius iberus	Spanish pupfish	Actinopterygii	Spanish mouths Mediterranean Sea	Mediterranean Sea	Omnivorous	EN	n.s.
+Bos gaurus	Gaur	Mammalia	South Southeast Asia	Tropical forest, subtropical forest	Herbivorous	VU	n.s.
+Cervus nippon	Sika deer	Mammalia	East Asia	Forest, grassland, wetland	Herbivorous	LC	**
+Chelonia Mydas	Green sea turtle	Reptilia	Shallow coastal wathers	Tropical sea, subtropical sea	Herbivorous	EN	n.s.
+Elaphurus davidianus	Père David's deer	Mammalia	Central Eastern China	Wetland	Herbivorous	EW	n.s.
+Equus kiang	Kiang	Mammalia	Tibetan plateau	Alpine meadow, steppe, desert	Herbivorous	LC	***
+Gorilla gorilla	Western gorilla	Mammalia	Western Africa	Tropical forest	Herbivorous	CR	***
+Lasiorhinus latifrons	Southern hairy-nosed wombat	Mammalia	Southern Australia	Arid steppe, woodland	Herbivorous	NT	n.s.
+Moschus chrysogaster	Himalayan musk deer	Mammalia	Himmalaya	Mountain forest	Herbivorous	EN	***
+Myrmecophaga tridactyla	Giant anteater	Mammalia	Central South America	Tropical forest, subtropical forest, savanna, steppe	Carnivorous	VU	n.s.
+Papio anubis	Olive baboon	Mammalia	Sub-Saharan Africa	Forest, savanna, steppe	Omnivorous	LC	n.s.
+Panthera tigris	Tiger	Mammalia	Asia	Tropical forest, decidious temperate forest, grassland, wetland	Carnivorous	EN	**
+Pan troglodytes	Common chimpanzee	Mammalia	Central Western Africa	Tropical forest	Omnivorous	EN	n.s.
+Peromyscus leucopus	White-footed mouse	Mammalia	Central Eastern North America	Forest, grassland, agricultural area, urban area	Omnivorous	LC	n.s.
+Peromyscus maniculatus	Deer mouse	Mammalia	North America	Forest, grassland, agricultural area	Omnivorous	LC	***
+Pygathrix nemaeus	Douc langur	Mammalia	Southeast Asia	Tropical forest, subtropical forest	Herbivorous	EN	n.s.
+Rana dybowskii	Dybowskii's frog	Amphibia	Amur river	Wetland	Carnivorous	LC	n.s.
+Rhinopitecus brelichi	Black snub-nosed monkey	Mammalia	Mountains Southeast China	Temperate forest, mountain forest	Herbivorous	EN	n.s.
+Sarcophilus harrisii	Tasmanian devil	Mammalia	Tasmania island	Temperate forest, grassland	Carnivorous	EN	*
+Shinisaurus crocodilurus	Crocodile lizard	Reptilia	China, Vietnam	Tropical forest, subtropical forest, mountain forest	Carnivorous	EN	n.s.
+Tursiops truncatus	Bottlenose dolphin	Mammalia	Wide range in ocean	Tropical sea, temperate sea	Carnivorous	LC	**
+Valencia hispanica	Spanish killifish	Actinopterygii	Spanish mouths Mediterranean Sea	Mediterranean Sea	Carnivorous	CR	n.s.
