@@ -1,3 +1,15 @@
+def get_metadata(individual, df_metadata):
+    row = 1
+    for sample in df_metadata[df_metadata.columns[0]]:
+        if sample == individual:
+            specie = df_metadata.loc[row, df_metadata.columns[2]]
+            sample_type = df_metadata.loc[row, df_metadata.columns[4]]
+        else:
+            row += 1
+
+    return specie, sample_type
+
+
 def offset(sample_type):
     if sample_type == 'Wild':
         return 0

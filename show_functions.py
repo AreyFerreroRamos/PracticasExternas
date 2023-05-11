@@ -9,19 +9,6 @@ import statannot
 import abc
 
 
-def alpha_diversities_sample_type(alpha_diversities_individual, sample_type):
-    print(sample_type)
-    for specie in alpha_diversities_individual:
-        print(specie, [round(alpha_diversity, 2)
-                       for alpha_diversity in alpha_diversities_individual[specie][sample_type]])
-
-
-def alpha_diversities(alpha_diversities_individual):
-    alpha_diversities_sample_type(alpha_diversities_individual, 'Wild')
-    print()
-    alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
-
-
 def select_ploter(library):
     if library == "matplotlib" or library == "pyplot":
         return PyplotPloter()
@@ -37,15 +24,16 @@ class Ploter(abc.ABC):
                 return vertebrate_specie.split()[1].replace('_', ' ', 1)
         f_codes_vertebrates.close()
 
-    def significance_conversion(self, p_value):
-        if p_value < 0.001:
-            return "***"
-        elif p_value < 0.01:
-            return "**"
-        elif p_value < 0.05:
-            return "*"
-        else:
-            return "n.s."
+    def alpha_diversities_sample_type(self, alpha_diversities_individual, sample_type):
+        print(sample_type)
+        for specie in alpha_diversities_individual:
+            print(specie, [round(alpha_diversity, 2)
+                           for alpha_diversity in alpha_diversities_individual[specie][sample_type]])
+
+    def alpha_diversities(self, alpha_diversities_individual):
+        self.alpha_diversities_sample_type(alpha_diversities_individual, 'Wild')
+        print()
+        self.alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
 
     def histogram(self, relative_abundances):
         ax_hist = self.set_histogram(relative_abundances)
@@ -113,6 +101,16 @@ class Ploter(abc.ABC):
     @abc.abstractmethod
     def select_mechanism(self, ax_box, alpha_diversities, specie):
         pass
+
+    def significance_conversion(self, p_value):
+        if p_value < 0.001:
+            return "***"
+        elif p_value < 0.01:
+            return "**"
+        elif p_value < 0.05:
+            return "*"
+        else:
+            return "n.s."
 
     def set_significance(self, ax_box, alpha_diversities, specie):
         yrange = (ax_box.get_ylim()[1] - ax_box.get_ylim()[0]) * 0.04
