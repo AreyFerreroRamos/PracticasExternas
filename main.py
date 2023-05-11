@@ -77,20 +77,13 @@ def alpha_diversities(df_vertebrates, df_metadata):
 
 
 def matrix_abundances_individuals(df_vertebrates):
-    matrix_individuals = np.empty((0, 0))
+    matrix_individuals = np.empty((df_vertebrates.shape[1], df_vertebrates.shape[0]))
 
-    num_genus = num_individuals = 0
+    num_individuals = 0
     for individual in df_vertebrates:
         num_bacterial_species_per_individual = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             num_bacterial_species_per_individual += num_bacterial_species_per_genus
-            if df_vertebrates.columns.get_loc(individual) == 0:
-                num_genus += 1
-
-        if matrix_individuals.size == 0:
-            matrix_individuals.resize((1, num_genus))
-        else:
-            matrix_individuals.resize((matrix_individuals.shape[0] + 1, matrix_individuals.shape[1]))
 
         column_genus = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
