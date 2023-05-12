@@ -46,8 +46,8 @@ def relative_abundances_bacterial_genus(df_vertebrates):
             pos += 1
 
         num_individuals += 1
-    calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 
+    calculation.normalize_relative_abundances(relative_abundances, num_individuals)
     return num_zeros / num_abundances, relative_abundances
 
 
@@ -92,28 +92,22 @@ def matrix_abundances_individuals(df_vertebrates):
 
 
 def matrix_abundances_vertebrates(df_vertebrates):
-    matrix_vertebrates = np.empty((0, 0))
+    matrix_vertebrates = np.empty((0, df_vertebrates.shape[0]))
 
-    num_genus = num_species = num_wild = num_captivity = 0
+    num_species = num_wild = num_captivity = 0
     specie_ant = ""
     for individual in df_vertebrates:
         specie, sample_type = support.get_metadata(individual, df_metadata)
 
-        num_bacterial_species_per_individual = 0
-        for num_bacterial_species_per_genus in df_vertebrates[individual]:
-            num_bacterial_species_per_individual += num_bacterial_species_per_genus
-            if df_vertebrates.columns.get_loc(individual) == 0:
-                num_genus += 1
-
-        if not specie_ant or specie_ant != specie:
-            if matrix_vertebrates.size == 0:
-                matrix_vertebrates.resize(2, num_genus)
-            else:
+        if specie_ant != specie:
+            if specie_ant:
                 calculation.normalize_matrix_vertebrates(matrix_vertebrates, num_species, num_wild, num_captivity)
                 num_species += 2
                 num_wild = num_captivity = 0
-                matrix_vertebrates.resize((matrix_vertebrates.shape[0] + 2, matrix_vertebrates.shape[1]))
+            matrix_vertebrates.resize((matrix_vertebrates.shape[0] + 2, matrix_vertebrates.shape[1]))
             specie_ant = specie
+
+        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         column_genus = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -125,8 +119,8 @@ def matrix_abundances_vertebrates(df_vertebrates):
             num_wild += 1
         else:
             num_captivity += 1
-    calculation.normalize_matrix_vertebrates(matrix_vertebrates, num_species, num_wild, num_captivity)
 
+    calculation.normalize_matrix_vertebrates(matrix_vertebrates, num_species, num_wild, num_captivity)
     return matrix_vertebrates
 
 
