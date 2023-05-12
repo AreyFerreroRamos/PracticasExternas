@@ -26,16 +26,14 @@ if not os.path.isfile(sys.argv[3]):
     exit()
 
 
-def relative_diversities_bacterial_genus(df_vertebrates):
+def relative_abundances_bacterial_genus(df_vertebrates):
     relative_abundances = {}
     for bacterial_genus in df_vertebrates.index:
         relative_abundances[bacterial_genus] = 0
 
     num_zeros = num_abundances = num_individuals = 0
     for individual in df_vertebrates:
-        num_bacterial_species_per_individual = 0
-        for num_bacterial_species_per_genus in df_vertebrates[individual]:
-            num_bacterial_species_per_individual += num_bacterial_species_per_genus
+        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         pos = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -46,6 +44,7 @@ def relative_diversities_bacterial_genus(df_vertebrates):
                 num_zeros += 1
             num_abundances += 1
             pos += 1
+
         num_individuals += 1
     calculation.normalize_relative_abundances(relative_abundances, num_individuals)
 
@@ -61,9 +60,7 @@ def alpha_diversities(df_vertebrates, df_metadata):
         if specie not in alpha_diversities_individual:
             alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
 
-        num_bacterial_species_per_individual = 0
-        for num_bacterial_species_per_genus in df_vertebrates[individual]:
-            num_bacterial_species_per_individual += num_bacterial_species_per_genus
+        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         alpha_diversity = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
@@ -81,15 +78,14 @@ def matrix_abundances_individuals(df_vertebrates):
 
     num_individuals = 0
     for individual in df_vertebrates:
-        num_bacterial_species_per_individual = 0
-        for num_bacterial_species_per_genus in df_vertebrates[individual]:
-            num_bacterial_species_per_individual += num_bacterial_species_per_genus
+        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         column_genus = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
             matrix_individuals[num_individuals][column_genus] = relative_abundance
             column_genus += 1
+
         num_individuals += 1
 
     return matrix_individuals
@@ -140,7 +136,7 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "histogram":
-    zeros_ratio, relative_abundances = relative_diversities_bacterial_genus(df_vertebrates)
+    zeros_ratio, relative_abundances = relative_abundances_bacterial_genus(df_vertebrates)
     print("Total zeros: " + str(round(zeros_ratio * 100, 2)) + "%.")
     ploter.histogram(support.to_array(relative_abundances))
 

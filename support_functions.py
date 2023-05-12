@@ -1,3 +1,11 @@
+def get_num_species_per_individual(individual, df_vertebrates):
+    num_bacterial_species_per_individual = 0
+    for num_bacterial_species_per_genus in df_vertebrates[individual]:
+        num_bacterial_species_per_individual += num_bacterial_species_per_genus
+
+    return num_bacterial_species_per_individual
+
+
 def get_metadata(individual, df_metadata):
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
