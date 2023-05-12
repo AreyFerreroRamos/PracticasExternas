@@ -123,23 +123,45 @@ def abundances_vertebrates_matrix(df_vertebrates):
     return vertebrates_matrix
 
 
+def vertebrates_abundances_list(df_vertebrates):
+    vertebrates_relatives_abundances = {}
+
+    for individual in df_vertebrates:
+        specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
+
+        if specie not in vertebrates_relatives_abundances:
+            vertebrates_relatives_abundances[specie] = {'Wild': [], 'Captivity': []}
+
+        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
+
+        for num_bacterial_species_per_genus in df_vertebrates[individual]:
+            relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
+            vertebrates_relatives_abundances[specie][sample_type].append(relative_abundance)
+
+    return vertebrates_relatives_abundances
+
+
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
 ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "histogram":
-    zeros_ratio, relative_abundances_list = relative_abundances_bacterial_genus_list(df_vertebrates)
+    zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_list(df_vertebrates)
     print("Total zeros: " + str(round(zeros_ratio * 100, 2)) + "%.")
-    ploter.histogram(support.to_array(relative_abundances_list))
+    ploter.histogram(support.to_array(global_relative_abundances))
 
-elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot":
+elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
     alpha_diversities_list = alpha_diversities_list(df_vertebrates, df_metadata)
     if sys.argv[4] == "alpha-diversities":
         ploter.alpha_diversities(alpha_diversities_list)
     else:
         calculation.t_test(alpha_diversities_list)
         ploter.boxplots_grid(alpha_diversities_list, sys.argv[3])
+
+elif sys.argv[4] == "distances":
+    vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
+    print(vertebrates_relatives_abundances)
 
 else:
     if sys.argv[4] == "individuals":
