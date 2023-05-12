@@ -6,7 +6,7 @@ def get_num_species_per_individual(individual, df_vertebrates):
     return num_bacterial_species_per_individual
 
 
-def get_metadata(individual, df_metadata):
+def get_specie_sample_type(individual, df_metadata):
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:

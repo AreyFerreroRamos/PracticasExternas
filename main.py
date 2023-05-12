@@ -55,7 +55,7 @@ def alpha_diversities(df_vertebrates, df_metadata):
     alpha_diversities_individual = {}
 
     for individual in df_vertebrates:
-        specie, sample_type = support.get_metadata(individual, df_metadata)
+        specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
         if specie not in alpha_diversities_individual:
             alpha_diversities_individual[specie] = {'Wild': [], 'Captivity': []}
@@ -92,18 +92,17 @@ def matrix_abundances_individuals(df_vertebrates):
 
 
 def matrix_abundances_vertebrates(df_vertebrates):
-    matrix_vertebrates = np.empty((0, df_vertebrates.shape[0]))
+    matrix_vertebrates = np.zeros((2, df_vertebrates.shape[0]))
+    specie_ant, _ = support.get_specie_sample_type(df_vertebrates.columns[0], df_metadata)
 
     num_species = num_wild = num_captivity = 0
-    specie_ant = ""
     for individual in df_vertebrates:
-        specie, sample_type = support.get_metadata(individual, df_metadata)
+        specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
         if specie_ant != specie:
-            if specie_ant:
-                calculation.normalize_matrix_vertebrates(matrix_vertebrates, num_species, num_wild, num_captivity)
-                num_species += 2
-                num_wild = num_captivity = 0
+            calculation.normalize_matrix_vertebrates(matrix_vertebrates, num_species, num_wild, num_captivity)
+            num_species += 2
+            num_wild = num_captivity = 0
             matrix_vertebrates.resize((matrix_vertebrates.shape[0] + 2, matrix_vertebrates.shape[1]))
             specie_ant = specie
 
