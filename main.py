@@ -139,7 +139,7 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot":
         ploter.alpha_diversities(alpha_diversities_list)
     else:
         calculation.t_test(alpha_diversities_list)
-        ploter.boxplot(alpha_diversities_list, sys.argv[3])
+        ploter.boxplots_grid(alpha_diversities_list, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":

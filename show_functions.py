@@ -51,7 +51,7 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplot(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
+    def boxplots_grid(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
         self.initialize_grid()
         
         row = column = 0
