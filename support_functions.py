@@ -33,6 +33,22 @@ def to_array(dictionary):
     return array
 
 
+def generate_boxplot_data_structures(vertebrates_relative_abundances):
+    data = []
+    labels = []
+
+    for specie in vertebrates_relative_abundances:
+        data.append(vertebrates_relative_abundances[specie]['Wild'])
+        labels.append(specie + ' Wild')
+        data.append(vertebrates_relative_abundances[specie]['Captivity'])
+        labels.append(specie + ' Captive')
+        data.append(vertebrates_relative_abundances[specie]['Wild'] +
+                    vertebrates_relative_abundances[specie]['Captivity'])
+        labels.append(specie)
+
+    return data, labels
+
+
 def pad_array(first_array, second_array):
     if len(first_array) < len(second_array):
         i = len(first_array)

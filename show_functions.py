@@ -52,23 +52,12 @@ class Ploter(abc.ABC):
         pass
 
     def boxplot(self, vertebrates_relative_abundances):
-        labels = []
-        data = []
-
-        for specie in vertebrates_relative_abundances:
-            labels.append(specie + ' Wild')
-            data.append(vertebrates_relative_abundances[specie]['Wild'])
-            labels.append(specie + ' Captive')
-            data.append(vertebrates_relative_abundances[specie]['Captivity'])
-            labels.append(specie)
-            data.append(vertebrates_relative_abundances[specie]['Wild'] +
-                        vertebrates_relative_abundances[specie]['Captivity'])
-
         self.initialize_figure()
-
         ax_box = self.initialize_plot()
 
-        self.set_boxplot(ax_box, labels, data)
+        data, labels = support.generate_boxplot_data_structures(vertebrates_relative_abundances)
+
+        self.set_boxplot(ax_box, data, labels)
         plt.show()
 
     @abc.abstractmethod
@@ -80,7 +69,7 @@ class Ploter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def set_boxplot(self, labels, data):
+    def set_boxplot(self, data, labels):
         pass
 
     def boxplot_grid(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
@@ -217,7 +206,7 @@ class PyplotPloter(Ploter):
     def initialize_plot(self):
         return self.figure.add_subplot()
 
-    def set_boxplot(self, ax_box, labels, data):
+    def set_boxplot(self, ax_box, data, labels):
         ax_box.boxplot(data, labels=labels)
 
     def initialize_grid(self):
@@ -280,6 +269,9 @@ class SeabornPloter(Ploter):
 
     def initialize_figure(self):
         self.figure, self.axes = plt.subplots(nrows=1, ncols=1, figsize=(11.5, 8.5))
+
+    def initialize_plot(self):
+        return self.axes[0, 0]
 
     def initialize_grid(self):
         self.figure, self.axes = plt.subplots(nrows=5, ncols=5, figsize=(11.5, 8.5))
