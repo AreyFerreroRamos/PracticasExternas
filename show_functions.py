@@ -51,17 +51,49 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplots_grid(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
+    def boxplot(self, vertebrates_relative_abundances):
+        labels = []
+        data = []
+
+        for specie in vertebrates_relative_abundances:
+            labels.append(specie + ' Wild')
+            data.append(vertebrates_relative_abundances[specie]['Wild'])
+            labels.append(specie + ' Captive')
+            data.append(vertebrates_relative_abundances[specie]['Captivity'])
+            labels.append(specie)
+            data.append(vertebrates_relative_abundances[specie]['Wild'] +
+                        vertebrates_relative_abundances[specie]['Captivity'])
+
+        self.initialize_figure()
+
+        ax_box = self.initialize_plot()
+
+        self.set_boxplot(ax_box, labels, data)
+        plt.show()
+
+    @abc.abstractmethod
+    def initialize_figure(self):
+        pass
+
+    @abc.abstractmethod
+    def initialize_plot(self):
+        pass
+
+    @abc.abstractmethod
+    def set_boxplot(self, labels, data):
+        pass
+
+    def boxplot_grid(self, alpha_diversities, name_file_codes_vertebrates, mechanism='manual'):
         self.initialize_grid()
         
         row = column = 0
         for specie in alpha_diversities:
-            ax_box = self.initialize_plot(row, column)
+            ax_box = self.initialize_subplot(row, column)
 
             self.wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
             self.captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
 
-            self.set_boxplot(ax_box, alpha_diversities, specie, self.wild, self.captive)
+            self.set_boxplot_grid(ax_box, alpha_diversities, specie, self.wild, self.captive)
             ax_box.set_ylim(0.0, 5.1)
     
             self.mechanism = mechanism
@@ -91,11 +123,11 @@ class Ploter(abc.ABC):
         pass 
 
     @abc.abstractmethod
-    def initialize_plot(self, row, column):
+    def initialize_subplot(self, row, column):
         pass
 
     @abc.abstractmethod
-    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+    def set_boxplot_grid(self, ax_box, alpha_diversities, specie, wild, captive):
         pass
 
     @abc.abstractmethod
@@ -179,15 +211,24 @@ class PyplotPloter(Ploter):
         ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
 
+    def initialize_figure(self):
+        self.figure = plt.figure(figsize=(11.5, 8.5))
+
+    def initialize_plot(self):
+        return self.figure.add_subplot()
+
+    def set_boxplot(self, ax_box, labels, data):
+        ax_box.boxplot(data, labels=labels)
+
     def initialize_grid(self):
         self.figure = plt.figure(figsize=(11.5, 8.5))
         self.spec = gridspec.GridSpec(nrows=5, ncols=5, figure=self.figure)
         self.spec.update(hspace=0.5)
 
-    def initialize_plot(self, row, column):
+    def initialize_subplot(self, row, column):
         return self.figure.add_subplot(self.spec[row, column])
 
-    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+    def set_boxplot_grid(self, ax_box, alpha_diversities, specie, wild, captive):
         self.bp = ax_box.boxplot([alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity']],
                                  labels=[wild, captive])
 
@@ -237,14 +278,17 @@ class SeabornPloter(Ploter):
                                bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
 
+    def initialize_figure(self):
+        self.figure, self.axes = plt.subplots(nrows=1, ncols=1, figsize=(11.5, 8.5))
+
     def initialize_grid(self):
         self.figure, self.axes = plt.subplots(nrows=5, ncols=5, figsize=(11.5, 8.5))
         plt.subplots_adjust(hspace=0.5)
 
-    def initialize_plot(self, row, column):
+    def initialize_subplot(self, row, column):
         return self.axes[row, column]
 
-    def set_boxplot(self, ax_box, alpha_diversities, specie, wild, captive):
+    def set_boxplot_grid(self, ax_box, alpha_diversities, specie, wild, captive):
         data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
         support.pad_array(data[wild], data[captive])
         self.data_df = pd.DataFrame(data)

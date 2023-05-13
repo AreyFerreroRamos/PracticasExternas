@@ -6,6 +6,8 @@ import numpy as np
 import math
 import sys
 import os
+import seaborn as sns
+from matplotlib import pyplot as plt
 
 
 if len(sys.argv) != 7:
@@ -144,7 +146,7 @@ def vertebrates_abundances_list(df_vertebrates):
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
-ploter = show.select_ploter('seaborn')
+ploter = show.select_ploter('pyplot')
 
 if sys.argv[4] == "histogram":
     zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_list(df_vertebrates)
@@ -157,11 +159,11 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
         ploter.alpha_diversities(alpha_diversities_list)
     else:
         calculation.t_test(alpha_diversities_list)
-        ploter.boxplots_grid(alpha_diversities_list, sys.argv[3])
+        ploter.boxplot_grid(alpha_diversities_list, sys.argv[3])
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
-    print(vertebrates_relatives_abundances)
+    ploter.boxplot(vertebrates_relatives_abundances)
 
 else:
     if sys.argv[4] == "individuals":
