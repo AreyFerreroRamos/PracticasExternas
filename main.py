@@ -6,8 +6,6 @@ import numpy as np
 import math
 import sys
 import os
-import seaborn as sns
-from matplotlib import pyplot as plt
 
 
 if len(sys.argv) != 7:

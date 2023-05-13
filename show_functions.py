@@ -58,6 +58,11 @@ class Ploter(abc.ABC):
         data, labels = support.generate_boxplot_data_structures(vertebrates_relative_abundances)
 
         self.set_boxplot(ax_box, data, labels)
+
+        ax_box.set_ylabel('Relative abundances')
+        ax_box.set_xlabel('Vertebrate species')
+
+        self.set_suptitle('Distances between wild individuals, captive individuals and both in vertebrate species')
         plt.show()
 
     @abc.abstractmethod
@@ -104,7 +109,7 @@ class Ploter(abc.ABC):
             else:
                 column += 1
         
-        self.set_suptitle()
+        self.set_suptitle("Bacterial genus diversity in vertebrate species")
         plt.show()
 
     @abc.abstractmethod
@@ -159,7 +164,7 @@ class Ploter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def set_suptitle(self):
+    def set_suptitle(self, title):
         pass
 
     def dendrogram(self, matrix, x_label):
@@ -238,8 +243,8 @@ class PyplotPloter(Ploter):
     def get_ncols(self):
         return self.spec.ncols
 
-    def set_suptitle(self):
-        plt.suptitle("Bacterial genus diversity in vertebrate species")
+    def set_suptitle(self, title):
+        plt.suptitle(title)
 
     def set_heatmap(self, reordered_matrix):
         plt.imshow(reordered_matrix)
@@ -271,7 +276,18 @@ class SeabornPloter(Ploter):
         self.figure, self.axes = plt.subplots(nrows=1, ncols=1, figsize=(11.5, 8.5))
 
     def initialize_plot(self):
-        return self.axes[0, 0]
+        return self.axes
+
+    def set_boxplot(self, ax_box, data, labels):
+        data = {labels[0]: data[0], labels[1]: data[1], labels[2]: data[2]}
+
+        support.pad_array(data[labels[0]], data[labels[1]])
+        support.pad_array(data[labels[0]], data[labels[2]])
+        support.pad_array(data[labels[1]], data[labels[2]])
+
+        self.data_df = pd.DataFrame(data)
+
+        sns.boxplot(data=self.data_df, ax=ax_box)
 
     def initialize_grid(self):
         self.figure, self.axes = plt.subplots(nrows=5, ncols=5, figsize=(11.5, 8.5))
@@ -308,8 +324,8 @@ class SeabornPloter(Ploter):
     def get_ncols(self):
         return self.axes.shape[1]
 
-    def set_suptitle(self):
-        self.figure.suptitle("Bacterial genus diversity in vertebrate species")
+    def set_suptitle(self, title):
+        self.figure.suptitle(title)
 
     def set_heatmap(self, reordered_matrix):
         sns.heatmap(reordered_matrix)
