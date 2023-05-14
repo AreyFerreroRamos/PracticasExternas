@@ -7,6 +7,8 @@ def get_num_species_per_individual(individual, df_vertebrates):
 
 
 def get_specie_sample_type(individual, df_metadata):
+    specie = sample_type = ""
+
     row = 1
     for sample in df_metadata[df_metadata.columns[0]]:
         if sample == individual:
@@ -16,6 +18,18 @@ def get_specie_sample_type(individual, df_metadata):
             row += 1
 
     return specie, sample_type
+
+
+def get_name_specie(specie, name_file_codes_vertebrates):
+    f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
+    name_specie = ""
+
+    for vertebrate_specie in f_codes_vertebrates:
+        if specie == vertebrate_specie.split()[0]:
+            name_specie = vertebrate_specie.split()[1].replace('_', ' ', 1)
+
+    f_codes_vertebrates.close()
+    return name_specie
 
 
 def offset(sample_type):
@@ -33,18 +47,22 @@ def to_array(dictionary):
     return array
 
 
-def generate_boxplot_data_structures(vertebrates_relative_abundances):
+def generate_boxplot_data_structures(vertebrates_relative_abundances, name_file_code_vertebrates):
     data = []
     labels = []
 
     for specie in vertebrates_relative_abundances:
+        name_specie = get_name_specie(specie, name_file_code_vertebrates)
+
         data.append(vertebrates_relative_abundances[specie]['Wild'])
-        labels.append(specie + ' Wild')
+        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1] + ' (Wt)')
+
         data.append(vertebrates_relative_abundances[specie]['Captivity'])
-        labels.append(specie + ' Captive')
+        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1] + ' (Ct)')
+
         data.append(vertebrates_relative_abundances[specie]['Wild'] +
                     vertebrates_relative_abundances[specie]['Captivity'])
-        labels.append(specie)
+        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1])
 
     return data, labels
 

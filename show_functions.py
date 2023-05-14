@@ -16,14 +16,6 @@ def select_ploter(library):
 
 
 class Ploter(abc.ABC):
-    def get_name_specie(self, specie, name_file_codes_vertebrates):
-        f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
-        
-        for vertebrate_specie in f_codes_vertebrates:
-            if specie == vertebrate_specie.split()[0]:
-                return vertebrate_specie.split()[1].replace('_', ' ', 1)
-        f_codes_vertebrates.close()
-
     def alpha_diversities_sample_type(self, alpha_diversities_individual, sample_type):
         print(sample_type)
         for specie in alpha_diversities_individual:
@@ -51,11 +43,14 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplot(self, vertebrates_relative_abundances):
+    def boxplot(self, vertebrates_relative_abundances, name_file_code_vertebrates):
         self.initialize_figure()
+        self.figure.subplots_adjust(bottom=0.2)
+
         ax_box = self.initialize_plot()
 
-        data, labels = support.generate_boxplot_data_structures(vertebrates_relative_abundances)
+        data, labels = support.generate_boxplot_data_structures(vertebrates_relative_abundances,
+                                                                name_file_code_vertebrates)
 
         self.set_boxplot(ax_box, data, labels)
 
@@ -101,7 +96,7 @@ class Ploter(abc.ABC):
             ax_box.tick_params(axis='x', labelsize=8)
             ax_box.tick_params(axis='y', labelsize=8)
 
-            ax_box.set_title(self.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
+            ax_box.set_title(support.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
 
             if row == int(self.get_nrows() / 2) and column == 0:
                 ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)

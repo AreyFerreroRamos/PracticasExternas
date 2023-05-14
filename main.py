@@ -161,7 +161,7 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
-    ploter.boxplot(vertebrates_relatives_abundances)
+    ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":
