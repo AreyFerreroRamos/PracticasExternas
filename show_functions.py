@@ -59,8 +59,8 @@ class Ploter(abc.ABC):
 
         self.set_boxplot(ax_box, data, labels)
 
-        ax_box.set_ylabel('Relative abundances')
-        ax_box.set_xlabel('Vertebrate species')
+        ax_box.set_ylabel('Relative abundances', fontsize=11, labelpad=10)
+        ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
         self.set_suptitle('Distances between wild individuals, captive individuals and both in vertebrate species')
         plt.show()
