@@ -59,6 +59,9 @@ class Ploter(abc.ABC):
 
         self.set_boxplot(ax_box, data, labels)
 
+        ax_box.tick_params(axis='x', labelsize=8)
+        ax_box.tick_params(axis='y', labelsize=8)
+
         ax_box.set_ylabel('Relative abundances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
