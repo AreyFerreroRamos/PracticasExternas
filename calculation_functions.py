@@ -36,6 +36,18 @@ def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, 
         num_genus += 1
 
 
+def normalize_vertebrate_abundances(vertebrates_relatives_abundances, specie, num_wild, num_captivity):
+    num_abundance = 0
+    while num_abundance < len(vertebrates_relatives_abundances[specie]['Wild']):
+        vertebrates_relatives_abundances[specie]['Wild'][num_abundance] /= num_wild
+        num_abundance += 1
+
+    num_abundance = 0
+    while num_abundance < len(vertebrates_relatives_abundances[specie]['Captivity']):
+        vertebrates_relatives_abundances[specie]['Captivity'][num_abundance] /= num_captivity
+        num_abundance += 1
+
+
 def log_matrix(matrix):
     rows = 0
     while rows < matrix.shape[0]:

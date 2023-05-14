@@ -126,10 +126,18 @@ def abundances_vertebrates_matrix(df_vertebrates):
 def vertebrates_abundances_list(df_vertebrates):
     vertebrates_relatives_abundances = {}
 
+    specie_ant, _ = support.get_specie_sample_type(df_vertebrates.columns[0], df_metadata)
+    vertebrates_relatives_abundances[specie_ant] = {'Wild': [], 'Captivity': []}
+
+    num_wild = num_captivity = 0
     for individual in df_vertebrates:
         specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
-        if specie not in vertebrates_relatives_abundances:
+        if specie_ant != specie:
+            calculation.normalize_vertebrate_abundances(vertebrates_relatives_abundances, specie_ant,
+                                                        num_wild, num_captivity)
+            specie_ant = specie
+            num_wild = num_captivity = 0
             vertebrates_relatives_abundances[specie] = {'Wild': [], 'Captivity': []}
 
         num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
@@ -138,6 +146,11 @@ def vertebrates_abundances_list(df_vertebrates):
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
             if relative_abundance != 0:
                 vertebrates_relatives_abundances[specie][sample_type].append(relative_abundance)
+
+        if sample_type == "Wild":
+            num_wild += 1
+        else:
+            num_captivity += 1
 
     return vertebrates_relatives_abundances
 
