@@ -53,16 +53,17 @@ def generate_boxplot_data_structures(vertebrates_relative_abundances, name_file_
 
     for specie in vertebrates_relative_abundances:
         name_specie = get_name_specie(specie, name_file_code_vertebrates)
+        name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
 
         data.append(vertebrates_relative_abundances[specie]['Wild'])
-        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1] + ' (Wt)')
+        labels.append(name_specie + ' (Wt)')
 
         data.append(vertebrates_relative_abundances[specie]['Captivity'])
-        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1] + ' (Ct)')
+        labels.append(name_specie + ' (Ct)')
 
         data.append(vertebrates_relative_abundances[specie]['Wild'] +
                     vertebrates_relative_abundances[specie]['Captivity'])
-        labels.append(name_specie[0] + '.' + name_specie.split(' ')[1])
+        labels.append(name_specie)
 
     return data, labels
 
