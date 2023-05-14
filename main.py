@@ -136,7 +136,8 @@ def vertebrates_abundances_list(df_vertebrates):
 
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
-            vertebrates_relatives_abundances[specie][sample_type].append(relative_abundance)
+            if relative_abundance != 0:
+                vertebrates_relatives_abundances[specie][sample_type].append(relative_abundance)
 
     return vertebrates_relatives_abundances
 
