@@ -62,6 +62,8 @@ class Ploter(abc.ABC):
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
 
+        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation='vertical')
+
         ax_box.set_ylabel('Relative abundances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
