@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 
-def normalize_relative_abundances(relative_abundances, num_individuals):
+def normalize_relative_abundances_dictionary(relative_abundances, num_individuals):
     for bacterial_genus in relative_abundances:
         relative_abundances[bacterial_genus] /= num_individuals
 
@@ -36,7 +36,7 @@ def normalize_matrix_vertebrates(matrix_vertebrate_genus, num_specie, num_wild, 
         num_genus += 1
 
 
-def normalize_vertebrate_abundances_sample_type(relative_abundances, num_individuals):
+def normalize_relative_abundances_list(relative_abundances, num_individuals):
     num_abundance = 0
     while num_abundance < len(relative_abundances):
         relative_abundances[num_abundance] /= num_individuals
@@ -44,8 +44,8 @@ def normalize_vertebrate_abundances_sample_type(relative_abundances, num_individ
 
 
 def normalize_vertebrate_abundances(vertebrates_relatives_abundances, specie, num_wild, num_captivity):
-    normalize_vertebrate_abundances_sample_type(vertebrates_relatives_abundances[specie]['Wild'], num_wild)
-    normalize_vertebrate_abundances_sample_type(vertebrates_relatives_abundances[specie]['Captivity'], num_captivity)
+    normalize_relative_abundances_list(vertebrates_relatives_abundances[specie]['Wild'], num_wild)
+    normalize_relative_abundances_list(vertebrates_relatives_abundances[specie]['Captivity'], num_captivity)
 
 
 def log_matrix(matrix):

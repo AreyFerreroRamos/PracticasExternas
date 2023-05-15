@@ -47,7 +47,7 @@ def relative_abundances_bacterial_genus_list(df_vertebrates):
 
         num_individuals += 1
 
-    calculation.normalize_relative_abundances(relative_abundances, num_individuals)
+    calculation.normalize_relative_abundances_dictionary(relative_abundances, num_individuals)
     return num_zeros / num_abundances, relative_abundances
 
 
