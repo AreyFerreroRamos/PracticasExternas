@@ -26,7 +26,7 @@ if not os.path.isfile(sys.argv[3]):
     exit()
 
 
-def relative_abundances_bacterial_genus_list(df_vertebrates):
+def relative_abundances_bacterial_genus_dictionary(df_vertebrates):
     relative_abundances = {}
     for bacterial_genus in df_vertebrates.index:
         relative_abundances[bacterial_genus] = 0
@@ -51,7 +51,7 @@ def relative_abundances_bacterial_genus_list(df_vertebrates):
     return num_zeros / num_abundances, relative_abundances
 
 
-def alpha_diversities_list(df_vertebrates, df_metadata):
+def alpha_diversities_dictionary(df_vertebrates, df_metadata):
     alpha_diversities = {}
 
     for individual in df_vertebrates:
@@ -134,8 +134,8 @@ def vertebrates_abundances_list(df_vertebrates):
         specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
         if specie_ant != specie:
-            calculation.normalize_vertebrate_abundances(vertebrates_relatives_abundances, specie_ant,
-                                                        num_wild, num_captivity)
+            calculation.normalize_vertebrate_abundances(vertebrates_relatives_abundances, specie_ant, num_wild,
+                                                        num_captivity)
             specie_ant = specie
             num_wild = num_captivity = 0
             vertebrates_relatives_abundances[specie] = {'Wild': [], 'Captivity': []}
@@ -161,12 +161,12 @@ df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 ploter = show.select_ploter('pyplot')
 
 if sys.argv[4] == "histogram":
-    zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_list(df_vertebrates)
+    zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_dictionary(df_vertebrates)
     print("Total zeros: " + str(round(zeros_ratio * 100, 2)) + "%.")
     ploter.histogram(support.to_array(global_relative_abundances))
 
 elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
-    alpha_diversities_list = alpha_diversities_list(df_vertebrates, df_metadata)
+    alpha_diversities_list = alpha_diversities_dictionary(df_vertebrates, df_metadata)
     if sys.argv[4] == "alpha-diversities":
         ploter.alpha_diversities(alpha_diversities_list)
     else:
