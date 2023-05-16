@@ -158,7 +158,7 @@ def vertebrates_abundances_list(df_vertebrates):
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "histogram":
     zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_dictionary(df_vertebrates)
