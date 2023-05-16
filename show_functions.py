@@ -279,18 +279,14 @@ class SeabornPloter(Ploter):
         return self.axes
 
     def set_boxplot(self, ax_box, data, labels):
-        data = support.pad_set_lists(data)
+        data_df = []
 
-        data_t = {}
-        idx = 0
-        while idx < len(data):
-            print(len(data[idx]))
-            data_t[labels[idx]] = data[idx]
-            idx += 1
+        num_data = 0
+        while num_data < len(data):
+            data_df.append(pd.DataFrame({labels[num_data]: data[num_data]}))
+            num_data += 1
 
-        self.data_df = pd.DataFrame(data_t)
-
-        sns.boxplot(data=self.data_df, ax=ax_box)
+        sns.boxplot(data=pd.concat(data_df), ax=ax_box)
 
     def initialize_grid(self):
         self.figure, self.axes = plt.subplots(nrows=5, ncols=5, figsize=(11.5, 8.5))
