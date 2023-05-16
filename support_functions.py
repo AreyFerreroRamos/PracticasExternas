@@ -79,10 +79,3 @@ def pad_array(first_array, second_array):
         while i < len(first_array):
             second_array.append(sum(second_array) / len(second_array))
             i += 1
-
-
-def pad_set_lists(set_lists):
-    max_len = len(max(set_lists, key=len))
-    padded_lists = [list(l) + [None]*(max_len-len(l)) for l in zip(set_lists)]
-
-    return padded_lists
