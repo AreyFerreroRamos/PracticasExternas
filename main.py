@@ -127,9 +127,9 @@ def vertebrates_abundances_list(df_vertebrates):
     vertebrates_relatives_abundances = {}
 
     specie_ant, _ = support.get_specie_sample_type(df_vertebrates.columns[0], df_metadata)
-    vertebrates_relatives_abundances[specie_ant] = {'Wild': [], 'Captivity': []}
+    vertebrates_relatives_abundances[specie_ant] = {'Wild': {}, 'Captivity': {}}
 
-    num_wild = num_captivity = 0
+    num_wild = num_captivity = num_individual = 0
     for individual in df_vertebrates:
         specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
@@ -138,14 +138,16 @@ def vertebrates_abundances_list(df_vertebrates):
                                                         num_captivity)
             specie_ant = specie
             num_wild = num_captivity = 0
-            vertebrates_relatives_abundances[specie] = {'Wild': [], 'Captivity': []}
+            vertebrates_relatives_abundances[specie] = {'Wild': {}, 'Captivity': {}}
+
+        vertebrates_relatives_abundances[specie][sample_type][individual] = []
 
         num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
             if relative_abundance != 0:
-                vertebrates_relatives_abundances[specie][sample_type].append(relative_abundance)
+                vertebrates_relatives_abundances[specie][sample_type][individual].append(relative_abundance)
 
         if sample_type == "Wild":
             num_wild += 1
@@ -178,7 +180,8 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
-    ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
+    print(vertebrates_relatives_abundances)
+    # ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":
