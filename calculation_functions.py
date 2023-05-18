@@ -92,3 +92,23 @@ def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
         num_genus += 1
 
     return matrix_vertebrates_genus
+
+def nestedness(matrix):
+    nestedness = 0
+
+    row_sums = np.sum(matrix, axis=1)
+    col_sums = np.sum(matrix, axis=0)
+    print(row_sums)
+    print(col_sums)
+
+    mean_row_sums = np.mean(row_sums)
+    mean_col_sums = np.mean(col_sums)
+    print(mean_row_sums)
+    print(mean_col_sums)
+
+    for rows in range(matrix.shape[0]):
+        for columns in range(matrix.shape[1]):
+            if matrix[rows][columns] == 1:
+                print(matrix[rows][columns])
+
+    print(matrix)

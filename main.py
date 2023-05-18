@@ -155,6 +155,9 @@ def vertebrates_abundances_list(df_vertebrates):
     return vertebrates_relatives_abundances
 
 
+# matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
+# calculation.nestedness(matrix)
+
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
