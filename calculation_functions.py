@@ -93,6 +93,7 @@ def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
 
     return matrix_vertebrates_genus
 
+
 def nestedness(matrix):
     nestedness = 0
 

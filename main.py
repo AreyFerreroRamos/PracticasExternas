@@ -124,24 +124,43 @@ def abundances_vertebrates_matrix(df_vertebrates):
 
 
 def vertebrates_abundances_list(df_vertebrates):
-    vertebrates_relatives_abundances = {}
+    vertebrates_relative_abundances = {}
+    num_wild = num_captivity = 0
 
     for individual in df_vertebrates:
         specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
-        if specie not in vertebrates_relatives_abundances:
-            vertebrates_relatives_abundances[specie] = {'Wild': {}, 'Captivity': {}}
+        if specie not in vertebrates_relative_abundances:
+            vertebrates_relative_abundances[specie] = {'Wild': [], 'Captivity': []}
+            num_wild = num_captivity = 0
 
-        vertebrates_relatives_abundances[specie][sample_type][individual] = []
+        vertebrates_relative_abundances[specie][sample_type].append([])
 
         num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
             if relative_abundance != 0:
-                vertebrates_relatives_abundances[specie][sample_type][individual].append(relative_abundance)
+                if sample_type == 'Wild':
+                    print(vertebrates_relative_abundances[specie][sample_type], specie, sample_type, num_wild)
+                    vertebrates_relative_abundances[specie][sample_type][num_wild].append(relative_abundance)
+                    num_wild += 1
+                elif sample_type == 'Captivity':
+                    print(vertebrates_relative_abundances[specie][sample_type][num_captivity], specie, sample_type, num_captivity)
+                    vertebrates_relative_abundances[specie][sample_type][num_captivity].append(relative_abundance)
+                    num_captivity += 1
 
-    return vertebrates_relatives_abundances
+    return vertebrates_relative_abundances
+
+
+def vertebrates_distances_list(vertebrates_relative_abundances):
+    vertebrate_distances = {}
+    average_distances = {}
+
+    for specie in vertebrates_relative_abundances:
+        vertebrate_distances[specie], average_distances[specie] = calculation.distances(vertebrates_relative_abundances
+                                                                                        [specie])
+    return vertebrate_distances
 
 
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
@@ -167,6 +186,7 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
+    # vertebrates_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
     print(vertebrates_relatives_abundances)
     # ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
