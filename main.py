@@ -160,9 +160,10 @@ def vertebrates_distances_list(vertebrates_relative_abundances):
     average_distances = {}
 
     for specie in vertebrates_relative_abundances:
-        vertebrate_distances[specie], average_distances[specie] = calculation.distances(vertebrates_relative_abundances
-                                                                                        [specie])
-    return vertebrate_distances
+        for sample_type in vertebrates_relative_abundances[specie]:
+            vertebrate_distances[specie][sample_type], average_distances[specie][sample_type] = calculation.distances(
+                vertebrates_relative_abundances[specie][sample_type])
+    return vertebrate_distances, average_distances
 
 
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
@@ -188,11 +189,7 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
-    # vertebrates_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
-    print(vertebrates_relatives_abundances)
-    for specie in vertebrates_relatives_abundances:
-        for sample_type in vertebrates_relatives_abundances[specie]:
-            print(vertebrates_relatives_abundances[specie][sample_type].shape[0], vertebrates_relatives_abundances[specie][sample_type].shape[1])
+    vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
     # ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
 else:
