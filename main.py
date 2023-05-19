@@ -7,7 +7,6 @@ import math
 import sys
 import os
 
-
 if len(sys.argv) != 7:
     print("Error: The number of parameters is incorrect. Three files are needed.")
     exit()
@@ -187,6 +186,16 @@ def vertebrates_abundances_list(df_vertebrates):
     return vertebrates_relative_abundances
 
 
+array1 = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+array2 = np.array([0, 0, 0, 0, 0, 0, 0, 0])
+array3 = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+array4 = np.array([1, 1, 1])
+array5 = np.array([0, 0, 0])
+
+print(np.linalg.norm(array1 - array2))
+print(np.linalg.norm(array1 - array3))
+print(np.linalg.norm(array4 - array5))
+
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
 # calculation.nestedness(matrix)
 
@@ -210,8 +219,9 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
-    print(vertebrates_relatives_abundances)
-    # vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
+    vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
+    # print(vertebrates_distances)
+    # print(average_distances)
     # ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
 else:

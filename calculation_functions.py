@@ -94,9 +94,16 @@ def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
     return matrix_vertebrates_genus
 
 
-def distances(matrix_relatives_abundances):
-    for row in matrix_relatives_abundances:
-        print(len(row))
+def distances(relative_abundances):
+    distances = []
+
+    for individual1 in relative_abundances:
+        for individual2 in relative_abundances:
+            if individual1 < individual2:
+                distances.append(np.linalg.norm(np.array(relative_abundances[individual1]) -
+                                                np.array(relative_abundances[individual2])))
+
+    return distances, sum(distances) / len(distances)
 
 
 def nestedness(matrix):
