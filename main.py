@@ -125,30 +125,32 @@ def abundances_vertebrates_matrix(df_vertebrates):
 
 def vertebrates_abundances_list(df_vertebrates):
     vertebrates_relative_abundances = {}
-    num_wild = num_captivity = 0
 
     for individual in df_vertebrates:
         specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
 
         if specie not in vertebrates_relative_abundances:
-            vertebrates_relative_abundances[specie] = {'Wild': [], 'Captivity': []}
-            num_wild = num_captivity = 0
+            vertebrates_relative_abundances[specie] = {'Wild': np.empty((0, 0)), 'Captivity': np.empty((0, 0))}
+            num_individuals = {'Wild': 0, 'Captivity': 0}
 
-        vertebrates_relative_abundances[specie][sample_type].append([])
+        vertebrates_relative_abundances[specie][sample_type].resize(
+            vertebrates_relative_abundances[specie][sample_type].shape[0] + 1,
+            vertebrates_relative_abundances[specie][sample_type].shape[1])
 
         num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
 
+        num_genus = 0
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
             if relative_abundance != 0:
-                if sample_type == 'Wild':
-                    print(vertebrates_relative_abundances[specie][sample_type], specie, sample_type, num_wild)
-                    vertebrates_relative_abundances[specie][sample_type][num_wild].append(relative_abundance)
-                    num_wild += 1
-                elif sample_type == 'Captivity':
-                    print(vertebrates_relative_abundances[specie][sample_type][num_captivity], specie, sample_type, num_captivity)
-                    vertebrates_relative_abundances[specie][sample_type][num_captivity].append(relative_abundance)
-                    num_captivity += 1
+                vertebrates_relative_abundances[specie][sample_type].resize(
+                    vertebrates_relative_abundances[specie][sample_type].shape[0],
+                    vertebrates_relative_abundances[specie][sample_type].shape[1] + 1)
+                vertebrates_relative_abundances[specie][sample_type][num_individuals[sample_type]][
+                    num_genus] = relative_abundance
+                num_genus += 1
+
+        num_individuals[sample_type] += 1
 
     return vertebrates_relative_abundances
 
@@ -188,6 +190,9 @@ elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_list(df_vertebrates)
     # vertebrates_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
     print(vertebrates_relatives_abundances)
+    for specie in vertebrates_relatives_abundances:
+        for sample_type in vertebrates_relatives_abundances[specie]:
+            print(vertebrates_relatives_abundances[specie][sample_type].shape[0], vertebrates_relatives_abundances[specie][sample_type].shape[1])
     # ploter.boxplot(vertebrates_relatives_abundances, sys.argv[3])
 
 else:
