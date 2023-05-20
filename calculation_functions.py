@@ -102,7 +102,7 @@ def distances(relative_abundances):
         for second_individual in relative_abundances:
             if first_individual < second_individual:
                 first_list_abundances, second_list_abundances = support.pad_list_zeros(
-                    relative_abundances[first_individual], relative_abundances[second_individual])
+                    relative_abundances[first_individual].copy(), relative_abundances[second_individual].copy())
                 distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
     return distances, sum(distances) / len(distances)
