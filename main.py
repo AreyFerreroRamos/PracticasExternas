@@ -203,7 +203,6 @@ array2 = np.array(list2)
 print(array1)
 print(array2)
 
-
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
 # calculation.nestedness(matrix)
 
