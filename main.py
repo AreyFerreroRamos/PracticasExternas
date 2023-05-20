@@ -186,16 +186,6 @@ def vertebrates_abundances_list(df_vertebrates):
     return vertebrates_relative_abundances
 
 
-array1 = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-array2 = np.array([0, 0, 0, 0, 0, 0, 0, 0])
-array3 = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-array4 = np.array([1, 1, 1])
-array5 = np.array([0, 0, 0])
-
-print(np.linalg.norm(array1 - array2))
-print(np.linalg.norm(array1 - array3))
-print(np.linalg.norm(array4 - array5))
-
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])
 # calculation.nestedness(matrix)
 
