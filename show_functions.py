@@ -43,14 +43,13 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplot(self, vertebrates_relative_abundances, name_file_code_vertebrates):
+    def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
         self.initialize_figure()
         self.figure.subplots_adjust(bottom=0.2)
 
         ax_box = self.initialize_plot()
 
-        data, labels = support.generate_boxplot_data_structures(vertebrates_relative_abundances,
-                                                                name_file_code_vertebrates)
+        data, labels = support.generate_boxplot_data_structures(vertebrates_distances, name_file_code_vertebrates)
 
         self.set_boxplot(ax_box, data, labels)
 
@@ -59,7 +58,7 @@ class Ploter(abc.ABC):
 
         ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation='vertical')
 
-        ax_box.set_ylabel('Relative abundances', fontsize=11, labelpad=10)
+        ax_box.set_ylabel('Distances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
         self.set_suptitle('Distances between wild individuals, captive individuals and both in vertebrate species')
