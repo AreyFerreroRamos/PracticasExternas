@@ -68,14 +68,21 @@ def generate_boxplot_data_structures(vertebrates_relative_abundances, name_file_
     return data, labels
 
 
-def pad_array(first_array, second_array):
-    if len(first_array) < len(second_array):
-        i = len(first_array)
-        while i < len(second_array):
-            first_array.append(sum(first_array) / len(first_array))
+def pad_list_average(first_list, second_list):
+    if len(first_list) < len(second_list):
+        i = len(first_list)
+        while i < len(second_list):
+            first_list.append(sum(first_list) / len(first_list))
             i += 1
-    elif len(first_array) > len(second_array):
-        i = len(second_array)
-        while i < len(first_array):
-            second_array.append(sum(second_array) / len(second_array))
+    elif len(first_list) > len(second_list):
+        i = len(second_list)
+        while i < len(first_list):
+            second_list.append(sum(second_list) / len(second_list))
             i += 1
+
+
+def pad_list_zeros(first_list, second_list):
+    if len(first_list) < len(second_list):
+        first_list += [0] * (len(second_list) - len(first_list))
+    else:
+        second_list += [0] * (len(first_list) - len(second_list))

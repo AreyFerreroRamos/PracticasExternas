@@ -297,7 +297,7 @@ class SeabornPloter(Ploter):
 
     def set_boxplot_grid(self, ax_box, alpha_diversities, specie, wild, captive):
         data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
-        support.pad_array(data[wild], data[captive])
+        support.pad_list_average(data[wild], data[captive])
         self.data_df = pd.DataFrame(data)
 
         sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
