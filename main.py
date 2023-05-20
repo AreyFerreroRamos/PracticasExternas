@@ -1,3 +1,5 @@
+import copy
+
 import calculation_functions as calculation
 import support_functions as support
 import show_functions as show
@@ -184,6 +186,22 @@ def vertebrates_abundances_list(df_vertebrates):
         num_individuals[sample_type] += 1
 
     return vertebrates_relative_abundances
+
+
+list1 = [1, 2, 3, 4, 5]
+list2 = [1, 2, 3]
+
+print(list1)
+print(list2)
+print()
+
+lista, listb = support.pad_list_zeros(copy.deepcopy(list1), copy.deepcopy(list2.copy()))
+
+print(list1)
+print(list2)
+print()
+print(lista)
+print(listb)
 
 
 # matrix = np.array([[1, 1, 1], [1, 1, 0], [1, 0, 0]])

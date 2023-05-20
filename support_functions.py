@@ -86,3 +86,5 @@ def pad_list_zeros(first_list, second_list):
         first_list += [0] * (len(second_list) - len(first_list))
     else:
         second_list += [0] * (len(first_list) - len(second_list))
+
+    return first_list, second_list

@@ -1,3 +1,4 @@
+import support_functions as support
 from scipy import stats
 import fastcluster
 import numpy as np
@@ -97,11 +98,12 @@ def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
 def distances(relative_abundances):
     distances = []
 
-    for individual1 in relative_abundances:
-        for individual2 in relative_abundances:
-            if individual1 < individual2:
-                distances.append(np.linalg.norm(np.array(relative_abundances[individual1]) -
-                                                np.array(relative_abundances[individual2])))
+    for first_individual in relative_abundances:
+        for second_individual in relative_abundances:
+            if first_individual < second_individual:
+                first_list_abundances, second_list_abundances = support.pad_list_zeros(
+                    relative_abundances[first_individual], relative_abundances[second_individual])
+                distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
     return distances, sum(distances) / len(distances)
 
