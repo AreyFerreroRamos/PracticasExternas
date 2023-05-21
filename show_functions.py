@@ -53,6 +53,10 @@ class Ploter(abc.ABC):
 
         self.set_dotplot(ax_box, data, labels)
 
+        ax_box.set_xticks(range(len(labels)))
+        ax_box.set_xticklabels(labels)
+        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=90)
+
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
 
@@ -235,9 +239,6 @@ class PyplotPloter(Ploter):
 
     def set_dotplot(self, ax_box, data, labels):
         ax_box.stem(data)
-        ax_box.set_xticks(range(len(labels)))
-        ax_box.set_xticklabels(labels)
-        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=90)
 
     def set_boxplot(self, ax_box, data, labels):
         ax_box.boxplot(data, labels=labels)
