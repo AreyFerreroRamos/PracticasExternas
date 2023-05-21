@@ -195,7 +195,7 @@ def vertebrates_abundances_list(df_vertebrates):
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "histogram":
     zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_dictionary(df_vertebrates)
@@ -213,8 +213,9 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
     vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
-    # ploter.boxplot(vertebrates_distances, sys.argv[3])
-    ploter.dotplot(average_distances, sys.argv[3])
+    ploter.boxplot(vertebrates_distances, sys.argv[3])
+    # ploter.dotplot(average_distances, sys.argv[3])
+    show.select_ploter('pyplot').dotplot(average_distances, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":
