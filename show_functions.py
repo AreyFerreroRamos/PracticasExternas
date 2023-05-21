@@ -56,12 +56,12 @@ class Ploter(abc.ABC):
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
 
-        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation='vertical')
+        # ax_box.set_xticklabels(labels)
 
         ax_box.set_ylabel('Average distances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
-        self.set_suptitle('Average distances between wild and captive individuals in vertebrate species')
+        self.set_suptitle('Average distances in wild and captive individuals in vertebrate species')
         plt.show()
 
     def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
@@ -236,7 +236,9 @@ class PyplotPloter(Ploter):
         return self.figure.add_subplot()
 
     def set_dotplot(self, ax_box, data, labels):
-        return 1
+        # ax_box.stem(data)
+        plt.stem(data)
+        plt.xticks(range(len(labels)), labels)
 
     def set_boxplot(self, ax_box, data, labels):
         ax_box.boxplot(data, labels=labels)
