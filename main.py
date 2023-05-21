@@ -213,7 +213,8 @@ elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
 elif sys.argv[4] == "distances":
     vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
     vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
-    ploter.boxplot(vertebrates_distances, sys.argv[3])
+    # ploter.boxplot(vertebrates_distances, sys.argv[3])
+    ploter.dotplot(average_distances, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":

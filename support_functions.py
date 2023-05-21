@@ -47,6 +47,23 @@ def to_array(dictionary):
     return array
 
 
+def generate_plot_data_structures(distances, name_file_code_vertebrates):
+    data = []
+    labels = []
+
+    for specie in distances:
+        name_specie = get_name_specie(specie, name_file_code_vertebrates)
+        name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
+
+        data.append(distances[specie]['Wild'])
+        labels.append(name_specie + ' (Wt)')
+
+        data.append(distances[specie]['Captivity'])
+        labels.append(name_specie + ' (Ct)')
+
+    return data, labels
+
+
 def generate_boxplot_data_structures(vertebrates_distances, name_file_code_vertebrates):
     data = []
     labels = []
