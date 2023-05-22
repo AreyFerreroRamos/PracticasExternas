@@ -109,21 +109,21 @@ def distances(relative_abundances):
 
 
 def nestedness(matrix):
+    size = matrix.shape[0] * matrix.shape[1]
+
+    # Calculate the summary of rows and columns in the matrix.
+    row_acum = np.sum(matrix, axis=1)
+    col_acum = np.sum(matrix, axis=0)
+
+    # Calculate the rows and columns order based in the summatory of them in the matrix.
+    row_order = np.argsort(row_acum)
+    col_order = np.argsort(col_acum)
+
+    # Calculate the nestedness of the matrix using the NTC algorithm.
     nestedness = 0
+    for i in range(matrix.shape[0] - 1):
+        for j in range(matrix.shape[1] - 1):
+            if matrix[row_order[i], col_order[j]] == 1:
+                nestedness += ((size - row_acum[row_order[i]] - col_acum[col_order[j]] + 2) / size)
 
-    row_sums = np.sum(matrix, axis=1)
-    col_sums = np.sum(matrix, axis=0)
-    print(row_sums)
-    print(col_sums)
-
-    mean_row_sums = np.mean(row_sums)
-    mean_col_sums = np.mean(col_sums)
-    print(mean_row_sums)
-    print(mean_col_sums)
-
-    for rows in range(matrix.shape[0]):
-        for columns in range(matrix.shape[1]):
-            if matrix[rows][columns] == 1:
-                print(matrix[rows][columns])
-
-    print(matrix)
+    return nestedness
