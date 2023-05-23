@@ -84,7 +84,8 @@ class Ploter(abc.ABC):
         ax_box.set_ylabel('Distances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
-        self.set_suptitle('Distances between wild individuals, captive individuals and both in vertebrate species')
+        self.set_suptitle('Distances between wild individuals, captive individuals and wild-captive individuals '
+                          'in vertebrate species')
         plt.show()
 
     @abc.abstractmethod

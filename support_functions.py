@@ -56,10 +56,10 @@ def generate_plot_data_structures(distances, name_file_code_vertebrates):
         name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
 
         data.append(distances[specie]['Wild'])
-        labels.append(name_specie + ' (Wt)')
+        labels.append(name_specie + ' (W)')
 
         data.append(distances[specie]['Captivity'])
-        labels.append(name_specie + ' (Ct)')
+        labels.append(name_specie + ' (C)')
 
     return data, labels
 
@@ -73,14 +73,14 @@ def generate_boxplot_data_structures(vertebrates_distances, name_file_code_verte
         name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
 
         data.append(vertebrates_distances[specie]['Wild'])
-        labels.append(name_specie + ' (Wt)')
+        labels.append(name_specie + ' (W)')
 
         data.append(vertebrates_distances[specie]['Captivity'])
-        labels.append(name_specie + ' (Ct)')
+        labels.append(name_specie + ' (C)')
 
         data.append(vertebrates_distances[specie]['Wild'] +
                     vertebrates_distances[specie]['Captivity'])
-        labels.append(name_specie)
+        labels.append(name_specie + ' (W-C)')
 
     return data, labels
 
