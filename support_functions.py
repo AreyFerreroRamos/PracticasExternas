@@ -61,6 +61,9 @@ def generate_plot_data_structures(distances, name_file_code_vertebrates):
         data.append(distances[specie]['Captivity'])
         labels.append(name_specie + ' (C)')
 
+        data.append((float(distances[specie]['Wild']) + float(distances[specie]['Captivity'])) / 2)
+        labels.append(name_specie + ' (W-C)')
+
     return data, labels
 
 
@@ -78,8 +81,7 @@ def generate_boxplot_data_structures(vertebrates_distances, name_file_code_verte
         data.append(vertebrates_distances[specie]['Captivity'])
         labels.append(name_specie + ' (C)')
 
-        data.append(vertebrates_distances[specie]['Wild'] +
-                    vertebrates_distances[specie]['Captivity'])
+        data.append(vertebrates_distances[specie]['Wild'] + vertebrates_distances[specie]['Captivity'])
         labels.append(name_specie + ' (W-C)')
 
     return data, labels

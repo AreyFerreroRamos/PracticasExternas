@@ -47,7 +47,7 @@ class Ploter(abc.ABC):
         ax_box.set_ylabel('Average distances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
-        plt.suptitle('Average distances of wild and captive individuals in vertebrate species')
+        plt.suptitle('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
         plt.show()
 
     def histogram(self, relative_abundances):
@@ -84,8 +84,7 @@ class Ploter(abc.ABC):
         ax_box.set_ylabel('Distances', fontsize=11, labelpad=10)
         ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
-        self.set_suptitle('Distances between wild individuals, captive individuals and wild-captive individuals '
-                          'in vertebrate species')
+        self.set_suptitle('Wild, captive and wild-captive distances between individuals in vertebrate species')
         plt.show()
 
     @abc.abstractmethod
