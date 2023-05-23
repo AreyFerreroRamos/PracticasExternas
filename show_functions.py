@@ -27,6 +27,29 @@ class Ploter(abc.ABC):
         print()
         self.alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
 
+    def stemplot(self, average_distances, name_file_code_vertebrates):
+        figure = plt.figure(figsize=(11.5, 8.5))
+        figure.subplots_adjust(bottom=0.2)
+
+        ax_box = figure.add_subplot()
+
+        data, labels = support.generate_plot_data_structures(average_distances, name_file_code_vertebrates)
+
+        ax_box.stem(data)
+
+        ax_box.set_xticks(range(len(labels)))
+        ax_box.set_xticklabels(labels)
+        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=90)
+
+        ax_box.tick_params(axis='x', labelsize=8)
+        ax_box.tick_params(axis='y', labelsize=8)
+
+        ax_box.set_ylabel('Average distances', fontsize=11, labelpad=10)
+        ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
+
+        plt.suptitle('Average distances of wild and captive individuals in vertebrate species')
+        plt.show()
+
     def histogram(self, relative_abundances):
         ax_hist = self.set_histogram(relative_abundances)
         
@@ -42,29 +65,6 @@ class Ploter(abc.ABC):
     @abc.abstractmethod
     def set_histogram(self, relative_abundances):
         pass
-
-    def dotplot(self, average_distances, name_file_code_vertebrates):
-        self.initialize_figure()
-        self.figure.subplots_adjust(bottom=0.2)
-
-        ax_box = self.initialize_plot()
-
-        data, labels = support.generate_plot_data_structures(average_distances, name_file_code_vertebrates)
-
-        self.set_dotplot(ax_box, data, labels)
-
-        ax_box.set_xticks(range(len(labels)))
-        ax_box.set_xticklabels(labels)
-        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=90)
-
-        ax_box.tick_params(axis='x', labelsize=8)
-        ax_box.tick_params(axis='y', labelsize=8)
-
-        ax_box.set_ylabel('Average distances', fontsize=11, labelpad=10)
-        ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
-
-        self.set_suptitle('Average distances of wild and captive individuals in vertebrate species')
-        plt.show()
 
     def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
         self.initialize_figure()
@@ -94,10 +94,6 @@ class Ploter(abc.ABC):
 
     @abc.abstractmethod
     def initialize_plot(self):
-        pass
-
-    @abc.abstractmethod
-    def set_dotplot(self, ax_box, data, labels):
         pass
 
     @abc.abstractmethod
@@ -238,9 +234,6 @@ class PyplotPloter(Ploter):
     def initialize_plot(self):
         return self.figure.add_subplot()
 
-    def set_dotplot(self, ax_box, data, labels):
-        ax_box.stem(data)
-
     def set_boxplot(self, ax_box, data, labels):
         ax_box.boxplot(data, labels=labels)
 
@@ -308,8 +301,8 @@ class SeabornPloter(Ploter):
     def initialize_plot(self):
         return self.axes
 
-    def set_dotplot(self, ax_box, data, labels):
-        sns.scatterplot(x=labels, y=data, ax=ax_box)
+    # def set_scatterplot(self, ax_box, data, labels):
+        # sns.scatterplot(x=labels, y=data, ax=ax_box)
 
     def set_boxplot(self, ax_box, data, labels):
         data_df = []
