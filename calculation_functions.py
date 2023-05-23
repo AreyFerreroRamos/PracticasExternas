@@ -109,22 +109,40 @@ def distances(relative_abundances):
 
 
 def nestedness(matrix):
-    rows, columns = matrix.shape
-    size = rows * columns
+    if matrix.size == 0:
+        return 0
 
-    # Calculate the summary of rows and columns in the matrix.
-    row_acum = np.sum(matrix, axis=1)
-    col_acum = np.sum(matrix, axis=0)
-
-    # Calculate the rows and columns order based in the summatory of them in the matrix.
-    row_order = np.argsort(row_acum)
-    col_order = np.argsort(col_acum)
-
-    # Calculate the nestedness of the matrix using the NTC algorithm.
-    nestedness = 0
-    for i in range(rows - 1):
-        for j in range(columns - 1):
-            if matrix[row_order[i], col_order[j]] == 1:
-                nestedness += ((size - row_acum[row_order[i]] - col_acum[col_order[j]] + 2) / size)
+    sorted_matrix = sort_matrix(matrix)
+    rows, columns = sorted_matrix.shape
+    nestedness = nestedness_temperature_calculator(sorted_matrix, rows, columns)
 
     return nestedness
+
+
+def sort_matrix(matrix):
+    # Calculate the summary of rows and columns in the matrix.
+    acum_rows = np.sum(matrix, axis=1)
+    acum_cols = np.sum(matrix, axis=0)
+
+    # Calculate the rows and columns order based in the summatory of them in the matrix.
+    sorted_rows = np.argsort(acum_rows)[::-1]
+    sorted_cols = np.argsort(acum_cols)[::-1]
+
+    # Reorder and return the matrix.
+    return matrix[np.ix_(sorted_rows, sorted_cols)]
+
+
+def nestedness_temperature_calculator(matrix, rows, columns):
+    size = rows * columns
+    first_isocline = 0
+    second_isocline = 0
+
+    # Calculate the nestedness of the matrix using the NTC algorithm.
+    for row in range(rows):
+        for col in range(columns):
+            if matrix[row, col] == 1:
+                first_isocline += (row / rows) * (col / columns)
+                second_isocline += (1 - row / rows) * (1 - col / columns)
+
+    ntc = (first_isocline + second_isocline) / size
+    return ntc
