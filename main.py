@@ -151,9 +151,10 @@ def vertebrates_distances_list(vertebrates_relative_abundances):
         vertebrate_distances[specie] = {}
         average_distances[specie] = {}
 
-        for sample_type in vertebrates_relative_abundances[specie]:
-            vertebrate_distances[specie][sample_type], average_distances[specie][sample_type] = calculation.\
-                intra_distances(vertebrates_relative_abundances[specie][sample_type])
+        vertebrate_distances[specie]['Wild'], average_distances[specie]['Wild'] = calculation.intra_distances(
+            vertebrates_relative_abundances[specie]['Wild'])
+        vertebrate_distances[specie]['Captivity'], average_distances[specie]['Captivity'] = calculation.intra_distances(
+            vertebrates_relative_abundances[specie]['Captivity'])
         vertebrate_distances[specie]['Wild-Captivity'], average_distances[specie]['Wild-Captivity'] = calculation.\
             inter_distances(vertebrates_relative_abundances[specie]['Wild'],
                             vertebrates_relative_abundances[specie]['Captivity'])
