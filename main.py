@@ -162,38 +162,6 @@ def vertebrates_distances_list(vertebrates_relative_abundances):
     return vertebrate_distances, average_distances
 
 
-def vertebrates_abundances_list(df_vertebrates):
-    vertebrates_relative_abundances = {}
-
-    for individual in df_vertebrates:
-        specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
-
-        if specie not in vertebrates_relative_abundances:
-            vertebrates_relative_abundances[specie] = {'Wild': np.empty((0, 0)), 'Captivity': np.empty((0, 0))}
-            num_individuals = {'Wild': 0, 'Captivity': 0}
-
-        vertebrates_relative_abundances[specie][sample_type].resize(
-            vertebrates_relative_abundances[specie][sample_type].shape[0] + 1,
-            vertebrates_relative_abundances[specie][sample_type].shape[1])
-
-        num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
-
-        num_genus = 0
-        for num_bacterial_species_per_genus in df_vertebrates[individual]:
-            relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
-            if relative_abundance != 0:
-                vertebrates_relative_abundances[specie][sample_type].resize(
-                    vertebrates_relative_abundances[specie][sample_type].shape[0],
-                    vertebrates_relative_abundances[specie][sample_type].shape[1] + 1)
-                vertebrates_relative_abundances[specie][sample_type][num_individuals[sample_type]][
-                    num_genus] = relative_abundance
-                num_genus += 1
-
-        num_individuals[sample_type] += 1
-
-    return vertebrates_relative_abundances
-
-
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
@@ -203,6 +171,11 @@ if sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid" or sys.ar
 if sys.argv[4] == "distances" or sys.argv[4] == "scatterplot":
     vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
     vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
+
+if sys.argv[4] == "individuals":
+    abundances_matrix = abundances_individuals_matrix(df_vertebrates)
+elif sys.argv[4] == "vertebrates":
+    abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 
 ploter = show.select_ploter('seaborn')
 
@@ -225,28 +198,22 @@ elif sys.argv[4] == "distances":
 elif sys.argv[4] == "scatterplot":
     ploter.scatterplot(average_distances, sys.argv[3])
 
-else:
-    if sys.argv[4] == "individuals":
-        abundances_matrix = abundances_individuals_matrix(df_vertebrates)
-    elif sys.argv[4] == "vertebrates":
-        abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
+elif sys.argv[5] == "dendrogram":
+    ploter.dendrogram(abundances_matrix, sys.argv[4])
 
-    if sys.argv[5] == "dendrogram":
-        ploter.dendrogram(abundances_matrix, sys.argv[4])
+elif sys.argv[5] == "heatmap":
+    ploter.heatmap(abundances_matrix)
 
-    elif sys.argv[5] == "heatmap":
-        ploter.heatmap(abundances_matrix)
-
-    elif sys.argv[5].split('-')[0] == "clustermap":
-        if sys.argv[5].split('-')[1] == "log":
-            calculation.log_matrix(abundances_matrix)
-            ploter.cluster_map(abundances_matrix, '')
-        elif sys.argv[5].split('-')[1] == "discrete":
-            calculation.discretize_matrix(abundances_matrix, 0.0001)
-            ploter.cluster_map(abundances_matrix, 'viridis')
-        elif sys.argv[5].split('-')[1] == "fold":
-            matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
-            ploter.cluster_map(matrix_log_fold, 'RdBu')
+elif sys.argv[5].split('-')[0] == "clustermap":
+    if sys.argv[5].split('-')[1] == "log":
+        calculation.log_matrix(abundances_matrix)
+        ploter.cluster_map(abundances_matrix, '')
+    elif sys.argv[5].split('-')[1] == "discrete":
+        calculation.discretize_matrix(abundances_matrix, 0.0001)
+        ploter.cluster_map(abundances_matrix, 'viridis')
+    elif sys.argv[5].split('-')[1] == "fold":
+        matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
+        ploter.cluster_map(matrix_log_fold, 'RdBu')
 
 # matrix = np.array([[1, 1, 1, 1], [1, 1, 1, 0], [1, 1, 0, 0], [1, 0, 0, 0]])
 # print(calculation.nestedness(matrix))
