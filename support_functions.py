@@ -61,7 +61,7 @@ def generate_plot_data_structures(distances, name_file_code_vertebrates):
         data.append(distances[specie]['Captivity'])
         labels.append(name_specie + ' (C)')
 
-        data.append((float(distances[specie]['Wild']) + float(distances[specie]['Captivity'])) / 2)
+        data.append(distances[specie]['Wild-Captivity'])
         labels.append(name_specie + ' (W-C)')
 
     return data, labels
