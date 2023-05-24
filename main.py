@@ -197,27 +197,30 @@ def vertebrates_abundances_list(df_vertebrates):
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
+if sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid" or sys.argv[4] == "scatterplot":
+    alpha_diversities_list = alpha_diversities_dictionary(df_vertebrates, df_metadata)
+
+if sys.argv[4] == "distances" or sys.argv[4] == "scatterplot":
+    vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
+    vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
+
 ploter = show.select_ploter('seaborn')
 
-if sys.argv[4] == "histogram":
+if sys.argv[4] == "alpha-diversities":
+    ploter.alpha_diversities(alpha_diversities_list)
+elif sys.argv[4] == "histogram":
     zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_dictionary(df_vertebrates)
     print("Total zeros: " + str(round(zeros_ratio * 100, 2)) + "%.")
     ploter.histogram(support.to_array(global_relative_abundances))
-
-elif sys.argv[4] == "alpha-diversities" or sys.argv[4] == "boxplot-grid":
-    alpha_diversities_list = alpha_diversities_dictionary(df_vertebrates, df_metadata)
-    if sys.argv[4] == "alpha-diversities":
-        ploter.alpha_diversities(alpha_diversities_list)
-    else:
-        calculation.t_test(alpha_diversities_list)
-        ploter.boxplot_grid(alpha_diversities_list, sys.argv[3])
+elif sys.argv[4] == "boxplot-grid":
+    calculation.t_test(alpha_diversities_list)
+    ploter.boxplot_grid(alpha_diversities_list, sys.argv[3])
 
 elif sys.argv[4] == "distances":
-    vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
-    vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
-    # ploter.boxplot(vertebrates_distances, sys.argv[3])
+    ploter.boxplot(vertebrates_distances, sys.argv[3])
     ploter.stemplot(average_distances, sys.argv[3])
-    # ploter.scatterplot(average_distances, sys.argv[3])
+elif sys.argv[4] == "scatterplot":
+    ploter.scatterplot(average_distances, sys.argv[3])
 
 else:
     if sys.argv[4] == "individuals":
