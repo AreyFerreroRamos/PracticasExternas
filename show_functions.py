@@ -50,6 +50,21 @@ class Ploter(abc.ABC):
         plt.suptitle('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
         plt.show()
 
+    def scatterplot(self, average_distances, name_file_code_vertebrates):
+        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
+
+        self.set_scatterplot(data, labels)
+
+        plt.ylabel('Average distances')
+        plt.xlabel('Vertebrate species')
+
+        plt.title('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
+        plt.show()
+
+    @abc.abstractmethod
+    def set_scatterplot(self, data, labels):
+        pass
+
     def histogram(self, relative_abundances):
         ax_hist = self.set_histogram(relative_abundances)
         
@@ -222,6 +237,9 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
+    def set_scatterplot(self, data, labels):
+        plt.scatter(labels, data)
+
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
         ax_hist.hist(x=relative_abundances, bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
@@ -288,6 +306,9 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
+    def set_scatterplot(self, data, labels):
+        sns.scatterplot(x=labels, y=data)
+
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
         ax_hist = sns.histplot(data=relative_abundances,
@@ -299,9 +320,6 @@ class SeabornPloter(Ploter):
 
     def initialize_plot(self):
         return self.axes
-
-    # def set_scatterplot(self, ax_box, data, labels):
-        # sns.scatterplot(x=labels, y=data, ax=ax_box)
 
     def set_boxplot(self, ax_box, data, labels):
         data_df = []
