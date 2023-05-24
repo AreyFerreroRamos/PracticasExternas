@@ -33,7 +33,7 @@ class Ploter(abc.ABC):
 
         ax_box = figure.add_subplot()
 
-        data, labels = support.generate_plot_data_structures(average_distances, name_file_code_vertebrates)
+        data, labels = support.generate_stemplot_data_structures(average_distances, name_file_code_vertebrates)
 
         ax_box.stem(data)
 

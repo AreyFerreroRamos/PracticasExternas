@@ -47,7 +47,7 @@ def to_array(dictionary):
     return array
 
 
-def generate_plot_data_structures(distances, name_file_code_vertebrates):
+def generate_stemplot_data_structures(distances, name_file_code_vertebrates):
     data = []
     labels = []
 
