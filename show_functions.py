@@ -53,16 +53,26 @@ class Ploter(abc.ABC):
     def scatterplot(self, average_distances, name_file_code_vertebrates):
         data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
 
-        self.set_scatterplot(data, labels)
+        self.initialize_figure()
+        self.figure.subplots_adjust(bottom=0.2)
 
-        plt.ylabel('Average distances')
-        plt.xlabel('Vertebrate species')
+        ax_scatter = self.initialize_plot()
 
-        plt.title('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
+        self.set_scatterplot(ax_scatter, data, labels)
+
+        ax_scatter.tick_params(axis='x', labelsize=8)
+        ax_scatter.tick_params(axis='y', labelsize=8)
+
+        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation='vertical')
+
+        ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
+        ax_scatter.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
+
+        self.set_suptitle('Average of wild, captive and wild-captive distances between individuals vertebrate species')
         plt.show()
 
     @abc.abstractmethod
-    def set_scatterplot(self, data, labels):
+    def set_scatterplot(self, ax_scatter, data, labels):
         pass
 
     def histogram(self, relative_abundances):
@@ -237,8 +247,8 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
-    def set_scatterplot(self, data, labels):
-        plt.scatter(labels, data)
+    def set_scatterplot(self, ax_scatter, data, labels):
+        ax_scatter.scatter(labels, data)
 
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
@@ -306,8 +316,8 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def set_scatterplot(self, data, labels):
-        sns.scatterplot(x=labels, y=data)
+    def set_scatterplot(self, ax_scatter, data, labels):
+        sns.scatterplot(x=labels, y=data, ax=ax_scatter)
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
