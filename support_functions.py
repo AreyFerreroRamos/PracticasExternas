@@ -47,7 +47,7 @@ def to_array(dictionary):
     return array
 
 
-def generate_stemplot_data_structures(distances, name_file_code_vertebrates):
+def generate_data_structures(distances, name_file_code_vertebrates):
     data = []
     labels = []
 
@@ -62,26 +62,6 @@ def generate_stemplot_data_structures(distances, name_file_code_vertebrates):
         labels.append(name_specie + ' (C)')
 
         data.append(distances[specie]['Wild-Captivity'])
-        labels.append(name_specie + ' (W-C)')
-
-    return data, labels
-
-
-def generate_boxplot_data_structures(vertebrates_distances, name_file_code_vertebrates):
-    data = []
-    labels = []
-
-    for specie in vertebrates_distances:
-        name_specie = get_name_specie(specie, name_file_code_vertebrates)
-        name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
-
-        data.append(vertebrates_distances[specie]['Wild'])
-        labels.append(name_specie + ' (W)')
-
-        data.append(vertebrates_distances[specie]['Captivity'])
-        labels.append(name_specie + ' (C)')
-
-        data.append(vertebrates_distances[specie]['Wild-Captivity'])
         labels.append(name_specie + ' (W-C)')
 
     return data, labels

@@ -33,7 +33,7 @@ class Ploter(abc.ABC):
 
         ax_box = figure.add_subplot()
 
-        data, labels = support.generate_stemplot_data_structures(average_distances, name_file_code_vertebrates)
+        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
 
         ax_box.stem(data)
 
@@ -72,7 +72,7 @@ class Ploter(abc.ABC):
 
         ax_box = self.initialize_plot()
 
-        data, labels = support.generate_boxplot_data_structures(vertebrates_distances, name_file_code_vertebrates)
+        data, labels = support.generate_data_structures(vertebrates_distances, name_file_code_vertebrates)
 
         self.set_boxplot(ax_box, data, labels)
 
