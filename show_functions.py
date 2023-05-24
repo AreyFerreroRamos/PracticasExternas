@@ -33,19 +33,19 @@ class Ploter(abc.ABC):
         figure = plt.figure(figsize=(11.5, 8.5))
         figure.subplots_adjust(bottom=0.2)
 
-        ax_box = figure.add_subplot()
+        ax_stem = figure.add_subplot()
 
-        ax_box.stem(data)
+        ax_stem.stem(data)
 
-        ax_box.set_xticks(range(len(labels)))
-        ax_box.set_xticklabels(labels)
-        ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation=90)
+        ax_stem.set_xticks(range(len(labels)))
+        ax_stem.set_xticklabels(labels)
+        ax_stem.set_xticklabels(ax_stem.get_xticklabels(), rotation=90)
 
-        ax_box.tick_params(axis='x', labelsize=8)
-        ax_box.tick_params(axis='y', labelsize=8)
+        ax_stem.tick_params(axis='x', labelsize=8)
+        ax_stem.tick_params(axis='y', labelsize=8)
 
-        ax_box.set_ylabel('Average distances', fontsize=11, labelpad=10)
-        ax_box.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
+        ax_stem.set_ylabel('Average distances', fontsize=11, labelpad=10)
+        ax_stem.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
 
         plt.suptitle('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
         plt.show()
@@ -61,10 +61,10 @@ class Ploter(abc.ABC):
 
         self.set_scatterplot(ax_scatter, data, labels)
 
+        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=90)
+
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
-
-        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=90)
 
         ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
         ax_scatter.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
