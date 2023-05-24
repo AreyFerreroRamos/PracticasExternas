@@ -95,7 +95,7 @@ def generate_log_fold_matrix(matrix_vertebrates_genus_sample_type):
     return matrix_vertebrates_genus
 
 
-def distances(relative_abundances):
+def intra_distances(relative_abundances):
     distances = []
 
     for first_individual in relative_abundances:
@@ -104,6 +104,18 @@ def distances(relative_abundances):
                 first_list_abundances, second_list_abundances = support.pad_list_zeros(
                     relative_abundances[first_individual].copy(), relative_abundances[second_individual].copy())
                 distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
+
+    return distances, sum(distances) / len(distances)
+
+
+def inter_distances(first_relative_abundances, second_relative_abundances):
+    distances = []
+
+    for first_individual in first_relative_abundances:
+        for second_individual in second_relative_abundances:
+            first_list_abundances, second_list_abundances = support.pad_list_zeros(
+                first_relative_abundances[first_individual].copy(), second_relative_abundances[second_individual].copy())
+            distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
     return distances, sum(distances) / len(distances)
 
