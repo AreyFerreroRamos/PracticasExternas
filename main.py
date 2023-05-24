@@ -208,10 +208,12 @@ ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
+
 elif sys.argv[4] == "histogram":
     zeros_ratio, global_relative_abundances = relative_abundances_bacterial_genus_dictionary(df_vertebrates)
     print("Total zeros: " + str(round(zeros_ratio * 100, 2)) + "%.")
     ploter.histogram(support.to_array(global_relative_abundances))
+
 elif sys.argv[4] == "boxplot-grid":
     calculation.t_test(alpha_diversities_list)
     ploter.boxplot_grid(alpha_diversities_list, sys.argv[3])
@@ -219,6 +221,7 @@ elif sys.argv[4] == "boxplot-grid":
 elif sys.argv[4] == "distances":
     ploter.boxplot(vertebrates_distances, sys.argv[3])
     ploter.stemplot(average_distances, sys.argv[3])
+
 elif sys.argv[4] == "scatterplot":
     ploter.scatterplot(average_distances, sys.argv[3])
 
