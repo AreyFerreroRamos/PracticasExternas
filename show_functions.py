@@ -57,13 +57,14 @@ class Ploter(abc.ABC):
         self.figure.subplots_adjust(bottom=0.2)
 
         ax_scatter = self.initialize_plot()
+        ax_scatter.set_xticks(range(len(labels)))
 
         self.set_scatterplot(ax_scatter, data, labels)
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
-        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation='vertical')
+        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=90)
 
         ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
         ax_scatter.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
