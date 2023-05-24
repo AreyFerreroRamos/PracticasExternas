@@ -28,12 +28,12 @@ class Ploter(abc.ABC):
         self.alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
 
     def stemplot(self, average_distances, name_file_code_vertebrates):
+        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
+
         figure = plt.figure(figsize=(11.5, 8.5))
         figure.subplots_adjust(bottom=0.2)
 
         ax_box = figure.add_subplot()
-
-        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
 
         ax_box.stem(data)
 
@@ -82,12 +82,12 @@ class Ploter(abc.ABC):
         pass
 
     def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
+        data, labels = support.generate_data_structures(vertebrates_distances, name_file_code_vertebrates)
+
         self.initialize_figure()
         self.figure.subplots_adjust(bottom=0.2)
 
         ax_box = self.initialize_plot()
-
-        data, labels = support.generate_data_structures(vertebrates_distances, name_file_code_vertebrates)
 
         self.set_boxplot(ax_box, data, labels)
 
