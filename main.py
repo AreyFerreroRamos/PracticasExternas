@@ -196,7 +196,9 @@ elif sys.argv[4] == "distances":
     ploter.stemplot(average_distances, sys.argv[3])
 
 elif sys.argv[4] == "scatterplot":
-    ploter.scatterplot(average_distances, sys.argv[3])
+    alpha_average = calculation.average_alpha_diversities(alpha_diversities_list)
+    print(alpha_average)
+    # ploter.scatterplot(average_distances, average_alpha_diversities)
 
 elif sys.argv[5] == "dendrogram":
     ploter.dendrogram(abundances_matrix, sys.argv[4])

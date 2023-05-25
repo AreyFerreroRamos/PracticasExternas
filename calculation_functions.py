@@ -5,6 +5,17 @@ import numpy as np
 import math
 
 
+def average_alpha_diversities(alpha_diversities):
+    alpha_average = {}
+
+    for specie in alpha_diversities:
+        alpha_average[specie] = {}
+        for sample_type in alpha_diversities[specie]:
+            alpha_average[specie][sample_type] = sum(alpha_diversities[specie][sample_type]) /\
+                                                 len(alpha_diversities[specie][sample_type])
+    return alpha_average
+
+
 def normalize_relative_abundances_dictionary(relative_abundances, num_individuals):
     for bacterial_genus in relative_abundances:
         relative_abundances[bacterial_genus] /= num_individuals
