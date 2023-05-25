@@ -47,7 +47,7 @@ def to_array(dictionary):
     return array
 
 
-def generate_data_structures(distances, name_file_code_vertebrates):
+def generate_plot_data(distances, name_file_code_vertebrates):
     data = []
     labels = []
 
@@ -65,6 +65,26 @@ def generate_data_structures(distances, name_file_code_vertebrates):
         labels.append(name_specie + ' (W-C)')
 
     return data, labels
+
+
+def generate_scatterplot_data(alpha_average, distance_average, name_file_code_vertebrates):
+    average_alpha = []
+    average_distance = []
+    labels = []
+
+    for specie in alpha_average:
+        name_specie = get_name_specie(specie, name_file_code_vertebrates)
+        name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
+
+        average_alpha.append(alpha_average[specie]['Wild'])
+        average_distance.append(distance_average[specie]['Wild'])
+        labels.append(name_specie + ' (W)')
+
+        average_alpha.append(alpha_average[specie]['Captivity'])
+        average_distance.append(distance_average[specie]['Captivity'])
+        labels.append(name_specie + ' (C)')
+
+    return average_alpha, average_distance, labels
 
 
 def reduce_average_distances(average_distances):

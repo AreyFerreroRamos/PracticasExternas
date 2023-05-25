@@ -28,7 +28,7 @@ class Ploter(abc.ABC):
         self.alpha_diversities_sample_type(alpha_diversities_individual, 'Captivity')
 
     def stemplot(self, average_distances, name_file_code_vertebrates):
-        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
+        data, labels = support.generate_plot_data(average_distances, name_file_code_vertebrates)
 
         figure = plt.figure(figsize=(11.5, 8.5))
         figure.subplots_adjust(bottom=0.2)
@@ -50,26 +50,27 @@ class Ploter(abc.ABC):
         plt.suptitle('Average of wild, captive and wild-captive distances between individuals in vertebrate species')
         plt.show()
 
-    def scatterplot(self, average_distances, name_file_code_vertebrates):
-        data, labels = support.generate_data_structures(average_distances, name_file_code_vertebrates)
-
+    def scatterplot(self, alpha_average, distance_average, name_file_code_vertebrates):
+        average_alpha, average_distance, labels = support.generate_scatterplot_data(alpha_average, distance_average,
+                                                                                    name_file_code_vertebrates)
         self.initialize_figure()
         self.figure.subplots_adjust(bottom=0.2)
 
         ax_scatter = self.initialize_plot()
+
+        self.set_scatterplot(ax_scatter, average_alpha, average_distance)
+
         ax_scatter.set_xticks(range(len(labels)))
-
-        self.set_scatterplot(ax_scatter, data, labels)
-
+        ax_scatter.set_xticklabels(labels)
         ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=90)
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
-        ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
-        ax_scatter.set_xlabel('Vertebrate species', fontsize=11, labelpad=10)
+        ax_scatter.set_ylabel('Distances', fontsize=11, labelpad=10)
+        ax_scatter.set_xlabel('Alpha diversities', fontsize=11, labelpad=10)
 
-        self.set_suptitle('Average of wild, captive and wild-captive distances between individuals vertebrate species')
+        self.set_suptitle('Distances depending on alpha diversities')
         plt.show()
 
     @abc.abstractmethod
@@ -93,7 +94,7 @@ class Ploter(abc.ABC):
         pass
 
     def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
-        data, labels = support.generate_data_structures(vertebrates_distances, name_file_code_vertebrates)
+        data, labels = support.generate_plot_data(vertebrates_distances, name_file_code_vertebrates)
 
         self.initialize_figure()
         self.figure.subplots_adjust(bottom=0.2)
