@@ -5,6 +5,18 @@ import numpy as np
 import math
 
 
+def t_test(alpha_diversities):
+    for specie in alpha_diversities:
+        t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'],
+                                          equal_var=False)
+        alpha_diversities[specie]['t_stat'] = t_stat
+        alpha_diversities[specie]['p_value'] = p_value
+
+
+def hierarchical_clustering(matrix):
+    return fastcluster.linkage(matrix, method='average', metric='euclidean')
+
+
 def average_alpha_diversities(alpha_diversities):
     alpha_average = {}
 
@@ -19,18 +31,6 @@ def average_alpha_diversities(alpha_diversities):
 def normalize_relative_abundances_dictionary(relative_abundances, num_individuals):
     for bacterial_genus in relative_abundances:
         relative_abundances[bacterial_genus] /= num_individuals
-
-
-def t_test(alpha_diversities):
-    for specie in alpha_diversities:
-        t_stat, p_value = stats.ttest_ind(alpha_diversities[specie]['Wild'], alpha_diversities[specie]['Captivity'],
-                                          equal_var=False)
-        alpha_diversities[specie]['t_stat'] = t_stat
-        alpha_diversities[specie]['p_value'] = p_value
-
-
-def hierarchical_clustering(matrix):
-    return fastcluster.linkage(matrix, method='average', metric='euclidean')
 
 
 def normalize_matrix(matrix, rows, columns, num_individuals):

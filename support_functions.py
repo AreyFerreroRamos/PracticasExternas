@@ -67,6 +67,17 @@ def generate_data_structures(distances, name_file_code_vertebrates):
     return data, labels
 
 
+def reduce_average_distances(average_distances):
+    distances_average = {}
+
+    for specie in average_distances:
+        distances_average[specie] = {}
+        distances_average[specie]['Wild'] = average_distances[specie]['Wild']
+        distances_average[specie]['Captivity'] = average_distances[specie]['Captivity']
+
+    return distances_average
+
+
 def pad_list_average(first_list, second_list):
     if len(first_list) < len(second_list):
         i = len(first_list)

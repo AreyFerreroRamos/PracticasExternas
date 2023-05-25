@@ -197,9 +197,10 @@ elif sys.argv[4] == "distances":
 
 elif sys.argv[4] == "scatterplot":
     alpha_average = calculation.average_alpha_diversities(alpha_diversities_list)
+    distances_average = support.reduce_average_distances(average_distances)
     print(alpha_average)
     print()
-    print(average_distances)
+    print(distances_average)
     # ploter.scatterplot(average_distances, average_alpha_diversities)
 
 elif sys.argv[5] == "dendrogram":
