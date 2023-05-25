@@ -60,21 +60,17 @@ class Ploter(abc.ABC):
 
         self.set_scatterplot(ax_scatter, average_alpha, average_distance)
 
-        ax_scatter.set_xticks(range(len(labels)))
-        ax_scatter.set_xticklabels(labels)
-        ax_scatter.set_xticklabels(ax_scatter.get_xticklabels(), rotation=90)
-
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
-        ax_scatter.set_ylabel('Distances', fontsize=11, labelpad=10)
-        ax_scatter.set_xlabel('Alpha diversities', fontsize=11, labelpad=10)
+        ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
+        ax_scatter.set_xlabel('Average alpha diversities', fontsize=11, labelpad=10)
 
         self.set_suptitle('Distances depending on alpha diversities')
         plt.show()
 
     @abc.abstractmethod
-    def set_scatterplot(self, ax_scatter, data, labels):
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
         pass
 
     def histogram(self, relative_abundances):
@@ -249,8 +245,8 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
-    def set_scatterplot(self, ax_scatter, data, labels):
-        ax_scatter.scatter(labels, data)
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
+        ax_scatter.scatter(average_alpha, average_distance)
 
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
@@ -318,8 +314,8 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def set_scatterplot(self, ax_scatter, data, labels):
-        sns.scatterplot(x=labels, y=data, ax=ax_scatter)
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
+        sns.scatterplot(x=average_alpha, y=average_distance, ax=ax_scatter)
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
