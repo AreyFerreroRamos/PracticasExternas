@@ -60,6 +60,13 @@ class Ploter(abc.ABC):
 
         self.set_scatterplot(ax_scatter, average_alpha, average_distance)
 
+        # for i in range(len(labels)):
+            # ax_scatter.annotate(labels[i], (average_alpha[i], average_distance[i] + 0.01), fontsize=7, rotation=90)
+            # ax_scatter.annotate(labels[i], (average_alpha[i], average_distance[i]), fontsize=7,
+                                # arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0', color='black'))
+            # ax_scatter.annotate('(' + str(round(average_alpha[i], 2)) + ', ' + str(round(average_distance[i], 2)) + ')',
+                                # (average_alpha[i], average_distance[i] + 0.01), fontsize=7, rotation=90)
+
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
