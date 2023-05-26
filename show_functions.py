@@ -58,7 +58,7 @@ class Ploter(abc.ABC):
 
         ax_scatter = self.initialize_plot()
 
-        self.set_scatterplot(ax_scatter, average_alpha, average_distance)
+        self.set_scatterplot(ax_scatter, average_alpha, average_distance, labels)
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
@@ -70,7 +70,7 @@ class Ploter(abc.ABC):
         plt.show()
 
     @abc.abstractmethod
-    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
         pass
 
     def histogram(self, relative_abundances):
@@ -245,7 +245,7 @@ class Ploter(abc.ABC):
 
 
 class PyplotPloter(Ploter):
-    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
         ax_scatter.scatter(average_alpha, average_distance)
 
     def set_histogram(self, relative_abundances):
@@ -314,8 +314,8 @@ class PyplotPloter(Ploter):
 
 
 class SeabornPloter(Ploter):
-    def set_scatterplot(self, ax_scatter, average_alpha, average_distance):
-        sns.scatterplot(x=average_alpha, y=average_distance, ax=ax_scatter)
+    def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
+        sns.scatterplot(x=average_alpha, y=average_distance, ax=ax_scatter, hue=labels, palette='husl')
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
