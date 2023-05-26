@@ -315,9 +315,17 @@ class PyplotPloter(Ploter):
 
 class SeabornPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
-        sns.scatterplot(x=average_alpha, y=average_distance, ax=ax_scatter, hue=labels, palette='husl')
-        legend = plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0, ncol=2)
-        plt.setp(legend.get_texts(), fontsize=7)
+        sns.scatterplot(x=average_alpha['Wild'], y=average_distance['Wild'], ax=ax_scatter, hue=labels['Wild'],
+                        palette='husl')
+        legend_wild = plt.legend(bbox_to_anchor=(0.346, 0.4315), loc=1, borderaxespad=0, ncol=2)
+        plt.setp(legend_wild.get_texts(), fontsize=7)
+        plt.gca().add_artist(legend_wild)
+
+        sns.scatterplot(x=average_alpha['Captivity'], y=average_distance['Captivity'], ax=ax_scatter,
+                        hue=labels['Captivity'], palette='husl')
+        legend_captivity = plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0, ncol=2)
+        plt.setp(legend_captivity.get_texts(), fontsize=7)
+        plt.gca().add_artist(legend_captivity)
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
