@@ -247,15 +247,23 @@ class Ploter(abc.ABC):
 
 class PyplotPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
-        wild_sp = ax_scatter.scatter(average_alpha['Wild'], average_distance['Wild'], label=labels['Wild'])
+        wild_sp = []
+        captivity_sp = []
 
-        legend_wild = ax_scatter.legend(handles=[wild_sp], loc='upper right', borderaxespad=0, ncol=2)
+        i = 0
+        while i < len(average_alpha['Wild']):
+            wild_sp.append(ax_scatter.scatter(average_alpha['Wild'][i], average_distance['Wild'][i], label=labels['Wild'][i]))
+            i += 1
+
+        legend_wild = ax_scatter.legend(handles=wild_sp, labels=labels['Wild'], loc='upper right', borderaxespad=0, ncol=2)
         plt.setp(legend_wild.get_texts(), fontsize=7)
-        ax_scatter.add_artist(legend_wild)
 
-        captivity_sp = ax_scatter.scatter(average_alpha['Captivity'], average_distance['Captivity'], label=labels['Captivity'])
+        i = 0
+        while i < len(average_alpha['Captivity']):
+            captivity_sp.append(ax_scatter.scatter(average_alpha['Captivity'][i], average_distance['Captivity'][i], label=labels['Captivity'][i]))
+            i += 1
 
-        legend_captivity = ax_scatter.legend(handles=[captivity_sp], loc='lower left', borderaxespad=0, ncol=2)
+        legend_captivity = Legend(parent=ax_scatter, handles=captivity_sp, labels=labels['Captivity'], loc='lower left', borderaxespad=0, ncol=2)
         plt.setp(legend_captivity.get_texts(), fontsize=7)
         ax_scatter.add_artist(legend_captivity)
 
