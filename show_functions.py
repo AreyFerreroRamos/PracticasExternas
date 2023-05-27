@@ -2,6 +2,7 @@ import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
+from matplotlib.legend import Legend
 import scipy.cluster.hierarchy as sch
 import seaborn as sns
 import pandas as pd
@@ -246,7 +247,17 @@ class Ploter(abc.ABC):
 
 class PyplotPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
-        ax_scatter.scatter(average_alpha, average_distance)
+        wild_sp = ax_scatter.scatter(average_alpha['Wild'], average_distance['Wild'], label=labels['Wild'])
+
+        legend_wild = ax_scatter.legend(handles=[wild_sp], loc='upper right', borderaxespad=0, ncol=2)
+        plt.setp(legend_wild.get_texts(), fontsize=7)
+        ax_scatter.add_artist(legend_wild)
+
+        captivity_sp = ax_scatter.scatter(average_alpha['Captivity'], average_distance['Captivity'], label=labels['Captivity'])
+
+        legend_captivity = ax_scatter.legend(handles=[captivity_sp], loc='lower left', borderaxespad=0, ncol=2)
+        plt.setp(legend_captivity.get_texts(), fontsize=7)
+        ax_scatter.add_artist(legend_captivity)
 
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
@@ -315,15 +326,15 @@ class PyplotPloter(Ploter):
 
 class SeabornPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
-        sns.scatterplot(x=average_alpha['Wild'], y=average_distance['Wild'], ax=ax_scatter, hue=labels['Wild'],
+        wild_sp = sns.scatterplot(x=average_alpha['Wild'], y=average_distance['Wild'], ax=ax_scatter, hue=labels['Wild'],
                         palette='husl')
-        legend_wild = plt.legend(bbox_to_anchor=(0.346, 0.4315), loc=1, borderaxespad=0, ncol=2)
+        legend_wild = plt.legend(handles=[wild_sp], loc='lower left', borderaxespad=0, ncol=2)
         plt.setp(legend_wild.get_texts(), fontsize=7)
-        plt.gca().add_artist(legend_wild)
 
-        sns.scatterplot(x=average_alpha['Captivity'], y=average_distance['Captivity'], ax=ax_scatter,
-                        hue=labels['Captivity'], palette='husl')
-        legend_captivity = plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0, ncol=2)
+        captive_sp = sns.scatterplot(x=average_alpha['Captivity'], y=average_distance['Captivity'], ax=ax_scatter,
+                                     hue=labels['Captivity'], palette='husl')
+        # legend_captivity = Legend(ax_scatter, labels['Captivity'], loc='upper right')
+        legend_captivity = plt.legend(handles=[captive_sp], loc='upper right', borderaxespad=0, ncol=2)
         plt.setp(legend_captivity.get_texts(), fontsize=7)
         plt.gca().add_artist(legend_captivity)
 
