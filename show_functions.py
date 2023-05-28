@@ -248,15 +248,23 @@ class Ploter(abc.ABC):
 
 class PyplotPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
+        colors = support.create_colors()
         sp = []
 
         i = 0
         while i < len(average_alpha):
-            sp.append(ax_scatter.scatter(average_alpha[i], average_distance[i]))
-            i += 1
+            sp.append(ax_scatter.scatter(average_alpha[i], average_distance[i], label=labels[i],
+                                         color=colors[int(i / 2)], alpha=1.0))
+            i += 2
 
         legend_wild = ax_scatter.legend(handles=sp, labels=labels[::2], loc='lower left', ncol=2)
         plt.setp(legend_wild.get_texts(), fontsize=7)
+
+        i = 1
+        while i < len(average_alpha):
+            sp.append(ax_scatter.scatter(average_alpha[i], average_distance[i], label=labels[i],
+                                         color=colors[int(i / 2)], alpha=0.5))
+            i += 2
 
         legend_captivity = Legend(parent=ax_scatter, handles=sp, labels=labels[1::2], loc='upper right', ncol=2)
         plt.setp(legend_captivity.get_texts(), fontsize=7)

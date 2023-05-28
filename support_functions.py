@@ -118,3 +118,31 @@ def pad_list_zeros(first_list, second_list):
         second_list += [0] * (len(first_list) - len(second_list))
 
     return first_list, second_list
+
+
+def create_colors():
+    return [(1.0, 0.0, 0.0, 1.0),    # Red
+            (0.0, 1.0, 0.0, 1.0),    # Green
+            (0.0, 0.0, 1.0, 1.0),    # Blue
+            (1.0, 1.0, 0.0, 1.0),    # Yellow
+            (1.0, 0.0, 1.0, 1.0),    # Magenta
+            (0.0, 1.0, 1.0, 1.0),    # Cyan
+            (1.0, 0.5, 0.0, 1.0),    # Orange
+            (0.5, 0.0, 1.0, 1.0),    # Purple
+            (0.0, 1.0, 0.5, 1.0),    # Lime
+            (0.5, 1.0, 0.0, 1.0),    # Chartreuse
+            (0.0, 0.5, 1.0, 1.0),    # Azure
+            (1.0, 0.0, 0.5, 1.0),    # Crimson
+            (0.5, 0.0, 0.0, 1.0),    # Maroon
+            (0.0, 0.5, 0.0, 1.0),    # Olive
+            (0.0, 0.0, 0.5, 1.0),    # Navy
+            (0.5, 0.5, 0.5, 1.0),    # Gray
+            (1.0, 0.5, 0.5, 1.0),    # Pink
+            (0.5, 1.0, 0.5,1.0),     # Light green
+            (0.5, 0.5, 1.0, 1.0),    # Light blue
+            (1.0, 0.5, 1.0, 1.0),    # Fuchsia
+            (1.0, 1.0, 0.5, 1.0),    # Light yellow
+            (0.5, 1.0, 1.0, 1.0),    # Light cyan
+            (0.0, 0.0, 0.0, 1.0),
+            (0.75, 0.25, 0.75, 1.0),
+            (0.25, 0.75, 0.25, 1.0)]
