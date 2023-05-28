@@ -3,7 +3,6 @@ import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
 from matplotlib.legend import Legend
-import matplotlib.colors as mcolors
 import scipy.cluster.hierarchy as sch
 import seaborn as sns
 import pandas as pd
@@ -253,9 +252,10 @@ class PyplotPloter(Ploter):
 
         i = 0
         while i < len(average_alpha):
-            sp.append(ax_scatter.scatter(average_alpha[i], average_distance[i], color=colors[int(i / 2)], alpha=1.0))
-            sp.append(ax_scatter.scatter(average_alpha[i + 1], average_distance[i + 1], color=colors[int(i / 2)],
-                                         alpha=0.5))
+            sp.append(ax_scatter.scatter(x=average_alpha[i], y=average_distance[i], s=20,
+                                         color=colors[int(i / 2)], alpha=1.0))
+            sp.append(ax_scatter.scatter(x=average_alpha[i + 1], y=average_distance[i + 1], s=20,
+                                         color=colors[int(i / 2)], alpha=0.5))
             i += 2
 
         legend_wild = ax_scatter.legend(handles=sp[::2], labels=labels[::2], loc='lower left', ncol=2)
