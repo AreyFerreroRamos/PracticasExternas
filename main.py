@@ -178,7 +178,7 @@ elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
@@ -193,6 +193,8 @@ elif sys.argv[4] == "boxplot-grid":
     ploter.boxplot_grid(alpha_diversities_list, sys.argv[3])
 
 elif sys.argv[4] == "distances":
+    base_line = calculation.random_pairs(vertebrates_relatives_abundances, 10000)
+    print(base_line)
     ploter.boxplot(vertebrates_distances, sys.argv[3])
     ploter.stemplot(average_distances, sys.argv[3])
 

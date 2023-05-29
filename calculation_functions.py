@@ -1,3 +1,5 @@
+import random
+
 import support_functions as support
 from scipy import stats
 import fastcluster
@@ -129,6 +131,25 @@ def inter_distances(first_relative_abundances, second_relative_abundances):
             distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
     return distances, sum(distances) / len(distances)
+
+
+def random_pairs(vertebrate_relative_abundances, total_couples):
+    distance = 0
+    num_couples = 0
+
+    while num_couples < total_couples:
+        first_specie, second_specie = random.sample(vertebrate_relative_abundances.keys(), 2)
+        first_sample_type, _ = random.sample(vertebrate_relative_abundances[first_specie].keys(), 2)
+        second_sample_type, _ = random.sample(vertebrate_relative_abundances[second_specie].keys(), 2)
+        first_individual, _ = random.sample(vertebrate_relative_abundances[first_specie][first_sample_type].keys(), 2)
+        second_individual, _ = random.sample(vertebrate_relative_abundances[second_specie][second_sample_type].keys(), 2)
+        first_list_abundances, second_list_abundances = support.pad_list_zeros(
+            vertebrate_relative_abundances[first_specie][first_sample_type][first_individual].copy(),
+            vertebrate_relative_abundances[second_specie][second_sample_type][second_individual].copy())
+        distance += np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances))
+        num_couples += 1
+
+    return distance / num_couples
 
 
 def nestedness(matrix):
