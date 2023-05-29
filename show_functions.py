@@ -366,10 +366,12 @@ class SeabornPloter(Ploter):
         return self.axes[row, column]
 
     def set_boxplot_grid(self, ax_box, alpha_diversities, specie, wild, captive):
-        data = {wild: alpha_diversities[specie]['Wild'], captive: alpha_diversities[specie]['Captivity']}
-        support.pad_list_averages(data[wild], data[captive])
+        data = {wild: (support.pad_list_average(alpha_diversities[specie]['Wild'].copy(),
+                                                alpha_diversities[specie]['Captivity'].copy()))[0],
+                captive: (support.pad_list_average(alpha_diversities[specie]['Wild'].copy(),
+                                                   alpha_diversities[specie]['Captivity'].copy()))[1]}
         self.data_df = pd.DataFrame(data)
-
+        
         sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
     
     def select_mechanism(self, ax_box, alpha_diversities, specie):
