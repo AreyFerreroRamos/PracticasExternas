@@ -194,8 +194,7 @@ elif sys.argv[4] == "boxplot-grid":
 
 elif sys.argv[4] == "distances":
     base_line = calculation.random_pairs(vertebrates_relatives_abundances, 10000)
-    print(base_line)
-    ploter.boxplot(vertebrates_distances, sys.argv[3])
+    ploter.boxplot(vertebrates_distances, base_line, sys.argv[3])
     ploter.stemplot(average_distances, sys.argv[3])
 
 elif sys.argv[4] == "scatterplot":

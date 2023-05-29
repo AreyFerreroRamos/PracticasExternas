@@ -90,7 +90,7 @@ class Ploter(abc.ABC):
     def set_histogram(self, relative_abundances):
         pass
 
-    def boxplot(self, vertebrates_distances, name_file_code_vertebrates):
+    def boxplot(self, vertebrates_distances, base_line, name_file_code_vertebrates):
         data, labels = support.generate_plot_data(vertebrates_distances, name_file_code_vertebrates)
 
         self.initialize_figure()
@@ -99,6 +99,8 @@ class Ploter(abc.ABC):
         ax_box = self.initialize_plot()
 
         self.set_boxplot(ax_box, data, labels)
+
+        ax_box.axhline(y=base_line, color='black')
 
         ax_box.tick_params(axis='x', labelsize=8)
         ax_box.tick_params(axis='y', labelsize=8)
@@ -371,7 +373,7 @@ class SeabornPloter(Ploter):
                 captive: (support.pad_list_average(alpha_diversities[specie]['Wild'].copy(),
                                                    alpha_diversities[specie]['Captivity'].copy()))[1]}
         self.data_df = pd.DataFrame(data)
-        
+
         sns.boxplot(data=self.data_df, ax=ax_box, width=0.25)
     
     def select_mechanism(self, ax_box, alpha_diversities, specie):
