@@ -335,8 +335,8 @@ class PyplotPloter(Ploter):
 class SeabornPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
         sns.scatterplot(x=average_alpha, y=average_distance, ax=ax_scatter, hue=labels, palette='husl')
-        legend = ax_scatter.legend(labels=labels, bbox_to_anchor=(1.1, 1.1), ncol=3)
-        plt.setp(legend.get_texts(), fontsize=7)
+        legend = ax_scatter.legend(labels=labels, loc='upper right', borderaxespad=0, ncol=3)
+        plt.setp(legend.get_texts(), fontsize=6)
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
