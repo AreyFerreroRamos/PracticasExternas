@@ -98,7 +98,7 @@ def reduce_average_distances(average_distances):
     return distances_average
 
 
-def pad_list_average(first_list, second_list):
+def pad_list_averages(first_list, second_list):
     if len(first_list) < len(second_list):
         i = len(first_list)
         while i < len(second_list):
@@ -111,11 +111,11 @@ def pad_list_average(first_list, second_list):
             i += 1
 
 
-def pad_list_zeros(first_list, second_list):
+def pad_list_average(first_list, second_list):
     if len(first_list) < len(second_list):
-        first_list += [0] * (len(second_list) - len(first_list))
+        first_list += [sum(first_list) / len(first_list)] * (len(second_list) - len(first_list))
     else:
-        second_list += [0] * (len(first_list) - len(second_list))
+        second_list += [sum(second_list) / len(second_list)] * (len(first_list) - len(second_list))
 
     return first_list, second_list
 

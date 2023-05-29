@@ -114,7 +114,7 @@ def intra_distances(relative_abundances):
     for first_individual in relative_abundances:
         for second_individual in relative_abundances:
             if first_individual < second_individual:
-                first_list_abundances, second_list_abundances = support.pad_list_zeros(
+                first_list_abundances, second_list_abundances = support.pad_list_average(
                     relative_abundances[first_individual].copy(), relative_abundances[second_individual].copy())
                 distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
@@ -126,7 +126,7 @@ def inter_distances(first_relative_abundances, second_relative_abundances):
 
     for first_individual in first_relative_abundances:
         for second_individual in second_relative_abundances:
-            first_list_abundances, second_list_abundances = support.pad_list_zeros(
+            first_list_abundances, second_list_abundances = support.pad_list_average(
                 first_relative_abundances[first_individual].copy(), second_relative_abundances[second_individual].copy())
             distances.append(np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances)))
 
@@ -143,7 +143,7 @@ def random_pairs(vertebrate_relative_abundances, total_couples):
         second_sample_type, _ = random.sample(vertebrate_relative_abundances[second_specie].keys(), 2)
         first_individual, _ = random.sample(vertebrate_relative_abundances[first_specie][first_sample_type].keys(), 2)
         second_individual, _ = random.sample(vertebrate_relative_abundances[second_specie][second_sample_type].keys(), 2)
-        first_list_abundances, second_list_abundances = support.pad_list_zeros(
+        first_list_abundances, second_list_abundances = support.pad_list_average(
             vertebrate_relative_abundances[first_specie][first_sample_type][first_individual].copy(),
             vertebrate_relative_abundances[second_specie][second_sample_type][second_individual].copy())
         distance += np.linalg.norm(np.array(first_list_abundances) - np.array(second_list_abundances))
