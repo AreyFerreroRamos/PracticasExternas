@@ -2,7 +2,6 @@ import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
-from matplotlib.legend import Legend
 import scipy.cluster.hierarchy as sch
 import seaborn as sns
 import pandas as pd
