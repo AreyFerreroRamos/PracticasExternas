@@ -133,3 +133,12 @@ def create_colors():
             (0.0, 0.0, 0.0, 1.0),
             (0.75, 0.25, 0.75, 1.0),
             (0.25, 0.75, 0.25, 1.0)]
+
+
+def delete_sample_type(species_sample_type):
+    species = []
+
+    for specie in species_sample_type:
+        species.append(specie.split('(')[0])
+
+    return species
