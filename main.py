@@ -137,8 +137,7 @@ def vertebrates_abundances_dictionary(df_vertebrates):
 
         for num_bacterial_species_per_genus in df_vertebrates[individual]:
             relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
-            if relative_abundance != 0:
-                vertebrates_relative_abundances[specie][sample_type][individual].append(relative_abundance)
+            vertebrates_relative_abundances[specie][sample_type][individual].append(relative_abundance)
 
     return vertebrates_relative_abundances
 
@@ -178,7 +177,7 @@ elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
