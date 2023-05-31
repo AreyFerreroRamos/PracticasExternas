@@ -197,8 +197,7 @@ def nestedness(matrix, rows, columns):
     for first_row in range(rows):
         for second_row in range(rows):
             if first_row < second_row:
-                first_acum = 0
-                second_acum = 0
+                first_acum = second_acum = 0
                 for col in range(columns):
                     first_acum += matrix[first_row][col]
                     second_acum += matrix[second_row][col]
@@ -209,8 +208,7 @@ def nestedness(matrix, rows, columns):
     for first_col in range(columns):
         for second_col in range(columns):
             if first_col < second_col:
-                first_acum = 0
-                second_acum = 0
+                first_acum = second_acum = 0
                 for row in range(rows):
                     first_acum += matrix[row][first_col]
                     second_acum += matrix[row][second_col]
