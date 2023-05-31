@@ -147,15 +147,15 @@ def random_pairs(vertebrate_relative_abundances, total_couples):
     return distance / num_couples
 
 
-def nestedness(matrix):
+def nestedness_assessment(matrix):
     if matrix.size == 0:
         return 0
 
     sorted_matrix = sort_matrix(matrix)
     rows, columns = sorted_matrix.shape
-    nestedness = nestedness_temperature_calculator(sorted_matrix, rows, columns)
+    nestedness_value = nestedness(sorted_matrix, rows, columns)
 
-    return nestedness
+    return nestedness_value
 
 
 def sort_matrix(matrix):
@@ -171,17 +171,50 @@ def sort_matrix(matrix):
     return matrix[np.ix_(sorted_rows, sorted_cols)]
 
 
-def nestedness_temperature_calculator(matrix, rows, columns):
-    size = rows * columns
+def nestedness(matrix, rows, columns):
     first_isocline = 0
     second_isocline = 0
+    third_isocline = 0
+    fourth_isocline = 0
 
-    # Calculate the nestedness of the matrix using the NTC algorithm.
-    for row in range(rows):
-        for col in range(columns):
-            if matrix[row, col] == 1:
-                first_isocline += (row / rows) * (col / columns)
-                second_isocline += (1 - row / rows) * (1 - col / columns)
+    # Calculate the sum of the number of shared interactions between rows.
+    for first_row in range(rows):
+        for second_row in range(rows):
+            if first_row < second_row:
+                for col in range(columns):
+                    if matrix[first_row][col] == 1 and matrix[second_row][col] == 1:
+                        first_isocline += 1
 
-    ntc = (first_isocline + second_isocline) / size
-    return ntc
+    # Calculate the sum of the number of shared interactions between columns.
+    for first_col in range(columns):
+        for second_col in range(columns):
+            if first_col < second_col:
+                for row in range(rows):
+                    if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
+                        second_isocline += 1
+
+    # Calculate the sum of the number of interactions of rows.
+    for first_row in range(rows):
+        for second_row in range(rows):
+            if first_row < second_row:
+                first_acum = 0
+                second_acum = 0
+                for col in range(columns):
+                    first_acum += matrix[first_row][col]
+                    second_acum += matrix[second_row][col]
+                third_isocline += min(first_acum, second_acum)
+
+
+    # Calculate the sum of the number of interactions of columns.
+    for first_col in range(columns):
+        for second_col in range(columns):
+            if first_col < second_col:
+                first_acum = 0
+                second_acum = 0
+                for row in range(rows):
+                    first_acum += matrix[row][first_col]
+                    second_acum += matrix[row][second_col]
+                fourth_isocline += min(first_acum, second_acum)
+
+    # Calculate and return the nestedness of the matrix.
+    return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
