@@ -213,12 +213,12 @@ elif sys.argv[5].split('-')[0] == "clustermap":
         ploter.cluster_map(abundances_matrix, '')
     elif sys.argv[5].split('-')[1] == "discrete":
         calculation.discretize_matrix(abundances_matrix, 0.0001)
-        print(calculation.nestedness_assessment(abundances_matrix))
+        print(calculation.nestedness(abundances_matrix))
         ploter.cluster_map(abundances_matrix, 'viridis')
     elif sys.argv[5].split('-')[1] == "fold":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
-matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
-print(matrix)
-print(calculation.nestedness_assessment(matrix))
+# matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
+# print(matrix)
+# print(calculation.nestedness(matrix))
