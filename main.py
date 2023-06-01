@@ -219,5 +219,6 @@ elif sys.argv[5].split('-')[0] == "clustermap":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
-# matrix = np.array([[1, 1, 0, 0], [1, 0, 0, 0], [1, 1, 1, 0], [1, 1, 1, 1]])
-# print(calculation.nestedness_assessment(matrix))
+matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
+print(matrix)
+print(calculation.nestedness_assessment(matrix))

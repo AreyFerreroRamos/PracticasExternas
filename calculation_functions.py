@@ -152,8 +152,7 @@ def nestedness_assessment(matrix):
         return 0
 
     sorted_matrix = sort_matrix(matrix)
-    rows, columns = sorted_matrix.shape
-    nestedness_value = nestedness(sorted_matrix, rows, columns)
+    nestedness_value = nestedness(sorted_matrix)
 
     return nestedness_value
 
@@ -171,48 +170,48 @@ def sort_matrix(matrix):
     return matrix[np.ix_(sorted_rows, sorted_cols)]
 
 
-def nestedness(matrix, rows, columns):
+def nestedness(matrix):
     first_isocline = 0
     second_isocline = 0
     third_isocline = 0
     fourth_isocline = 0
 
     # Calculate the sum of the number of shared interactions between rows.
-    for first_row in range(rows):
-        for second_row in range(rows):
+    for first_row in range(matrix.shape[0]):
+        for second_row in range(matrix.shape[0]):
             if first_row < second_row:
-                for col in range(columns):
+                for col in range(matrix.shape[1]):
                     if matrix[first_row][col] == 1 and matrix[second_row][col] == 1:
                         first_isocline += 1
 
     # Calculate the sum of the number of shared interactions between columns.
-    for first_col in range(columns):
-        for second_col in range(columns):
-            if first_col < second_col:
-                for row in range(rows):
-                    if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
-                        second_isocline += 1
+    # for first_col in range(matrix.shape[1]):
+        # for second_col in range(matrix.shape[1]):
+            # if first_col < second_col:
+                # for row in range(matrix.shape[0]):
+                    # if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
+                        # second_isocline += 1
 
     # Calculate the sum of the number of interactions of rows.
-    for first_row in range(rows):
-        for second_row in range(rows):
+    for first_row in range(matrix.shape[0]):
+        for second_row in range(matrix.shape[0]):
             if first_row < second_row:
                 first_acum = second_acum = 0
-                for col in range(columns):
+                for col in range(matrix.shape[1]):
                     first_acum += matrix[first_row][col]
                     second_acum += matrix[second_row][col]
                 third_isocline += min(first_acum, second_acum)
 
 
     # Calculate the sum of the number of interactions of columns.
-    for first_col in range(columns):
-        for second_col in range(columns):
-            if first_col < second_col:
-                first_acum = second_acum = 0
-                for row in range(rows):
-                    first_acum += matrix[row][first_col]
-                    second_acum += matrix[row][second_col]
-                fourth_isocline += min(first_acum, second_acum)
+    # for first_col in range(matrix.shape[1]):
+        # for second_col in range(matrix.shape[1]):
+            # if first_col < second_col:
+                # first_acum = second_acum = 0
+                # for row in range(matrix.shape[0]):
+                    # first_acum += matrix[row][first_col]
+                    # second_acum += matrix[row][second_col]
+                # fourth_isocline += min(first_acum, second_acum)
 
     # Calculate and return the nestedness of the matrix.
     return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
