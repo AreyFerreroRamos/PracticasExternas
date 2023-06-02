@@ -73,16 +73,14 @@ def generate_scatterplot_data(alpha_average, distance_average, name_file_code_ve
     labels = []
 
     for specie in alpha_average:
-        name_specie = get_name_specie(specie, name_file_code_vertebrates)
-        name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
-
         average_alpha.append(alpha_average[specie]['Wild'])
         average_distance.append(distance_average[specie]['Wild'])
-        labels.append(name_specie + ' (W)')
 
         average_alpha.append(alpha_average[specie]['Captivity'])
         average_distance.append(distance_average[specie]['Captivity'])
-        labels.append(name_specie + ' (C)')
+
+        name_specie = get_name_specie(specie, name_file_code_vertebrates)
+        labels.append(name_specie[0] + '. ' + name_specie.split(' ')[1])
 
     return average_alpha, average_distance, labels
 
@@ -133,12 +131,3 @@ def create_colors():
             (0.0, 0.0, 0.0, 1.0),
             (0.75, 0.25, 0.75, 1.0),
             (0.25, 0.75, 0.25, 1.0)]
-
-
-def delete_sample_type(species_sample_type):
-    species = []
-
-    for specie in species_sample_type:
-        species.append(specie.split('(')[0])
-
-    return species

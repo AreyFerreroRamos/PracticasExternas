@@ -260,12 +260,8 @@ class PyplotPloter(Ploter):
                                          color=colors[int(i / 2)], alpha=0.5))
             i += 2
 
-        legend_wild = ax_scatter.legend(handles=sp[::2], labels=labels[::2], loc='upper right', ncol=3)
-        plt.setp(legend_wild.get_texts(), fontsize=7)
-
-        legend_captive = Legend(ax_scatter, handles=sp[1::2], labels=labels[1::2], loc='lower left', ncol=3)
-        plt.setp(legend_captive.get_texts(), fontsize=7)
-        ax_scatter.add_artist(legend_captive)
+        legend = ax_scatter.legend(handles=sp[::2], labels=labels, loc='upper right', ncol=3)
+        plt.setp(legend.get_texts(), fontsize=8)
 
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
@@ -335,11 +331,11 @@ class PyplotPloter(Ploter):
 class SeabornPloter(Ploter):
     def set_scatterplot(self, ax_scatter, average_alpha, average_distance, labels):
         sns.scatterplot(x=average_alpha[::2], y=average_distance[::2], ax=ax_scatter,
-                        hue=labels[::2], palette='husl', alpha=1.0)
+                        hue=labels, palette='husl', alpha=1.0)
         sns.scatterplot(x=average_alpha[1::2], y=average_distance[1::2], ax=ax_scatter,
-                        hue=labels[1::2], palette='husl', alpha=0.5)
+                        hue=labels, palette='husl', alpha=0.5)
 
-        legend = ax_scatter.legend(labels=support.delete_sample_type(labels[::2]), loc='upper right', ncol=3)
+        legend = ax_scatter.legend(labels=labels, loc='upper right', ncol=3)
         plt.setp(legend.get_texts(), fontsize=8)
 
     def set_histogram(self, relative_abundances):
