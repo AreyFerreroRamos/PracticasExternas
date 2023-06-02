@@ -59,10 +59,10 @@ class Ploter(abc.ABC):
         ax_scatter = self.initialize_plot()
 
         self.set_scatterplot(ax_scatter, average_alpha, average_distance, labels)
+        plt.setp(self.legend.get_texts(), fontsize=8)
 
         correlation, p_value = calculation.pearson_correlation(average_alpha, average_distance)
-        print('Pearson correlation: '+str(correlation))
-        print('P-value: ' + str(p_value))
+        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {correlation:.3f}\np-value: {p_value:.2e}')
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
@@ -263,8 +263,7 @@ class PyplotPloter(Ploter):
                                          color=colors[int(i / 2)]))
             i += 2
 
-        legend = ax_scatter.legend(handles=sp[::2], labels=labels, loc='upper right', ncol=3)
-        plt.setp(legend.get_texts(), fontsize=8)
+        self.legend = ax_scatter.legend(handles=sp[::2], labels=labels, loc='upper right', ncol=3)
 
     def set_histogram(self, relative_abundances):
         ax_hist = plt.figure(figsize=(11, 8.5)).add_subplot()
@@ -338,8 +337,7 @@ class SeabornPloter(Ploter):
         sns.scatterplot(x=average_alpha[1::2], y=average_distance[1::2], ax=ax_scatter, hue=labels,
                         marker='s', s=25, palette='husl')
 
-        legend = ax_scatter.legend(labels=labels, loc='upper right', ncol=3, markerscale=0.65)
-        plt.setp(legend.get_texts(), fontsize=8)
+        self.legend = ax_scatter.legend(labels=labels, loc='upper right', ncol=3, markerscale=0.65)
 
     def set_histogram(self, relative_abundances):
         plt.figure(figsize=(11, 8.5))
