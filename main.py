@@ -177,7 +177,7 @@ elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 
 
-ploter = show.select_ploter('seaborn')
+ploter = show.select_ploter('pyplot')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)

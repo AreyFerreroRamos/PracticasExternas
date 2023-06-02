@@ -2,7 +2,6 @@ import calculation_functions as calculation
 import support_functions as support
 from matplotlib import pyplot as plt
 from matplotlib import gridspec
-from matplotlib.legend import Legend
 import scipy.cluster.hierarchy as sch
 import seaborn as sns
 import pandas as pd
@@ -60,6 +59,9 @@ class Ploter(abc.ABC):
         ax_scatter = self.initialize_plot()
 
         self.set_scatterplot(ax_scatter, average_alpha, average_distance, labels)
+
+        corr = calculation.pearson_correlation(average_alpha, average_distance)
+        print('Pearson correlation: '+str(corr))
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)

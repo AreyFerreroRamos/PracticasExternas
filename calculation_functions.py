@@ -17,6 +17,11 @@ def hierarchical_clustering(matrix):
     return fastcluster.linkage(matrix, method='average', metric='euclidean')
 
 
+def pearson_correlation(average_alpha, average_distance):
+    corr, _ = stats.pearsonr(average_alpha, average_distance)
+    return corr
+
+
 def average_alpha_diversities(alpha_diversities):
     alpha_average = {}
 
