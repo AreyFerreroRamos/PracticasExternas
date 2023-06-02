@@ -61,8 +61,10 @@ class Ploter(abc.ABC):
         self.set_scatterplot(ax_scatter, average_alpha, average_distance, labels)
         plt.setp(self.legend.get_texts(), fontsize=8)
 
-        correlation, p_value = calculation.pearson_correlation(average_alpha, average_distance)
-        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {correlation:.3f}\np-value: {p_value:.2e}')
+        pearson_corr, p_value = calculation.pearson_correlation(average_alpha, average_distance)
+        spearman_corr, p_value = calculation.spearman_correlation(average_alpha, average_distance)
+        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {pearson_corr:.3f}\np-value: {p_value:.2e}\n\n'
+                                         f'Spearman correlation: {spearman_corr:.3f}\np-value: {p_value:.2e}')
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
