@@ -18,8 +18,8 @@ def hierarchical_clustering(matrix):
 
 
 def pearson_correlation(average_alpha, average_distance):
-    corr, _ = stats.pearsonr(average_alpha, average_distance)
-    return corr
+    correlation, p_value = stats.pearsonr(average_alpha, average_distance)
+    return correlation, p_value
 
 
 def average_alpha_diversities(alpha_diversities):

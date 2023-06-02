@@ -60,8 +60,9 @@ class Ploter(abc.ABC):
 
         self.set_scatterplot(ax_scatter, average_alpha, average_distance, labels)
 
-        corr = calculation.pearson_correlation(average_alpha, average_distance)
-        print('Pearson correlation: '+str(corr))
+        correlation, p_value = calculation.pearson_correlation(average_alpha, average_distance)
+        print('Pearson correlation: '+str(correlation))
+        print('P-value: ' + str(p_value))
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
