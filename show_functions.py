@@ -254,10 +254,10 @@ class PyplotPloter(Ploter):
 
         i = 0
         while i < len(average_alpha):
-            sp.append(ax_scatter.scatter(x=average_alpha[i], y=average_distance[i], s=20,
-                                         color=colors[int(i / 2)], alpha=1.0))
-            sp.append(ax_scatter.scatter(x=average_alpha[i + 1], y=average_distance[i + 1], s=20,
-                                         color=colors[int(i / 2)], alpha=0.5))
+            sp.append(ax_scatter.scatter(x=average_alpha[i], y=average_distance[i], marker='o', s=20,
+                                         color=colors[int(i / 2)]))
+            sp.append(ax_scatter.scatter(x=average_alpha[i + 1], y=average_distance[i + 1], marker='s', s=15,
+                                         color=colors[int(i / 2)]))
             i += 2
 
         legend = ax_scatter.legend(handles=sp[::2], labels=labels, loc='upper right', ncol=3)
