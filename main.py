@@ -177,7 +177,7 @@ elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
@@ -219,6 +219,7 @@ elif sys.argv[5].split('-')[0] == "clustermap":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
-# matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
-# print(matrix)
-# print(calculation.nestedness(matrix))
+matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
+print(matrix)
+num_ones, num_elements = calculation.count_ones_binary_matrix(matrix)
+print(num_ones, num_elements)
