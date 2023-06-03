@@ -157,17 +157,6 @@ def random_pairs(vertebrate_relative_abundances, total_couples):
     return distance / num_couples
 
 
-def count_ones_binary_matrix(matrix):
-    num_ones = 0
-
-    for row in range(matrix.shape[0]):
-        for column in range(matrix.shape[1]):
-            if matrix[row][column] == 1:
-                num_ones += 1
-
-    return num_ones
-
-
 def sort_matrix(matrix):
     # Calculate the summary of rows and columns in the matrix.
     acum_rows = np.sum(matrix, axis=1)
@@ -227,6 +216,17 @@ def nestedness(matrix):
     return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
 
 
+def count_ones_binary_matrix(matrix):
+    num_ones = 0
+
+    for row in range(matrix.shape[0]):
+        for column in range(matrix.shape[1]):
+            if matrix[row][column] == 1:
+                num_ones += 1
+
+    return num_ones
+
+
 def nestedness_assessment(matrix):
     if matrix.size == 0:
         return 0, 0
@@ -238,6 +238,6 @@ def nestedness_assessment(matrix):
                                                count_ones_binary_matrix(matrix), replace=False)] = 1
     nested_randomized = nestedness(randomized_matrix)
 
-    _, p_value = stats.ttest_ind(matrix.ravel(), randomized_matrix.ravel(), equal_var=False)
+    _, p_value = stats.ttest_ind(matrix.ravel(), randomized_matrix.ravel(), equal_var=False)    # No és segur que sigui correcte.
 
     return nested_value, nested_randomized, p_value
