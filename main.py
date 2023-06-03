@@ -213,15 +213,20 @@ elif sys.argv[5].split('-')[0] == "clustermap":
         ploter.cluster_map(abundances_matrix, '')
     elif sys.argv[5].split('-')[1] == "discrete":
         calculation.discretize_matrix(abundances_matrix, 0.0001)
-        print(calculation.nestedness(abundances_matrix))
         ploter.cluster_map(abundances_matrix, 'viridis')
+        print(calculation.nestedness(abundances_matrix))
+        random_abundances_matrix = np.zeros((abundances_matrix.shape[0], abundances_matrix.shape[1]), dtype=int)
+        random_abundances_matrix.ravel()[np.random.choice(abundances_matrix.shape[0] * abundances_matrix.shape[1],
+                                                          calculation.count_ones_binary_matrix(abundances_matrix),
+                                                          replace=False)] = 1
+        print(calculation.nestedness(random_abundances_matrix))
     elif sys.argv[5].split('-')[1] == "fold":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
-matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
-print(calculation.nestedness(matrix))
-random_matrix = np.zeros((matrix.shape[0], matrix.shape[1]), dtype=int)
-random_matrix.ravel()[np.random.choice(matrix.shape[0] * matrix.shape[1],
-                                       calculation.count_ones_binary_matrix(matrix), replace=False)] = 1
-print(calculation.nestedness(random_matrix))
+# matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
+# print(calculation.nestedness(matrix))
+# random_matrix = np.zeros((matrix.shape[0], matrix.shape[1]), dtype=int)
+# random_matrix.ravel()[np.random.choice(matrix.shape[0] * matrix.shape[1],
+#                                       calculation.count_ones_binary_matrix(matrix), replace=False)] = 1
+# print(calculation.nestedness(random_matrix))
