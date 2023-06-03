@@ -238,4 +238,6 @@ def nestedness_assessment(matrix):
                                                count_ones_binary_matrix(matrix), replace=False)] = 1
     nested_randomized = nestedness(randomized_matrix)
 
-    return nested_value, nested_randomized
+    _, p_value = stats.ttest_ind(matrix.ravel(), randomized_matrix.ravel(), equal_var=False)
+
+    return nested_value, nested_randomized, p_value
