@@ -168,16 +168,6 @@ def count_ones_binary_matrix(matrix):
     return num_ones
 
 
-def nestedness_assessment(matrix):
-    if matrix.size == 0:
-        return 0
-
-    sorted_matrix = sort_matrix(matrix)
-    nestedness_value = nestedness(sorted_matrix)
-
-    return nestedness_value
-
-
 def sort_matrix(matrix):
     # Calculate the summary of rows and columns in the matrix.
     acum_rows = np.sum(matrix, axis=1)
@@ -235,3 +225,17 @@ def nestedness(matrix):
 
     # Calculate and return the nestedness of the matrix.
     return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
+
+
+def nestedness_assessment(matrix):
+    if matrix.size == 0:
+        return 0, 0
+
+    nested_value = nestedness(matrix)
+
+    randomized_matrix = np.zeros((matrix.shape[0], matrix.shape[1]), dtype=int)
+    randomized_matrix.ravel()[np.random.choice(matrix.shape[0] * matrix.shape[1],
+                                               count_ones_binary_matrix(matrix), replace=False)] = 1
+    nested_randomized = nestedness(randomized_matrix)
+
+    return nested_value, nested_randomized

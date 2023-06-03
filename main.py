@@ -211,15 +211,13 @@ elif sys.argv[5].split('-')[0] == "clustermap":
     if sys.argv[5].split('-')[1] == "log":
         calculation.log_matrix(abundances_matrix)
         ploter.cluster_map(abundances_matrix, '')
+
     elif sys.argv[5].split('-')[1] == "discrete":
         calculation.discretize_matrix(abundances_matrix, 0.0001)
         ploter.cluster_map(abundances_matrix, 'viridis')
-        print(calculation.nestedness(abundances_matrix))
-        random_abundances_matrix = np.zeros((abundances_matrix.shape[0], abundances_matrix.shape[1]), dtype=int)
-        random_abundances_matrix.ravel()[np.random.choice(abundances_matrix.shape[0] * abundances_matrix.shape[1],
-                                                          calculation.count_ones_binary_matrix(abundances_matrix),
-                                                          replace=False)] = 1
-        print(calculation.nestedness(random_abundances_matrix))
+        nested_abundances_matrix, nested_randomized_matrix = calculation.nestedness_assessment(abundances_matrix)
+        print(nested_abundances_matrix, nested_randomized_matrix)
+
     elif sys.argv[5].split('-')[1] == "fold":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
