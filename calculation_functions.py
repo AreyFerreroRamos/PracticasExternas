@@ -159,15 +159,13 @@ def random_pairs(vertebrate_relative_abundances, total_couples):
 
 def count_ones_binary_matrix(matrix):
     num_ones = 0
-    num_elements = 0
 
     for row in range(matrix.shape[0]):
         for column in range(matrix.shape[1]):
             if matrix[row][column] == 1:
                 num_ones += 1
-            num_elements += 1
 
-    return num_ones, num_elements
+    return num_ones
 
 
 def nestedness_assessment(matrix):

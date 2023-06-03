@@ -221,5 +221,5 @@ elif sys.argv[5].split('-')[0] == "clustermap":
 
 matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
 print(matrix)
-num_ones, num_elements = calculation.count_ones_binary_matrix(matrix)
-print(num_ones, num_elements)
+num_ones = calculation.count_ones_binary_matrix(matrix)
+print(num_ones)
