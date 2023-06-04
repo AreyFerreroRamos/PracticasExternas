@@ -222,12 +222,12 @@ if sys.argv[4] == "individuals":
 elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 else:
-    if len(sys.argv[4].split('-')) == 1:
+    if len(sys.argv[4].split(' ')) == 1:
         abundances_matrix = abundances_matrices_specie(df_vertebrates, sys.argv[4])
-    elif sys.argv[4].split('-')[1] == "Wild":
-        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split('-')[0], 'Wild')
-    elif sys.argv[4].split('-')[1] == "Captive":
-        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split('-')[0], 'Captivity')
+    elif sys.argv[4].split(' ')[1] == "Wild":
+        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split(' ')[0], 'Wild')
+    elif sys.argv[4].split(' ')[1] == "Captive":
+        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split(' ')[0], 'Captivity')
 
 
 ploter = show.select_ploter('pyplot')
@@ -260,18 +260,18 @@ elif sys.argv[5] == "dendrogram":
 elif sys.argv[5] == "heatmap":
     ploter.heatmap(abundances_matrix)
 
-elif sys.argv[5].split('-')[0] == "clustermap":
-    if sys.argv[5].split('-')[1] == "log":
+elif sys.argv[5].split(' ')[0] == "clustermap":
+    if sys.argv[5].split(' ')[1] == "log":
         calculation.log_matrix(abundances_matrix)
         ploter.cluster_map(abundances_matrix, '')
 
-    elif sys.argv[5].split('-')[1] == "discrete":
+    elif sys.argv[5].split(' ')[1] == "discrete":
         calculation.discretize_matrix(abundances_matrix, 0.0001)
         ploter.cluster_map(abundances_matrix, 'viridis')
         nested_abundances_matrix, nested_randomized_matrix, p_value = calculation.nestedness_assessment(abundances_matrix)
         print(nested_abundances_matrix, nested_randomized_matrix, p_value)
 
-    elif sys.argv[5].split('-')[1] == "fold":
+    elif sys.argv[5].split(' ')[1] == "fold":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
