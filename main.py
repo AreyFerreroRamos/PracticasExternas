@@ -223,12 +223,11 @@ elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 else:
     if len(sys.argv[4].split('-')) == 1:
-        abundances_matrix = abundances_matrices_specie(df_vertebrates, sys.argv[4].split('-')[0])
+        abundances_matrix = abundances_matrices_specie(df_vertebrates, sys.argv[4])
     elif sys.argv[4].split('-')[1] == "Wild":
         abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split('-')[0], 'Wild')
     elif sys.argv[4].split('-')[1] == "Captive":
         abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split('-')[0], 'Captivity')
-    print(abundances_matrix.shape[0], abundances_matrix.shape[1])
 
 
 ploter = show.select_ploter('pyplot')
