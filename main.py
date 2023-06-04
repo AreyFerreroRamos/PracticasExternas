@@ -228,7 +228,7 @@ else:
                                                            df_vertebrates)
         elif sys.argv[4].split()[2] == "Wild":
             abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
-                sys.argv[4].split(' ')[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Wild', df_vertebrates)
+                sys.argv[4].split()[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Wild', df_vertebrates)
         elif sys.argv[4].split()[2] == "Captive":
             abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
                 sys.argv[4].split()[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Captivity', df_vertebrates)
