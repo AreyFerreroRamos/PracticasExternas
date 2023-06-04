@@ -161,6 +161,43 @@ def vertebrates_distances_list(vertebrates_relative_abundances):
     return vertebrate_distances, average_distances
 
 
+def abundances_individuals_matrices_specie(df_vertebrates, vertebrate_specie):
+    wild_specie_matrix = np.empty((0, 1056))
+    captive_specie_matrix = np.empty((0, 1056))
+    specie_matrix = np.empty((0, 1056))
+
+    num_individuals = num_wild = num_captivity = 0
+    for individual in df_vertebrates:
+        specie, sample_type = support.get_specie_sample_type(individual, df_metadata)
+
+        if specie == vertebrate_specie:
+            if sample_type == 'Wild':
+                wild_specie_matrix.resize((wild_specie_matrix.shape[0] + 1, wild_specie_matrix.shape[1]))
+            else:
+                captive_specie_matrix.resize((captive_specie_matrix.shape[0] + 1, captive_specie_matrix.shape[1]))
+            specie_matrix.resize((specie_matrix.shape[0] + 1, specie_matrix.shape[1]))
+
+            num_bacterial_species_per_individual = support.get_num_species_per_individual(individual, df_vertebrates)
+
+            column_genus = 0
+            for num_bacterial_species_per_genus in df_vertebrates[individual]:
+                relative_abundance = num_bacterial_species_per_genus / num_bacterial_species_per_individual
+                if sample_type == 'Wild':
+                    wild_specie_matrix[num_wild][column_genus] = relative_abundance
+                else:
+                    captive_specie_matrix[num_captivity][column_genus] = relative_abundance
+                specie_matrix[num_individuals][column_genus] = relative_abundance
+                column_genus += 1
+
+            if sample_type == 'Wild':
+                num_wild += 1
+            else:
+                num_captivity += 1
+            num_individuals += 1
+
+    return wild_specie_matrix, captive_specie_matrix, specie_matrix
+
+
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
 df_metadata = pd.read_table(sys.argv[2], delimiter=';', header=0)
 
@@ -175,9 +212,14 @@ if sys.argv[4] == "individuals":
     abundances_matrix = abundances_individuals_matrix(df_vertebrates)
 elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
+elif sys.argv[4] == "AIME" or sys.argv[4] == "PEMA":
+    abundances_matrix_wild, abundances_matrix_captive, abundances_matrix = abundances_individuals_matrices_specie(df_vertebrates, sys.argv[4])
+    print(abundances_matrix_wild)
+    print(abundances_matrix_captive)
+    print(abundances_matrix)
 
 
-ploter = show.select_ploter('seaborn')
+ploter = show.select_ploter('pyplot')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
