@@ -161,7 +161,7 @@ def vertebrates_distances_list(vertebrates_relative_abundances):
     return vertebrate_distances, average_distances
 
 
-def abundances_matrices_specie(df_vertebrates, vertebrate_specie):
+def abundances_matrices_specie(vertebrate_specie, df_vertebrates):
     specie_matrix = np.empty((0, df_vertebrates.shape[0]))
 
     num_individuals = 0
@@ -184,7 +184,7 @@ def abundances_matrices_specie(df_vertebrates, vertebrate_specie):
     return specie_matrix
 
 
-def abundances_matrices_specie_sample_type(df_vertebrates, vertebrate_specie, vertebrate_sample_type):
+def abundances_matrices_specie_sample_type(vertebrate_specie, vertebrate_sample_type, df_vertebrates):
     specie_matrix = np.empty((0, df_vertebrates.shape[0]))
 
     num_individuals = 0
@@ -222,12 +222,16 @@ if sys.argv[4] == "individuals":
 elif sys.argv[4] == "vertebrates":
     abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 else:
-    if len(sys.argv[4].split(' ')) == 1:
-        abundances_matrix = abundances_matrices_specie(df_vertebrates, sys.argv[4])
-    elif sys.argv[4].split(' ')[1] == "Wild":
-        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split(' ')[0], 'Wild')
-    elif sys.argv[4].split(' ')[1] == "Captive":
-        abundances_matrix = abundances_matrices_specie_sample_type(df_vertebrates, sys.argv[4].split(' ')[0], 'Captivity')
+    if len(sys.argv[4].split(' ')) == 2:
+        abundances_matrix = abundances_matrices_specie(support.get_code_specie(sys.argv[4], sys.argv[3]),
+                                                       df_vertebrates)
+    elif sys.argv[4].split(' ')[2] == "Wild":
+        abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
+            sys.argv[4].split(' ')[0] + ' ' + sys.argv[4].split(' ')[1], sys.argv[3]), 'Wild', df_vertebrates)
+    elif sys.argv[4].split(' ')[2] == "Captive":
+        abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
+            sys.argv[4].split(' ')[0] + ' ' + sys.argv[4].split(' ')[1], sys.argv[3]), 'Captivity', df_vertebrates)
+    print(abundances_matrix.shape[0], abundances_matrix.shape[1])
 
 
 ploter = show.select_ploter('pyplot')

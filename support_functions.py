@@ -20,16 +20,28 @@ def get_specie_sample_type(individual, df_metadata):
     return specie, sample_type
 
 
-def get_name_specie(specie, name_file_codes_vertebrates):
+def get_name_specie(code_specie, name_file_codes_vertebrates):
     f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
     name_specie = ""
 
     for vertebrate_specie in f_codes_vertebrates:
-        if specie == vertebrate_specie.split()[0]:
+        if code_specie == vertebrate_specie.split()[0]:
             name_specie = vertebrate_specie.split()[1].replace('_', ' ', 1)
 
     f_codes_vertebrates.close()
     return name_specie
+
+
+def get_code_specie(name_specie, name_file_codes_vertebrates):
+    f_codes_vertebrates = open(name_file_codes_vertebrates, 'r')
+    code_specie = ""
+
+    for vertebrate_specie in f_codes_vertebrates:
+        if name_specie.replace(' ', '_', 1) == vertebrate_specie.split()[1]:
+            code_specie = vertebrate_specie.split()[0]
+
+    f_codes_vertebrates.close()
+    return code_specie
 
 
 def offset(sample_type):
