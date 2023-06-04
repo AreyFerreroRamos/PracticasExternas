@@ -217,23 +217,24 @@ if sys.argv[4] == "distances" or sys.argv[4] == "scatterplot":
     vertebrates_relatives_abundances = vertebrates_abundances_dictionary(df_vertebrates)
     vertebrates_distances, average_distances = vertebrates_distances_list(vertebrates_relatives_abundances)
 
-if sys.argv[4] == "individuals":
-    abundances_matrix = abundances_individuals_matrix(df_vertebrates)
-elif sys.argv[4] == "vertebrates":
-    abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
 else:
-    if len(sys.argv[4].split()) == 2:
-        abundances_matrix = abundances_matrices_specie(support.get_code_specie(sys.argv[4], sys.argv[3]),
-                                                       df_vertebrates)
-    elif sys.argv[4].split()[2] == "Wild":
-        abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
-            sys.argv[4].split(' ')[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Wild', df_vertebrates)
-    elif sys.argv[4].split()[2] == "Captive":
-        abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
-            sys.argv[4].split()[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Captivity', df_vertebrates)
+    if sys.argv[4] == "individuals":
+        abundances_matrix = abundances_individuals_matrix(df_vertebrates)
+    elif sys.argv[4] == "vertebrates":
+        abundances_matrix = abundances_vertebrates_matrix(df_vertebrates)
+    else:
+        if len(sys.argv[4].split()) == 2:
+            abundances_matrix = abundances_matrices_specie(support.get_code_specie(sys.argv[4], sys.argv[3]),
+                                                           df_vertebrates)
+        elif sys.argv[4].split()[2] == "Wild":
+            abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
+                sys.argv[4].split(' ')[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Wild', df_vertebrates)
+        elif sys.argv[4].split()[2] == "Captive":
+            abundances_matrix = abundances_matrices_specie_sample_type(support.get_code_specie(
+                sys.argv[4].split()[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Captivity', df_vertebrates)
 
 
-ploter = show.select_ploter('pyplot')
+ploter = show.select_ploter('seaborn')
 
 if sys.argv[4] == "alpha-diversities":
     ploter.alpha_diversities(alpha_diversities_list)
