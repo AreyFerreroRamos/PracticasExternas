@@ -3,6 +3,7 @@ import calculation_functions as calculation
 import support_functions as support
 import show_functions as show
 import pandas as pd
+import numpy as np
 import sys
 import os
 
@@ -82,7 +83,7 @@ elif sys.argv[5] == "dendrogram":
 elif sys.argv[5] == "heatmap":
     ploter.heatmap(abundances_matrix)
 
-elif sys.argv[5].split()[0] == "clustermap":
+elif sys.argv[5].split(' ')[0] == "clustermap":
     if sys.argv[5].split()[1] == "log":
         calculation.log_matrix(abundances_matrix)
         ploter.cluster_map(abundances_matrix, '')
@@ -90,13 +91,13 @@ elif sys.argv[5].split()[0] == "clustermap":
     elif sys.argv[5].split()[1] == "discrete":
         calculation.discretize_matrix(abundances_matrix, 0.0001)
         ploter.cluster_map(abundances_matrix, 'viridis')
-        nested_abundances_matrix, nested_randomized_matrix, p_value = calculation.nestedness_assessment(abundances_matrix)
-        print(nested_abundances_matrix, nested_randomized_matrix, p_value)
+        nested_abundances_matrix, p_value = calculation.nestedness_assessment(abundances_matrix, 1000)
+        print(nested_abundances_matrix, p_value)
 
     elif sys.argv[5].split()[1] == "fold":
         matrix_log_fold = calculation.generate_log_fold_matrix(abundances_matrix)
         ploter.cluster_map(matrix_log_fold, 'RdBu')
 
-# matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
-# nested_abundances_matrix, nested_randomized_matrix, p_value = calculation.nestedness_assessment(matrix)
-# print(nested_abundances_matrix, nested_randomized_matrix, p_value)
+matrix = np.array([[1, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 0], [1, 1, 0, 0]])
+nested_matrix, p_value = calculation.nestedness_assessment(matrix, 1000)
+print(nested_matrix, p_value)

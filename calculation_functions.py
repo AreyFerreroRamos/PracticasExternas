@@ -227,17 +227,34 @@ def count_ones_binary_matrix(matrix):
     return num_ones
 
 
-def nestedness_assessment(matrix):
+def generate_nested_values_randomized(matrix, num_randomized_matrices):
+    nested_values_randomized = []
+    num_ones = count_ones_binary_matrix(matrix)
+
+    for i in range(num_randomized_matrices):
+        randomized_matrix = np.zeros((matrix.shape[0], matrix.shape[1]), dtype=int)
+        randomized_matrix.ravel()[np.random.choice(matrix.shape[0] * matrix.shape[1], num_ones, replace=False)] = 1
+        nested_values_randomized.append(nestedness(randomized_matrix))
+
+    return nested_values_randomized
+
+
+def nestedness_assessment(matrix, num_randomized_matrices):
     if matrix.size == 0:
         return 0, 0
 
+    # Generate as many randomized matrices from the real matrix as it is specified by parameter
+    # and calculate their nestedness value.
+    nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
+
+    # Calculate the nestedness value of the real matrix.
     nested_value = nestedness(matrix)
+    nested_values.append(nested_value)
 
-    randomized_matrix = np.zeros((matrix.shape[0], matrix.shape[1]), dtype=int)
-    randomized_matrix.ravel()[np.random.choice(matrix.shape[0] * matrix.shape[1],
-                                               count_ones_binary_matrix(matrix), replace=False)] = 1
-    nested_randomized = nestedness(randomized_matrix)
+    # Sort the list of nestedness values.
+    nested_values.sort()
 
-    _, p_value = stats.ttest_ind(matrix.ravel(), randomized_matrix.ravel(), equal_var=False)    # No és segur que sigui correcte.
+    # Calculate the fraction of randomized matrices that have a nestedness value greater than that of the real matrix.
+    p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
 
-    return nested_value, nested_randomized, p_value
+    return nested_value, p_value
