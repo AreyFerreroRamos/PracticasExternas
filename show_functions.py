@@ -219,13 +219,13 @@ class Ploter(abc.ABC):
     def set_suptitle(self, title):
         pass
 
-    def dendrogram(self, matrix, x_label):
+    def dendrogram(self, matrix, label):
         sch.dendrogram(calculation.hierarchical_clustering(matrix))
 
-        plt.title('Dendrogram')
-        plt.ylabel('distance')
-        plt.xlabel(x_label)
+        plt.ylabel('Distance between ' + label, fontsize=13, labelpad=12)
+        plt.xlabel(label[0].upper() + label[1:], fontsize=13, labelpad=12)
 
+        plt.suptitle('Dendrogram of the ' + label + ' matrix', fontsize=14)
         plt.show()
 
     def heatmap(self, matrix):
