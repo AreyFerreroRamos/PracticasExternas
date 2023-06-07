@@ -83,12 +83,11 @@ class Ploter(abc.ABC):
         ax_hist = self.set_histogram(relative_abundances)
         
         ax_hist.set_xscale('log')
-        
-        ax_hist.set_title("Relative diversities of bacterial genus")
-        
-        ax_hist.set_ylabel("Num bacterial genus")
-        ax_hist.set_xlabel("Relative diversities")
-        
+
+        ax_hist.set_ylabel("Num bacterial genus", fontsize=13, labelpad=12)
+        ax_hist.set_xlabel("Relative diversities", fontsize=13, labelpad=12)
+
+        self.set_suptitle("Relative diversities of bacterial genus in individuals of vertebrates species")
         plt.show()
 
     @abc.abstractmethod
@@ -311,7 +310,7 @@ class PyplotPloter(Ploter):
         return self.spec.ncols
 
     def set_suptitle(self, title):
-        plt.suptitle(title)
+        plt.suptitle(title, fontsize=14)
 
     def set_heatmap(self, reordered_matrix):
         plt.imshow(reordered_matrix)
@@ -342,7 +341,7 @@ class SeabornPloter(Ploter):
         self.legend = ax_scatter.legend(labels=labels, loc='upper right', ncol=3, markerscale=0.65)
 
     def set_histogram(self, relative_abundances):
-        plt.figure(figsize=(11, 8.5))
+        self.figure = plt.figure(figsize=(11, 8.5))
         ax_hist = sns.histplot(data=relative_abundances,
                                bins=[0, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1])
         return ax_hist
@@ -401,7 +400,7 @@ class SeabornPloter(Ploter):
         return self.axes.shape[1]
 
     def set_suptitle(self, title):
-        self.figure.suptitle(title)
+        self.figure.suptitle(title, fontsize=14)
 
     def set_heatmap(self, reordered_matrix):
         sns.heatmap(reordered_matrix)
