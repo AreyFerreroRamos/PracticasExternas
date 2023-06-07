@@ -151,9 +151,9 @@ class Ploter(abc.ABC):
             ax_box.set_title(support.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
 
             if row == int(self.get_nrows() / 2) and column == 0:
-                ax_box.set_ylabel("Alpha diversity", fontsize=11, labelpad=10)
+                ax_box.set_ylabel("Alpha diversity", fontsize=13, labelpad=12)
             if row == (self.get_nrows() - 1) and column == int(self.get_ncols() / 2):
-                ax_box.set_xlabel("Sample type", fontsize=11, labelpad=10)
+                ax_box.set_xlabel("Sample type", fontsize=13, labelpad=12)
 
             if column >= 4:
                 column = 0
