@@ -63,15 +63,13 @@ class Ploter(abc.ABC):
         plt.setp(self.legend.get_texts(), fontsize=8)
 
         pearson_corr, p_value = calculation.pearson_correlation(average_alpha, average_distance)
-        spearman_corr, p_value = calculation.spearman_correlation(average_alpha, average_distance)
-        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {pearson_corr:.3f}\np-value: {p_value:.2e}\n\n'
-                                         f'Spearman correlation: {spearman_corr:.3f}\np-value: {p_value:.2e}')
+        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {pearson_corr:.3f}\np-value: {p_value:.2e}')
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
-        ax_scatter.set_ylabel('Average distances', fontsize=11, labelpad=10)
-        ax_scatter.set_xlabel('Average alpha diversities', fontsize=11, labelpad=10)
+        ax_scatter.set_ylabel('Average distances', fontsize=13, labelpad=12)
+        ax_scatter.set_xlabel('Average alpha diversities', fontsize=13, labelpad=12)
 
         self.set_suptitle('Correlation between distances and alpha diversities in vertebrate species')
         plt.show()
