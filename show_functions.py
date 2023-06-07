@@ -161,7 +161,7 @@ class Ploter(abc.ABC):
             else:
                 column += 1
         
-        self.set_suptitle("Bacterial genus diversity in vertebrate species")
+        self.set_suptitle("Alpha diversities of bacterial genus in vertebrate species")
         plt.show()
 
     @abc.abstractmethod
