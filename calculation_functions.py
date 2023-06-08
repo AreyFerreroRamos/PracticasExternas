@@ -176,41 +176,29 @@ def nestedness(matrix):
     third_isocline = 0
     fourth_isocline = 0
 
-    # Calculate the sum of the number of shared interactions between rows.
+    # Calculate the sum of the number of shared interactions between rows
+    # and the sum of the number of interactions of rows.
     for first_row in range(matrix.shape[0]):
-        for second_row in range(matrix.shape[0]):
-            if first_row < second_row:
-                for col in range(matrix.shape[1]):
-                    if matrix[first_row][col] == 1 and matrix[second_row][col] == 1:
-                        first_isocline += 1
+        for second_row in range(first_row + 1, matrix.shape[0]):
+            first_acum = second_acum = 0
+            for col in range(matrix.shape[1]):
+                if matrix[first_row][col] == 1 and matrix[second_row][col] == 1:
+                    first_isocline += 1
+                first_acum += matrix[first_row][col]
+                second_acum += matrix[second_row][col]
+            third_isocline += min(first_acum, second_acum)
 
-    # Calculate the sum of the number of shared interactions between columns.
+    # Calculate the sum of the number of shared interactions between columns
+    # and the sum of the number of interactions of columns.
     for first_col in range(matrix.shape[1]):
-        for second_col in range(matrix.shape[1]):
-            if first_col < second_col:
-                for row in range(matrix.shape[0]):
-                    if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
-                        second_isocline += 1
-
-    # Calculate the sum of the number of interactions of rows.
-    for first_row in range(matrix.shape[0]):
-        for second_row in range(matrix.shape[0]):
-            if first_row < second_row:
-                first_acum = second_acum = 0
-                for col in range(matrix.shape[1]):
-                    first_acum += matrix[first_row][col]
-                    second_acum += matrix[second_row][col]
-                third_isocline += min(first_acum, second_acum)
-
-    # Calculate the sum of the number of interactions of columns.
-    for first_col in range(matrix.shape[1]):
-        for second_col in range(matrix.shape[1]):
-            if first_col < second_col:
-                first_acum = second_acum = 0
-                for row in range(matrix.shape[0]):
-                    first_acum += matrix[row][first_col]
-                    second_acum += matrix[row][second_col]
-                fourth_isocline += min(first_acum, second_acum)
+        for second_col in range(first_col + 1, matrix.shape[1]):
+            first_acum = second_acum = 0
+            for row in range(matrix.shape[0]):
+                if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
+                    second_isocline += 1
+                first_acum += matrix[row][first_col]
+                second_acum += matrix[row][second_col]
+            fourth_isocline += min(first_acum, second_acum)
 
     # Calculate and return the nestedness of the matrix.
     return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
@@ -245,16 +233,16 @@ def nestedness_assessment(matrix, num_randomized_matrices):
 
     # Generate as many randomized matrices from the real matrix as it is specified by parameter
     # and calculate their nestedness value.
-    nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
+    # nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
 
     # Calculate the nestedness value of the real matrix.
     nested_value = nestedness(matrix)
-    nested_values.append(nested_value)
+    # nested_values.append(nested_value)
 
     # Sort the list of nestedness values.
-    nested_values.sort()
+    # nested_values.sort()
 
     # Calculate the fraction of randomized matrices that have a nestedness value greater than that of the real matrix.
-    p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
+    # p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
 
-    return nested_value, p_value
+    return nested_value
