@@ -178,7 +178,7 @@ def nestedness(matrix):
 
     # Calculate the sum of the number of shared interactions between rows
     # and the sum of the number of interactions of rows.
-    for first_row in range(matrix.shape[0]):
+    for first_row in range(matrix.shape[0] - 1):
         for second_row in range(first_row + 1, matrix.shape[0]):
             first_acum = second_acum = 0
             for col in range(matrix.shape[1]):
@@ -190,7 +190,7 @@ def nestedness(matrix):
 
     # Calculate the sum of the number of shared interactions between columns
     # and the sum of the number of interactions of columns.
-    for first_col in range(matrix.shape[1]):
+    for first_col in range(matrix.shape[1] - 1):
         for second_col in range(first_col + 1, matrix.shape[1]):
             first_acum = second_acum = 0
             for row in range(matrix.shape[0]):
