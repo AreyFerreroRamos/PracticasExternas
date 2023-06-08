@@ -180,24 +180,26 @@ def nestedness(matrix):
     # and the sum of the number of interactions of rows.
     for first_row in range(matrix.shape[0] - 1):
         for second_row in range(first_row + 1, matrix.shape[0]):
+            # first_isocline = sum([(x * y) for x, y in zip(matrix[first_row, :], matrix[second_row, :])])
             first_acum = second_acum = 0
             for col in range(matrix.shape[1]):
-                if matrix[first_row][col] == 1 and matrix[second_row][col] == 1:
+                if matrix[first_row, col] == 1 and matrix[second_row, col] == 1:
                     first_isocline += 1
-                first_acum += matrix[first_row][col]
-                second_acum += matrix[second_row][col]
+                first_acum += matrix[first_row, col]
+                second_acum += matrix[second_row, col]
             third_isocline += min(first_acum, second_acum)
 
     # Calculate the sum of the number of shared interactions between columns
     # and the sum of the number of interactions of columns.
     for first_col in range(matrix.shape[1] - 1):
         for second_col in range(first_col + 1, matrix.shape[1]):
+            # second_isocline = sum([(x * y) for x, y in zip(matrix[:, first_col], matrix[:, second_col])])
             first_acum = second_acum = 0
             for row in range(matrix.shape[0]):
-                if matrix[row][first_col] == 1 and matrix[row][second_col] == 1:
+                if matrix[row, first_col] == 1 and matrix[row, second_col] == 1:
                     second_isocline += 1
-                first_acum += matrix[row][first_col]
-                second_acum += matrix[row][second_col]
+                first_acum += matrix[row, first_col]
+                second_acum += matrix[row, second_col]
             fourth_isocline += min(first_acum, second_acum)
 
     # Calculate and return the nestedness of the matrix.
