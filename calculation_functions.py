@@ -172,20 +172,30 @@ def sort_matrix(matrix):
 
 def nestedness(matrix):
     first_isocline = second_isocline = third_isocline = fourth_isocline = 0
+    sum_rows = []
+    sum_cols = []
+
+    # Calculate and save the num of interactions of every row.
+    for row in range(matrix.shape[0]):
+        sum_rows.append(sum(matrix[row, :]))
+
+    # Calculate and save the num of interactions of every col.
+    for col in range(matrix.shape[1]):
+        sum_cols.append(sum(matrix[:, col]))
 
     # Calculate the sum of the number of shared interactions between rows
-    # and the sum of the number of interactions of rows.
+    # and the sum of the minimum of pairs of interactions of rows.
     for first_row in range(matrix.shape[0] - 1):
         for second_row in range(first_row + 1, matrix.shape[0]):
             first_isocline += sum([first * second for first, second in zip(matrix[first_row, :], matrix[second_row, :])])
-            third_isocline += min(sum(matrix[first_row, :]), sum(matrix[second_row, :]))
+            third_isocline += min(sum_rows[first_row], sum_rows[second_row])
 
     # Calculate the sum of the number of shared interactions between columns
-    # and the sum of the number of interactions of columns.
+    # and the sum of the minimum of pairs of the number of interactions of columns.
     for first_col in range(matrix.shape[1] - 1):
         for second_col in range(first_col + 1, matrix.shape[1]):
             second_isocline += sum([first * second for first, second in zip(matrix[:, first_col], matrix[:, second_col])])
-            fourth_isocline += min(sum(matrix[:, first_col]), sum(matrix[:, second_col]))
+            fourth_isocline += min(sum_cols[first_col], sum_cols[second_col])
 
     # Calculate and return the nestedness of the matrix.
     return (first_isocline + second_isocline) / (third_isocline + fourth_isocline)
