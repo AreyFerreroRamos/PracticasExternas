@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Author: Arey Ferrero Ramos.
-# Date: June 11, 2023. Version: 1.
-# Description: This script runs the command that executes the section of the project that performs the nestedness assessment using the interpreter python3.
+# Date: March 31, 2023. Version: 3.
+# Description: This script runs the command that runs the project.
 #	Input:
-#		-The type of abundance matrix.
+#		-The type of data structure that we need
+#		-The type of plot that we want to display.
 #	Output:
-#		-The value of nestedness of the abundance matrix.
-#		-The p-value of the nestedness value of the abundance matrix.
+#		-A plot that show the results
 
 if [ ! -d input_files ]
 then
@@ -33,6 +33,6 @@ then
 	exit 5
 fi
 
-python3 nestedness_assessment.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1"
+python3 main.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1" "$2" "$3"
 
 exit 0
