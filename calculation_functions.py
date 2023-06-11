@@ -171,17 +171,18 @@ def sort_matrix(matrix):
 
 
 def nestedness(matrix):
-    first_isocline = second_isocline = third_isocline = fourth_isocline = 0
     sum_rows = []
     sum_cols = []
 
-    # Calculate and save the num of interactions of every row.
+    # Calculate and save the number of interactions of every row.
     for row in range(matrix.shape[0]):
         sum_rows.append(sum(matrix[row, :]))
 
-    # Calculate and save the num of interactions of every col.
+    # Calculate and save the number of interactions of every column.
     for col in range(matrix.shape[1]):
         sum_cols.append(sum(matrix[:, col]))
+
+    first_isocline = second_isocline = third_isocline = fourth_isocline = 0
 
     # Calculate the sum of the number of shared interactions between rows
     # and the sum of the minimum of pairs of interactions of rows.
