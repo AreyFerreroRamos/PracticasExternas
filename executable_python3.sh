@@ -5,6 +5,7 @@
 # Description: This script runs the command that executes the section of the project that performs the nestedness assessment using the interpreter python3.
 #	Input:
 #		-The type of abundance matrix.
+#		-The number of randomized matrices for the assessment.
 #	Output:
 #		-The value of nestedness of the abundance matrix.
 #		-The p-value of the nestedness value of the abundance matrix.
@@ -33,6 +34,6 @@ then
 	exit 5
 fi
 
-python3 nestedness_assessment.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1"
+python3 nestedness_assessment.py input_files/count_Genus_all.tsv input_files/metadata.csv input_files/sp_code.txt "$1" "$2"
 
 exit 0

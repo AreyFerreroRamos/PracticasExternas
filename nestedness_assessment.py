@@ -229,19 +229,19 @@ def nestedness_assessment(matrix, num_randomized_matrices):
 
     # Generate as many randomized matrices from the real matrix as it is specified by parameter
     # and calculate their nestedness value.
-    # nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
+    nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
 
     # Calculate the nestedness value of the real matrix.
     nested_value = nestedness(matrix)
-    # nested_values.append(nested_value)
+    nested_values.append(nested_value)
 
     # Sort the list of nestedness values.
-    # nested_values.sort()
+    nested_values.sort()
 
     # Calculate the fraction of randomized matrices that have a nestedness value greater than that of the real matrix.
-    # p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
+    p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
 
-    return nested_value
+    return nested_value, p_value
 
 
 df_vertebrates = pd.read_table(sys.argv[1], delimiter=' ', header=0)
@@ -265,5 +265,5 @@ elif len(sys.argv[4].split()) >= 2:
             sys.argv[4].split()[0] + ' ' + sys.argv[4].split()[1], sys.argv[3]), 'Captivity', df_vertebrates, df_metadata)
 
 discretize_matrix(abundances_matrix, 0.0001)
-nested_abundances_matrix = nestedness_assessment(abundances_matrix, 1000)
-print(nested_abundances_matrix)
+nested_abundances_matrix, p_value = nestedness_assessment(abundances_matrix, int(sys.argv[5]))
+print(nested_abundances_matrix, p_value)
