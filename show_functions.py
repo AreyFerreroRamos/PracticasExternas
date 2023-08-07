@@ -135,8 +135,8 @@ class Ploter(abc.ABC):
         for specie in alpha_diversities:
             ax_box = self.initialize_subplot(row, column)
 
-            self.wild = 'Wild ('+str(len(alpha_diversities[specie]['Wild']))+')'
-            self.captive = 'Captive ('+str(len(alpha_diversities[specie]['Captivity']))+')'
+            self.wild = 'Salvatge ('+str(len(alpha_diversities[specie]['Wild']))+')'
+            self.captive = 'Captiu ('+str(len(alpha_diversities[specie]['Captivity']))+')'
 
             self.set_boxplot_grid(ax_box, alpha_diversities, specie, self.wild, self.captive)
             ax_box.set_ylim(0.0, 5.1)
@@ -150,9 +150,9 @@ class Ploter(abc.ABC):
             ax_box.set_title(support.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
 
             if row == int(self.get_nrows() / 2) and column == 0:
-                ax_box.set_ylabel("Alpha diversity", fontsize=13, labelpad=12)
+                ax_box.set_ylabel("α-diversity", fontsize=13, labelpad=12)
             if row == (self.get_nrows() - 1) and column == int(self.get_ncols() / 2):
-                ax_box.set_xlabel("Sample type", fontsize=13, labelpad=12)
+                ax_box.set_xlabel("Tipus d'individu", fontsize=13, labelpad=12)
 
             if column >= 4:
                 column = 0
@@ -160,7 +160,7 @@ class Ploter(abc.ABC):
             else:
                 column += 1
         
-        self.set_suptitle("Alpha diversities of bacterial genus in vertebrate species")
+        self.set_suptitle("Diversitat de gèneres bacterians en espècies de vertebrat")
         plt.show()
 
     @abc.abstractmethod
