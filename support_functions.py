@@ -68,13 +68,13 @@ def generate_plot_data(distances, name_file_code_vertebrates):
         name_specie = name_specie[0] + '. ' + name_specie.split(' ')[1]
 
         data.append(distances[specie]['Wild'])
-        labels.append(name_specie + ' (W)')
+        labels.append(name_specie + ' (S)')
 
         data.append(distances[specie]['Captivity'])
         labels.append(name_specie + ' (C)')
 
         data.append(distances[specie]['Wild-Captivity'])
-        labels.append(name_specie + ' (W-C)')
+        labels.append(name_specie + ' (S-C)')
 
     return data, labels
 

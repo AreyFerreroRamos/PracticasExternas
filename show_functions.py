@@ -44,11 +44,11 @@ class Ploter(abc.ABC):
         ax_stem.tick_params(axis='x', labelsize=8)
         ax_stem.tick_params(axis='y', labelsize=8)
 
-        ax_stem.set_ylabel('Average distances', fontsize=13, labelpad=12)
-        ax_stem.set_xlabel('Vertebrate species', fontsize=13, labelpad=12)
+        ax_stem.set_ylabel('Distància mitjana', fontsize=13, labelpad=12)
+        ax_stem.set_xlabel('Espècie de vertebrat', fontsize=13, labelpad=12)
 
-        plt.suptitle('Average distance between wild, captive, and wild-captive individuals in every vertebrate specie',
-                     fontsize=14)
+        plt.suptitle('Similitud mitjana entre individus (salvatges, captius i salvatges-capptius) per espècie de '
+                     'vertebrat', fontsize=14)
         plt.show()
 
     def scatterplot(self, alpha_average, distance_average, name_file_code_vertebrates):
@@ -63,15 +63,15 @@ class Ploter(abc.ABC):
         plt.setp(self.legend.get_texts(), fontsize=8)
 
         pearson_corr, p_value = calculation.pearson_correlation(average_alpha, average_distance)
-        ax_scatter.text(x=0.25, y=0.1, s=f'Pearson correlation: {pearson_corr:.3f}\np-value: {p_value:.2e}')
+        ax_scatter.text(x=0.25, y=0.1, s=f'Correlació de Pearson: {pearson_corr:.3f}\np-valor: {p_value:.2e}')
 
         ax_scatter.tick_params(axis='x', labelsize=8)
         ax_scatter.tick_params(axis='y', labelsize=8)
 
-        ax_scatter.set_ylabel('Average distances', fontsize=13, labelpad=12)
-        ax_scatter.set_xlabel('Average alpha diversities', fontsize=13, labelpad=12)
+        ax_scatter.set_ylabel('Distància mitjana', fontsize=13, labelpad=12)
+        ax_scatter.set_xlabel('α-diversity mitjana', fontsize=13, labelpad=12)
 
-        self.set_suptitle('Correlation between distances and alpha diversities in vertebrate species')
+        self.set_suptitle('Correlació entre distàncies i diversitats per espècie de vertebrat')
         plt.show()
 
     @abc.abstractmethod
@@ -83,10 +83,10 @@ class Ploter(abc.ABC):
         
         ax_hist.set_xscale('log')
 
-        ax_hist.set_ylabel("Num bacterial genus", fontsize=13, labelpad=12)
-        ax_hist.set_xlabel("Relative diversities", fontsize=13, labelpad=12)
+        ax_hist.set_ylabel('Num bacterial genus', fontsize=13, labelpad=12)
+        ax_hist.set_xlabel('Relative diversities', fontsize=13, labelpad=12)
 
-        self.set_suptitle("Relative diversities of bacterial genus in individuals of vertebrates species")
+        self.set_suptitle('Relative diversities of bacterial genus in individuals of vertebrates species')
         plt.show()
 
     @abc.abstractmethod
@@ -110,10 +110,10 @@ class Ploter(abc.ABC):
 
         ax_box.set_xticklabels(ax_box.get_xticklabels(), rotation='vertical')
 
-        ax_box.set_ylabel('Distances', fontsize=13, labelpad=12)
-        ax_box.set_xlabel('Vertebrate species', fontsize=13, labelpad=12)
+        ax_box.set_ylabel('Distàncies', fontsize=13, labelpad=12)
+        ax_box.set_xlabel('Espècie de vertebrat', fontsize=13, labelpad=12)
 
-        self.set_suptitle('Distances between wild, captive, and wild-captive individuals in every vertebrate specie')
+        self.set_suptitle('Similitud entre individus (salvatges, captius i salvatges-captius) per espècie de vertebrat')
         plt.show()
 
     @abc.abstractmethod
@@ -150,7 +150,7 @@ class Ploter(abc.ABC):
             ax_box.set_title(support.get_name_specie(specie, name_file_codes_vertebrates), fontsize=9, y=0.95)
 
             if row == int(self.get_nrows() / 2) and column == 0:
-                ax_box.set_ylabel("α-diversity", fontsize=13, labelpad=12)
+                ax_box.set_ylabel('α-diversity', fontsize=13, labelpad=12)
             if row == (self.get_nrows() - 1) and column == int(self.get_ncols() / 2):
                 ax_box.set_xlabel("Tipus d'individu", fontsize=13, labelpad=12)
 
@@ -160,7 +160,7 @@ class Ploter(abc.ABC):
             else:
                 column += 1
         
-        self.set_suptitle("Diversitat de gèneres bacterians en espècies de vertebrat")
+        self.set_suptitle('Diversitat de gèneres bacterians en espècies de vertebrat')
         plt.show()
 
     @abc.abstractmethod

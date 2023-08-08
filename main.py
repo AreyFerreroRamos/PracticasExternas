@@ -3,7 +3,6 @@ import calculation_functions as calculation
 import support_functions as support
 import show_functions as show
 import pandas as pd
-import numpy as np
 import sys
 import os
 
