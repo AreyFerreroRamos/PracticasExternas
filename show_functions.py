@@ -47,7 +47,7 @@ class Ploter(abc.ABC):
         ax_stem.set_ylabel('Distància mitjana', fontsize=13, labelpad=12)
         ax_stem.set_xlabel('Espècie de vertebrat', fontsize=13, labelpad=12)
 
-        plt.suptitle('Similitud mitjana entre individus (salvatges, captius i salvatges-capptius) per espècie de '
+        plt.suptitle('Similitud mitjana entre individus (salvatges, captius i salvatges-captius) per espècie de '
                      'vertebrat', fontsize=14)
         plt.show()
 
