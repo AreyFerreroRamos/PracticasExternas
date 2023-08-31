@@ -84,7 +84,7 @@ class Ploter(abc.ABC):
         ax_hist.set_xscale('log')
 
         ax_hist.set_ylabel('Numéro de gèneres bacterians', fontsize=13, labelpad=12)
-        ax_hist.set_xlabel('Abundàncies relatives', fontsize=13, labelpad=12)
+        ax_hist.set_xlabel('Frequències relatives', fontsize=13, labelpad=12)
 
         self.set_suptitle("Abundàncies relatives de gèneres bacterians en individus d'espècies de vertebrat")
         plt.show()
