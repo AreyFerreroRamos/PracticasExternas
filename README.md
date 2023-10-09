@@ -1,4 +1,4 @@
-# TFGBiotecnologia
+# Curricular external interships
 
 # Author: Arey Ferrero Ramos.
 # Date: March 24, 2023. Version: 5.
