@@ -1,4 +1,4 @@
-# Curricular external interships
+# Biotechnology degree final project
 
 # Author: Arey Ferrero Ramos.
 # Date: March 24, 2023. Version: 5.
