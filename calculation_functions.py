@@ -231,16 +231,16 @@ def nestedness_assessment(matrix, num_randomized_matrices):
 
     # Generate as many randomized matrices from the real matrix as it is specified by parameter
     # and calculate their nestedness value.
-    # nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
+    nested_values = generate_nested_values_randomized(matrix, num_randomized_matrices)
 
     # Calculate the nestedness value of the real matrix.
     nested_value = nestedness(matrix)
-    # nested_values.append(nested_value)
+    nested_values.append(nested_value)
 
     # Sort the list of nestedness values.
-    # nested_values.sort()
+    nested_values.sort()
 
     # Calculate the fraction of randomized matrices that have a nestedness value greater than that of the real matrix.
-    # p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
+    p_value = (num_randomized_matrices - nested_values.index(nested_value)) / (num_randomized_matrices + 1)
 
-    return nested_value
+    return nested_value, p_value
